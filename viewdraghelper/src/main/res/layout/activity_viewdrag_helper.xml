@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <com.wh.jxd.com.viewdraghelper.DragLinearLayout
+        android:layout_width="300dp"
+        android:layout_height="500dp"
+        android:background="@color/colorPrimary">
+
+        <TextView
+            android:background="#00fff0"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorAccent"
+            android:text="随意拖吧...."
+            android:gravity="center"
+            android:textSize="24sp"
+            />
+    </com.wh.jxd.com.viewdraghelper.DragLinearLayout>>
+
+
+</LinearLayout>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context="com.wh.jxd.com.customviewtrain.MainActivity">
+
+ <Button
+     android:id="@+id/bt_1"
+     android:layout_marginTop="10dp"
+     android:text="Configuration(设备信息)"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content" />
+
+ <Button
+     android:id="@+id/bt_2"
+     android:layout_marginTop="10dp"
+     android:text="ViewConfiguration(View信息)"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content" />
+ <Button
+     android:id="@+id/bt_3"
+     android:layout_marginTop="10dp"
+     android:text="GestureDetector(手势识别)"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content" />
+
+ <Button
+     android:id="@+id/bt_4"
+     android:layout_marginTop="10dp"
+     android:text="VelocityTracker(速度检测)"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content" />
+
+ <Button
+     android:id="@+id/bt_5"
+     android:layout_marginTop="10dp"
+     android:text="Scroller(滚动)"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content" />
+
+ <Button
+     android:id="@+id/bt_6"
+     android:layout_marginTop="10dp"
+     android:text="ViewDragHelper(拖拽)"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content" />
+
+
+ <TextView
+     android:id="@+id/tv_info"
+     android:layout_marginTop="10dp"
+     android:textColor="@color/colorPrimaryDark"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:gravity="center_horizontal"/>
+
+</LinearLayout>
