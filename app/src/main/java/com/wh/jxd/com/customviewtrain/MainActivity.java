@@ -11,9 +11,6 @@ import android.widget.TextView;
  * 自定义View的辅助类
  */
 public class MainActivity extends AppCompatActivity  {
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

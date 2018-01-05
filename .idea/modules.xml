@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CustomViewTrain.iml" filepath="$PROJECT_DIR$/CustomViewTrain.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/drawsample/drawsample.iml" filepath="$PROJECT_DIR$/drawsample/drawsample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/layoutsample/layoutsample.iml" filepath="$PROJECT_DIR$/layoutsample/layoutsample.iml" />
       <module fileurl="file://$PROJECT_DIR$/viewdraghelper/viewdraghelper.iml" filepath="$PROJECT_DIR$/viewdraghelper/viewdraghelper.iml" />
     </modules>
   </component>
