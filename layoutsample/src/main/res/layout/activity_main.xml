@@ -5,15 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.wh.jxd.com.layoutsample.MainActivity">
-
-    <ImageView
-        android:id="@+id/iv_canvas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+   <com.wh.jxd.com.layoutsample.ViewGruopSum
+       android:layout_width="800px"
+       android:padding="100px"
+       android:background="@color/colorPrimaryDark"
+       android:layout_height="800px">
+       <ImageView
+           android:layout_width="300px"
+           android:layout_height="500px"
+           android:layout_margin="200px"
+           android:scaleType="fitXY"
+           android:src="@drawable/jjw"/>
+   </com.wh.jxd.com.layoutsample.ViewGruopSum>
 
 </android.support.constraint.ConstraintLayout>
