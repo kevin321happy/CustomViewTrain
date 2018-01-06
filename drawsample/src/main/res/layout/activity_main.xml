@@ -11,4 +11,9 @@
         android:layout_width="250dp"
         android:layout_height="200dp" />
 
+
+    <com.wh.jxd.com.drawsample.CanvasView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </android.support.constraint.ConstraintLayout>
