@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/collapseviewsample" />
             <option value="$PROJECT_DIR$/drawsample" />
+            <option value="$PROJECT_DIR$/flowviewsample" />
             <option value="$PROJECT_DIR$/layoutsample" />
             <option value="$PROJECT_DIR$/viewdraghelper" />
           </set>

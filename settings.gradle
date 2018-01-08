@@ -1,1 +1,1 @@
-include ':app', ':viewdraghelper', ':layoutsample', ':drawsample', ':collapseviewsample'
+include ':app', ':viewdraghelper', ':layoutsample', ':drawsample', ':collapseviewsample', ':flowviewsample'
