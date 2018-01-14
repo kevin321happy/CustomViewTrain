@@ -86,7 +86,6 @@ public class KFlowView extends ViewGroup {
                     usedWidth = paddingLeft + paddingRight + childUsedWidth;
                     childMaxHeightthisLine = childUsedHeight;
                 }
-
             }
         }
         //父View用掉的高度永远等于N-1行的高度和加上第N行的最高的高度
