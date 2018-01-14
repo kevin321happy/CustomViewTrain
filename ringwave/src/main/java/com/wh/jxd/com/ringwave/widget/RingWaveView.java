@@ -5,7 +5,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Shader;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -27,6 +29,12 @@ public class RingWaveView extends View {
     //记录按下的点的X,Y的值
     private float mDownX = 300;
     private float mDownY = 300;
+
+    int[] mColors = new int[]{
+            Color.parseColor("#FF7F00")
+            , Color.parseColor("#00FFFF"), Color.parseColor("#8B00FF")
+    };
+    private Shader mShader;
 
     public RingWaveView(Context context) {
         this(context, null);
@@ -66,16 +74,24 @@ public class RingWaveView extends View {
         mPaint = new Paint();
         //抗锯齿
         mPaint.setAntiAlias(true);
-        mPaint.setColor(Color.RED);
+
+        //设置颜色线性渐变的效果
+        mShader = new LinearGradient(100, 100, 100, 300, mColors, null, Shader.TileMode.CLAMP);
+        mPaint.setShader(mShader);
+//        mPaint.setColor(Color.RED);
         //样式为空心圆,圆环
         mPaint.setStyle(Paint.Style.STROKE);
+//        mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         mPaint.setStrokeWidth(mRadius / 3);
+        invalidate();
     }
+//    dynamic
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
                 mDownX = event.getX();
                 mDownY = event.getY();
                 initView();
