@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/circleindicator" />
             <option value="$PROJECT_DIR$/collapseviewsample" />
             <option value="$PROJECT_DIR$/drawsample" />
             <option value="$PROJECT_DIR$/flowviewsample" />
