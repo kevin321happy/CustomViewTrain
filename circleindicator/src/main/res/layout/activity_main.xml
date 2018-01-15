@@ -12,6 +12,10 @@
         android:id="@+id/indicator"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:indicatorColor="@color/colorAccent"
+        app:indicatorRadius="20px"
+        app:indicatorBorderWidth="2px"
+        app:indicatorSpace="40px"
         android:layout_gravity="center_horizontal" />
 
     <Button

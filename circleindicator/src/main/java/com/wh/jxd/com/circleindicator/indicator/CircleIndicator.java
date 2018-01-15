@@ -1,12 +1,15 @@
 package com.wh.jxd.com.circleindicator.indicator;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+
+import com.wh.jxd.com.circleindicator.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +46,25 @@ public class CircleIndicator extends View {
 
     public CircleIndicator(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        getAttribute(context, attrs);
         init();
+    }
+
+    /**
+     * 获取设置的自定义属性
+     *
+     * @param context
+     * @param attrs
+     */
+    private void getAttribute(Context context, AttributeSet attrs) {
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CircleIndicator);
+        mPaintColor = typedArray.getColor(R.styleable.CircleIndicator_indicatorColor, mPaintColor);
+        mStrokeWidth = typedArray.getDimensionPixelSize(R.styleable.CircleIndicator_indicatorBorderWidth, mStrokeWidth);
+        mSpace = typedArray.getDimensionPixelSize(R.styleable.CircleIndicator_indicatorSpace, mSpace);
+        mRadius = typedArray.getDimensionPixelSize(R.styleable.CircleIndicator_indicatorRadius, mRadius);
+        typedArray.recycle();
+
+
     }
 
     /**
@@ -56,7 +77,7 @@ public class CircleIndicator extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //计算指示器控件的宽高
         int width = (mRadius + mStrokeWidth) * 2 * mCount + mSpace * (mCount - 1);
-        int height = (mRadius + mStrokeWidth) * 2 + 2 * mSpace;
+        int height = (mRadius +mStrokeWidth) * 2 + 2 * mSpace;
         //View测量自己尺寸
         setMeasuredDimension(width, height);
         //测量每一个指示器
