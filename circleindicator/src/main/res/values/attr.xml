@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--自定义指示器的自定义属性-->
+    <declare-styleable name="CircleIndicator">
+        <!--半徑-->
+        <attr name="indicatorRadius" format="dimension" />
+        <!--画笔的颜色-->
+        <attr name="indicatorColor" format="color" />
+        <!--间距-->
+        <attr name="indicatorSpace" format="dimension" />
+        <!--环的宽度-->
+        <attr name="indicatorBorderWidth" format="dimension" />
+    </declare-styleable>
+</resources>
