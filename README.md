@@ -27,7 +27,7 @@
 
    #### 随着手指的按下和移动能有圆环的效果,圆环的渐变色,透明,缩放动画.看起来有点骚气,可惜实际好像没什么卵用...
 
-   ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/CIndicator.gif)
+   ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/Rwave.gif)
 
 -------
 
