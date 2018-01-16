@@ -16,6 +16,14 @@
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/CIndicator.gif)
 
 -------
+=======
+ 
+  #### 自定义View中常用的五个辅助类,包括手势识别,速度追综，拖拽，滑动,设备信息等
+
+-------
+
+  
+>>>>>>> 2f9e7ceefc4cb076de385631e6cb8a4e141a9f19
 
 
 
