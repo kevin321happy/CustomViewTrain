@@ -59,10 +59,8 @@ public class CircleIndicator extends View {
         getAttribute(context, attrs);
         init();
     }
-
     /**
      * 获取设置的自定义属性
-     *
      * @param context
      * @param attrs
      */
@@ -165,7 +163,7 @@ public class CircleIndicator extends View {
             int textHeight = rect.height();
             float textStartX = indicator.cx - textWidth / 2;
             float textStartY = indicator.cy + textHeight / 2;
-            canvas.drawText(centerText, textStartX, textStartY, mPaint);
+            canvas.drawText(centerText, textStartX, textStartY, mTextPaint);
         }
     }
 

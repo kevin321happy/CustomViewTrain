@@ -16,6 +16,8 @@
         app:indicatorRadius="20px"
         app:indicatorBorderWidth="2px"
         app:indicatorSpace="30px"
+        app:indicatorFillMode="2"
+        app:indicatorTextColor="@color/colorPrimaryDark"
         android:layout_gravity="center_horizontal" />
     <Button
         android:layout_width="wrap_content"
