@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RedarScanView">
+        <attr name="redar_circlr_color" format="color" />
+        <attr name="redar_text_color" format="color" />
+        <attr name="redar_text_size" format="dimension" />
+        <attr name="redar_shader_color" format="color" />
+    </declare-styleable>
+
+</resources>

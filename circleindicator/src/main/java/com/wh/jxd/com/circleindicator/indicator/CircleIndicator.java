@@ -1,13 +1,19 @@
 package com.wh.jxd.com.circleindicator.indicator;
 
+import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -21,7 +27,8 @@ import java.util.List;
  * 自定义的圆形的指示器
  */
 
-public class CircleIndicator extends View {
+public class CircleIndicator extends View implements ViewPager.OnPageChangeListener {
+    //    private static final int RADIUS = ;
     //圆点的个数,默认值3
     private int mCount = 3;
     //圆点的半径,默认值为20
@@ -45,6 +52,9 @@ public class CircleIndicator extends View {
     private String[] mNumbers = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9"};
     private String[] mLetter = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"};
     private Paint mTextPaint;
+    private Point currentPoint;
+    private ViewPager mViewPager;
+
 
     public CircleIndicator(Context context) {
         this(context, null);
@@ -59,8 +69,10 @@ public class CircleIndicator extends View {
         getAttribute(context, attrs);
         init();
     }
+
     /**
      * 获取设置的自定义属性
+     *
      * @param context
      * @param attrs
      */
@@ -226,6 +238,38 @@ public class CircleIndicator extends View {
      */
     public void setFillMode(FillMode fillMode) {
         mFillMode = fillMode;
+    }
+
+    /**
+     * 关联ViewPager
+     */
+    public void setViewPager(ViewPager viewPager) {
+        mViewPager = viewPager;
+        if (mViewPager != null) {
+            mViewPager.addOnPageChangeListener(this);
+        }
+    }
+
+    /**
+     * ViewPager的监听
+     *
+     * @param position
+     * @param positionOffset
+     * @param positionOffsetPixels
+     */
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        setSelectedPositon(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 
     /**

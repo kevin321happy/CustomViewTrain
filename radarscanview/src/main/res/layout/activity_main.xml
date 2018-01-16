@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.wh.jxd.com.radarscanview.MainActivity">
+
+    <com.wh.jxd.com.radarscanview.RedarScanView
+        android:id="@+id/redar_view"
+        android:layout_width="800px"
+        android:layout_height="800px"
+        app:redar_circlr_color="@color/colorAccent"
+        app:redar_text_color="@color/colorAccent"
+        app:redar_shader_color="#edd710e1"
+        app:redar_text_size="80px"
+        />
+
+    <com.wh.jxd.com.radarscanview.RedarScanView
+        android:layout_marginTop="30px"
+        android:id="@+id/redar_view1"
+        android:layout_width="400px"
+        android:layout_height="400px"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startRun"
+        android:text="startRuning" />
+
+</LinearLayout>
