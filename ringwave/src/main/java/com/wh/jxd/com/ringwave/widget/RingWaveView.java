@@ -74,7 +74,6 @@ public class RingWaveView extends View {
         mPaint = new Paint();
         //抗锯齿
         mPaint.setAntiAlias(true);
-
         //设置颜色线性渐变的效果
         mShader = new LinearGradient(100, 100, 100, 300, mColors, null, Shader.TileMode.CLAMP);
         mPaint.setShader(mShader);

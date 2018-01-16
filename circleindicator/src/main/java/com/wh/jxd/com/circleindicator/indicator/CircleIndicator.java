@@ -1,10 +1,12 @@
 package com.wh.jxd.com.circleindicator.indicator;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -33,8 +35,16 @@ public class CircleIndicator extends View {
     private Paint mPaint;
     //画笔的颜色,默认红色
     private int mPaintColor = Color.RED;
+    //中间文字的画笔的颜色,
+    private int mTextPaintColor = Color.RED;
     //定义一个存储指示器的容器
     private List<Indicator> mIndicators = new ArrayList<>();
+    //填充的模式
+    private FillMode mFillMode = FillMode.NUMBER;
+    //圆环中间的填充的数字
+    private String[] mNumbers = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+    private String[] mLetter = new String[]{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K"};
+    private Paint mTextPaint;
 
     public CircleIndicator(Context context) {
         this(context, null);
@@ -62,9 +72,16 @@ public class CircleIndicator extends View {
         mStrokeWidth = typedArray.getDimensionPixelSize(R.styleable.CircleIndicator_indicatorBorderWidth, mStrokeWidth);
         mSpace = typedArray.getDimensionPixelSize(R.styleable.CircleIndicator_indicatorSpace, mSpace);
         mRadius = typedArray.getDimensionPixelSize(R.styleable.CircleIndicator_indicatorRadius, mRadius);
+        mTextPaintColor = typedArray.getColor(R.styleable.CircleIndicator_indicatorTextColor, mTextPaintColor);
+        int model = typedArray.getInteger(R.styleable.CircleIndicator_indicatorFillMode, 0);
+        if (model == 0) {
+            mFillMode = FillMode.NONE;
+        } else if (model == 1) {
+            mFillMode = FillMode.NUMBER;
+        } else if (model == 2) {
+            mFillMode = FillMode.LETTER;
+        }
         typedArray.recycle();
-
-
     }
 
     /**
@@ -77,12 +94,11 @@ public class CircleIndicator extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         //计算指示器控件的宽高
         int width = (mRadius + mStrokeWidth) * 2 * mCount + mSpace * (mCount - 1);
-        int height = (mRadius +mStrokeWidth) * 2 + 2 * mSpace;
+        int height = (mRadius + mStrokeWidth) * 2 + 2 * mSpace;
         //View测量自己尺寸
         setMeasuredDimension(width, height);
         //测量每一个指示器
         measureIndicator();
-
     }
 
     /**
@@ -113,6 +129,7 @@ public class CircleIndicator extends View {
      *
      * @param canvas
      */
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         int size = mIndicators.size();
@@ -127,19 +144,43 @@ public class CircleIndicator extends View {
                 mPaint.setStrokeWidth(mStrokeWidth);
             }
             canvas.drawCircle(indicator.cx, indicator.cy, mRadius, mPaint);
+            //绘制中间的文字
+            String centerText = "";
+            if (mFillMode == FillMode.NONE) {
+                centerText = "";
+            } else {
+                if (i >= 0 && i <= mNumbers.length) {
+                    if (mFillMode == FillMode.LETTER) {
+                        centerText = mLetter[i];
+                    } else {
+                        centerText = mNumbers[i];
+                    }
+                }
+            }
+            //绘制圆点
+            Rect rect = new Rect();
+            //获取字体的边界
+            mPaint.getTextBounds(centerText, 0, centerText.length(), rect);
+            int textWidth = rect.width();
+            int textHeight = rect.height();
+            float textStartX = indicator.cx - textWidth / 2;
+            float textStartY = indicator.cy + textHeight / 2;
+            canvas.drawText(centerText, textStartX, textStartY, mPaint);
         }
-
-
     }
 
     /**
      * 初始化
      */
     private void init() {
+        //绘制指示器的画笔
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(mPaintColor);
-
-
+        mPaint.setTextSize(mRadius);
+        //绘制指示器中间文字的画笔
+        mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mTextPaint.setTextSize(mRadius);
+        mTextPaint.setColor(mTextPaintColor);
     }
 
     /**
@@ -183,6 +224,13 @@ public class CircleIndicator extends View {
     }
 
     /**
+     * 设置填充的模式
+     */
+    public void setFillMode(FillMode fillMode) {
+        mFillMode = fillMode;
+    }
+
+    /**
      * 定义内部类来记录每一个圆点的信息
      */
     public class Indicator {
@@ -194,8 +242,11 @@ public class CircleIndicator extends View {
      * 枚举类,圆点中心的填充
      */
     public enum FillMode {
+        //文字
         LETTER,
+        //数字
         NUMBER,
+        //没有填充
         NONE
     }
 }
