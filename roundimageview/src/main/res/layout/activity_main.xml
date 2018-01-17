@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:fitsSystemWindows="true"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.wh.jxd.com.roundimageview.MainActivity">
+    <!--圆形无描边-->
+    <com.wh.jxd.com.roundimageview.roundimage.RoundImage
+        android:layout_width="500px"
+        android:layout_height="500px"
+        android:scaleType="fitXY"
+        android:src="@drawable/yaom"
+        android:visibility="visible"
+        app:roundImageCyclo="true" />
+    <!--椭圆无描边-->
+    <com.wh.jxd.com.roundimageview.roundimage.RoundImage
+        android:layout_width="500px"
+        android:layout_height="800px"
+        android:layout_marginTop="30px"
+        android:scaleType="fitXY"
+        android:src="@drawable/ym2"
+        android:visibility="visible"
+        app:roundImageCyclo="true" />
+    <!--圆形描边-->
+    <com.wh.jxd.com.roundimageview.roundimage.RoundImage
+        android:layout_width="500px"
+        android:layout_height="500px"
+        android:scaleType="fitXY"
+        android:src="@drawable/yaom"
+        android:visibility="gone"
+        app:roundImageCyclo="true"
+        app:roundImageStrokeColor="#0011ff"
+        app:roundImageStrokeWidth="2px" />
+    <!--椭圆描边-->
+    <com.wh.jxd.com.roundimageview.roundimage.RoundImage
+        android:layout_width="800px"
+        android:layout_height="500px"
+        android:layout_marginTop="30px"
+        android:scaleType="fitXY"
+        android:src="@drawable/ym01"
+        android:visibility="gone"
+        app:roundImageCyclo="true"
+        app:roundImageStrokeColor="#f6097626"
+        app:roundImageStrokeWidth="4px" />
+    <!--左边有圆角-->
+    <com.wh.jxd.com.roundimageview.roundimage.RoundImage
+        android:layout_width="800px"
+        android:layout_height="400px"
+        android:scaleType="fitXY"
+        android:src="@drawable/ym03"
+        android:visibility="gone"
+        app:roundImageLeftBottomRadius="60px"
+        app:roundImageLeftTopRadius="60px" />
+    <!--左上和右下圆角-->
+    <com.wh.jxd.com.roundimageview.roundimage.RoundImage
+        android:layout_width="800px"
+        android:layout_height="400px"
+        android:layout_marginTop="50px"
+        android:scaleType="fitXY"
+        android:src="@drawable/cm"
+        android:visibility="gone"
+
+        app:roundImageLeftTopRadius="80px"
+        app:roundImageRightButtomRadius="80px" />
+    <!--四周圆角-->
+    <com.wh.jxd.com.roundimageview.roundimage.RoundImage
+        android:layout_width="800px"
+        android:layout_height="400px"
+        android:layout_marginTop="50px"
+        android:scaleType="fitXY"
+        android:src="@drawable/lc"
+        android:visibility="gone"
+        app:roundImageRadius="50px" />
+
+</LinearLayout>

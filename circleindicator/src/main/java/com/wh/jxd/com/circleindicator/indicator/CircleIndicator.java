@@ -105,6 +105,9 @@ public class CircleIndicator extends View implements ViewPager.OnPageChangeListe
         //计算指示器控件的宽高
         int width = (mRadius + mStrokeWidth) * 2 * mCount + mSpace * (mCount - 1);
         int height = (mRadius + mStrokeWidth) * 2 + 2 * mSpace;
+        //对子控件的大小过滤,保证严格遵循在父View的尺寸之内
+        width = resolveSize(width, widthMeasureSpec);
+        height = resolveSize(width, heightMeasureSpec);
         //View测量自己尺寸
         setMeasuredDimension(width, height);
         //测量每一个指示器

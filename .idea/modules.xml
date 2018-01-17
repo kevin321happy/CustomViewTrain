@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/layoutsample/layoutsample.iml" filepath="$PROJECT_DIR$/layoutsample/layoutsample.iml" />
       <module fileurl="file://$PROJECT_DIR$/radarscanview/radarscanview.iml" filepath="$PROJECT_DIR$/radarscanview/radarscanview.iml" />
       <module fileurl="file://$PROJECT_DIR$/ringwave/ringwave.iml" filepath="$PROJECT_DIR$/ringwave/ringwave.iml" />
+      <module fileurl="file://$PROJECT_DIR$/roundimageview/roundimageview.iml" filepath="$PROJECT_DIR$/roundimageview/roundimageview.iml" />
       <module fileurl="file://$PROJECT_DIR$/viewdraghelper/viewdraghelper.iml" filepath="$PROJECT_DIR$/viewdraghelper/viewdraghelper.iml" />
     </modules>
   </component>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--圆角图片的自定义属性-->
+    <declare-styleable name="RoundImage">
+        <attr name="roundImageLeftTopRadius" format="dimension" />
+        <attr name="roundImageRightTopRadius" format="dimension" />
+        <attr name="roundImageLeftBottomRadius" format="dimension" />
+        <attr name="roundImageRightButtomRadius" format="dimension" />
+        <attr name="roundImageRadius" format="dimension" />
+        <attr name="roundImageStrokeWidth" format="dimension" />
+        <attr name="roundImageStrokeColor" format="color" />
+        <attr name="roundImageCyclo" format="boolean" />
+    </declare-styleable>
+</resources>
