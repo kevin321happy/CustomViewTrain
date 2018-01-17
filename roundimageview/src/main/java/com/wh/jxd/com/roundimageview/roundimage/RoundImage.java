@@ -49,16 +49,41 @@ public class RoundImage extends ImageView {
      * 是否为圆
      */
     private boolean mCyclo = false;
-
+    /**
+     * 绘制图形的画笔
+     */
     private Paint mPaint;
-    private int mWidthSize;
-    private int mHeightSize;
+    /**
+     * 控件的宽高
+     */
+    private int mWidthSize, mHeightSize;
+    /**
+     * 矩阵
+     */
     private Matrix mMatrix = new Matrix();
+    /**
+     * 放大参数
+     */
     private float mScale;
+    /**
+     * 绘制圆角矩形的Path
+     */
     private Path mPath;
+    /**
+     * 圆角矩形的顶点的圆角值的数组
+     */
     private float[] mFloats = new float[8];
+    /**
+     * 绘制椭圆的RectF
+     */
     private RectF mOvalrectF;
+    /**
+     * 描边的宽度
+     */
     private Paint mStrokePaint;
+    /**
+     * 绘制椭圆描边的RectF
+     */
     private RectF mStrokeOvalrectF;
 
     public RoundImage(Context context) {
@@ -140,6 +165,7 @@ public class RoundImage extends ImageView {
     protected void onDraw(Canvas canvas) {
         //注意；这里如果不注释这行代码，会出现圆形覆盖绘制在正方形的ImageView上,因为先执行了背景的绘制了
 //        super.onDraw(canvas);
+        //获取Image自身的Bitmap作为Canvas的画布
         Bitmap bitmap = ((BitmapDrawable) this.getDrawable()).getBitmap();
         mScale = 1.0f;
         //关键：图片尺寸和View尺寸不合要进行缩放
@@ -155,18 +181,19 @@ public class RoundImage extends ImageView {
             //绘制圆
             if (mWidthSize == mHeightSize) {
                 if (mStrokeWidth != 0) {
-                    //绘制描边
                     canvas.drawCircle(mWidthSize / 2, mHeightSize / 2, mWidthSize / 2 - mStrokeWidth, mPaint);
+                    //绘制描边
                     canvas.drawCircle(mWidthSize / 2, mHeightSize / 2, mWidthSize / 2, mStrokePaint);
                 } else {
+                    //绘制无描边的圆
                     canvas.drawCircle(mWidthSize / 2, mHeightSize / 2, mWidthSize / 2, mPaint);
                 }
             } else {
                 if (mStrokeWidth != 0) {
-                    //绘制椭圆
                     mOvalrectF = new RectF(0 + mStrokeWidth, 0 + mStrokeWidth, mWidthSize - mStrokeWidth, mHeightSize - mStrokeWidth);
                     mStrokeOvalrectF = new RectF(0, 0, mWidthSize, mHeightSize);
                     canvas.drawOval(mOvalrectF, mPaint);
+                    //绘制描边椭圆
                     canvas.drawOval(mOvalrectF, mStrokePaint);
                 } else {
                     //绘制椭圆
@@ -185,5 +212,30 @@ public class RoundImage extends ImageView {
 //            canvas.clipPath(mPath);
 //            super.onDraw(canvas);
         }
+    }
+
+    /**
+     * 对外提供属性设置
+     *
+     * @return
+     */
+    public void setRadius(int radius) {
+        mRadius = radius;
+        invalidate();
+    }
+
+    public void setStrokeWidth(int strokeWidth) {
+        mStrokeWidth = strokeWidth;
+        invalidate();
+    }
+
+    public void setStrokeColor(int strokeColor) {
+        mStrokeColor = strokeColor;
+        invalidate();
+    }
+
+    public void setCyclo(boolean cyclo) {
+        mCyclo = cyclo;
+        invalidate();
     }
 }
