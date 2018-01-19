@@ -4,11 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.wh.jxd.com.sidemenuview.MainActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:text="文字删除"/>
+
+    <ListView
+        android:id="@+id/lv_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="150px"
+        android:gravity="center"
+        android:background="@color/colorAccent"
+        android:text="图片删除"/>
+
+    <ListView
+        android:id="@+id/lv_menu1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <com.wh.jxd.com.sidemenuview.sidemenu.SideMenu
         android:layout_width="match_parent"
-        android:layout_height="120px">
+        android:layout_height="120px"
+        android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/ll_content_view"
@@ -24,12 +49,13 @@
                 android:text="内容视图"
                 android:textSize="45px" />
         </LinearLayout>
+
         <ImageView
             android:id="@+id/iv_menu_view"
             android:layout_width="120px"
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
             android:padding="20px"
-            android:src="@mipmap/ic_launcher"/>
+            android:src="@mipmap/ic_launcher" />
     </com.wh.jxd.com.sidemenuview.sidemenu.SideMenu>
 </LinearLayout>

@@ -94,7 +94,10 @@ public class SideMenu extends FrameLayout {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float endX;
+        float endY;
+        //滑动时水平和竖直方向的偏移量
         int distanceX;
+        int distanceY;
         super.onTouchEvent(event);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -103,10 +106,20 @@ public class SideMenu extends FrameLayout {
                 break;
             case MotionEvent.ACTION_MOVE:
                 endX = event.getX();
+                endY = event.getY();
                 //水平滑動的距離
-                //向左滑动的时候distanceX为负值
-                distanceX = (int) (mStartX - endX);
                 //当向左滑动时distanceX为正值的,表示在向左滑
+                distanceX = (int) (mStartX - endX);
+                distanceY= (int) (mStartY-endY);
+                //处理和ListView结合使用出现的滑动冲突问题
+                if (Math.abs(distanceX) > Math.abs(distanceY) && Math.abs(distanceX) > 8) {
+                    //水平滑动的距离大于竖直滑动的距离,且滑动超过了8个像素点,则滑动侧滑菜单
+                    //请求父控件不拦截滑动事件
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                } else {
+                    //竖直方向的滑动,则直接滑动列表,父控件拦截触摸事件
+                    getParent().requestDisallowInterceptTouchEvent(false);
+                }
                 //处理越界
                 if (mExpand == false) {
                     //在没展开的状态下处理边界
