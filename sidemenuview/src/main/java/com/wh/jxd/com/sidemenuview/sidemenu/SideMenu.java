@@ -155,6 +155,7 @@ public class SideMenu extends FrameLayout {
     private void smoothToEnd(final int distanceX) {
         ValueAnimator valueAnimator;
         if (distanceX > mMenuWidth / 2) {
+            //动画的初值和结束值
             valueAnimator = ValueAnimator.ofInt(getScrollX(), mMenuWidth);
         } else {
             valueAnimator = ValueAnimator.ofInt(getScrollX(), 0);
@@ -173,7 +174,6 @@ public class SideMenu extends FrameLayout {
             public void onAnimationStart(Animator animation) {
 
             }
-
             @Override
             public void onAnimationEnd(Animator animation) {
                 //超过了二分之一的子菜单宽度则是展开的状态,反之则为关闭
@@ -183,7 +183,6 @@ public class SideMenu extends FrameLayout {
                     mExpand = false;
                 }
             }
-
             @Override
             public void onAnimationCancel(Animator animation) {
 
