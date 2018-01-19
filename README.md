@@ -6,6 +6,14 @@
    #### 自定义View中常用的五个辅助类,包括手势识别,速度追综，拖拽，滑动,设备信息等
 
 -------
+* [侧滑菜单](https://github.com/kevin321happy/CustomViewTrain/tree/master/sidemenuview)
+
+   #### 侧拉删除,处理菜单视图的回弹动画和关闭菜单动画,支持菜单视图的定制
+
+   ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/slidedelete.gif)
+
+
+-------
 
 * [带圆角的ImageView](https://github.com/kevin321happy/CustomViewTrain/tree/master/roundimageview/src/main)
 
