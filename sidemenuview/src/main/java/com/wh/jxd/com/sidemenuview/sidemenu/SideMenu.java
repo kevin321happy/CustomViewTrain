@@ -110,7 +110,7 @@ public class SideMenu extends FrameLayout {
                 //水平滑動的距離
                 //当向左滑动时distanceX为正值的,表示在向左滑
                 distanceX = (int) (mStartX - endX);
-                distanceY= (int) (mStartY-endY);
+                distanceY = (int) (mStartY - endY);
                 //处理和ListView结合使用出现的滑动冲突问题
                 if (Math.abs(distanceX) > Math.abs(distanceY) && Math.abs(distanceX) > 8) {
                     //水平滑动的距离大于竖直滑动的距离,且滑动超过了8个像素点,则滑动侧滑菜单
@@ -174,6 +174,7 @@ public class SideMenu extends FrameLayout {
             public void onAnimationStart(Animator animation) {
 
             }
+
             @Override
             public void onAnimationEnd(Animator animation) {
                 //超过了二分之一的子菜单宽度则是展开的状态,反之则为关闭
@@ -183,6 +184,7 @@ public class SideMenu extends FrameLayout {
                     mExpand = false;
                 }
             }
+
             @Override
             public void onAnimationCancel(Animator animation) {
 
@@ -193,5 +195,14 @@ public class SideMenu extends FrameLayout {
 
             }
         });
+    }
+
+    /**
+     * 手动关闭菜单
+     */
+    public void closeMenu() {
+        if (mExpand) {
+            smoothToEnd(mMenuWidth);
+        }
     }
 }
