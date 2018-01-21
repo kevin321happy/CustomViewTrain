@@ -6,6 +6,23 @@
    #### 自定义View中常用的五个辅助类,包括手势识别,速度追综，拖拽，滑动,设备信息等
 
 -------
+
+* [贝塞尔控件](https://github.com/kevin321happy/CustomViewTrain/tree/master/bezierview/src/main/java/com/wh/jxd/com/bezierview)
+
+   #### 贝塞尔控件，[1-3阶贝塞尔](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/LowOderBezierPath.java) 直接调用系统提供的api，[高阶贝塞尔](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HeightOderBezierPath.java)根据规律实现高级贝塞尔绘制
+
+   #### 曲线的绘制
+
+   ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/bezierline.gif)
+
+   #### 自定义的下拉的粘性控件,可设置中间的Drawable的显示,以及颜色半径等基础属性设置
+
+   ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/pullview.gif)
+
+
+
+
+-------
 * [侧滑菜单](https://github.com/kevin321happy/CustomViewTrain/tree/master/sidemenuview)
 
    #### 侧拉删除,处理菜单视图的回弹动画和关闭菜单动画,支持菜单视图的定制
