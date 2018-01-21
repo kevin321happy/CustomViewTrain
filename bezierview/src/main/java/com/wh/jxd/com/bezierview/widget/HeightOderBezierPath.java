@@ -92,7 +92,6 @@ public class HeightOderBezierPath extends View {
                 e.printStackTrace();
             }
             Log.i("path", "path的当前点:" + x + "," + y);
-
         }
 //        calculatePoint(progress,xPonits);
 
