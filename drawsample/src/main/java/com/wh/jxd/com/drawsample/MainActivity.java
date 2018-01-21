@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mIv_canvas = (ImageView) findViewById(R.id.iv_canvas);
-        drawBitmap();
+//        mIv_canvas = (ImageView) findViewById(R.id.iv_canvas);
+//        drawBitmap();
     }
     /**
      * Canvas

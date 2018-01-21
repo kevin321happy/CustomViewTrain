@@ -7,13 +7,7 @@
     android:layout_height="match_parent"
     tools:context="com.wh.jxd.com.bezierview.MainActivity">
 
-    <com.wh.jxd.com.bezierview.widget.PullViscousView
-        android:id="@+id/pull_viscousview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
-    <com.wh.jxd.com.bezierview.widget.LowOderBezierPath
+    <com.wh.jxd.com.bezierview.widget.HeightOderBezierPath
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

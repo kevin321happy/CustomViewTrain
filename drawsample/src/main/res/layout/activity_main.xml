@@ -21,6 +21,10 @@
 
     <com.wh.jxd.com.drawsample.CropDrawableView
         android:layout_width="500px"
+        android:visibility="gone"
         android:layout_height="500px" />
-
+    
+    <com.wh.jxd.com.drawsample.TaskTopView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
