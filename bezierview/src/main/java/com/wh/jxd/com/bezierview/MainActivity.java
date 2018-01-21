@@ -53,6 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     mPull_viscous_view.setProgress(progress);
                 }
                 return true;
+            case MotionEvent.ACTION_UP:
+                mPull_viscous_view.pringbBack();
+                break;
         }
         return false;
     }

@@ -1,14 +1,17 @@
 package com.wh.jxd.com.bezierview.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 import com.wh.jxd.com.bezierview.R;
 
@@ -27,7 +30,7 @@ public class PullViscousView extends View {
     /**
      * 圆的半径
      */
-    private int mCircleRadius = 200;
+    private int mCircleRadius = 50;
     /**
      * 下拉的进度
      */
@@ -35,7 +38,44 @@ public class PullViscousView extends View {
     /**
      * 允许拖动的最大的高度
      */
-    private int mAllowMaxHeight = 800;
+    private int mAllowMaxHeight = 500;
+
+    /**
+     * 绘制贝塞尔的路径
+     *
+     * @param context
+     */
+    private Path mPath = new Path();
+
+    /**
+     * 绘制Path的画笔
+     *
+     * @param context
+     */
+    private Paint mPathPaint;
+
+    /**
+     * 控制点下降的高度,也是控件重心下降的高度
+     *
+     * @param context
+     */
+    private int mDownHeight = 10;
+
+    /**
+     * 控制点和结束点连线是圆的切线,这个切线角度(同时这个值也是等于结束点和圆心的连线和y轴形成的角度)
+     * 最大值默认为110
+     *
+     * @param context
+     */
+    private int mTangentAngl = 110;
+
+    /**
+     * 空间在改变中不断变化的宽度
+     *
+     * @param context
+     */
+    private int mTargetWidth = 600;
+    private ValueAnimator mAnimator;
 
     public PullViscousView(Context context) {
         super(context);
@@ -113,8 +153,82 @@ public class PullViscousView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mCirclePointX = getWidth() / 2;
-        mCirclePointY = getHeight() / 2;
+        upDataPathLayout();
+    }
+
+    /**
+     * 更新Path的路径
+     */
+    private void upDataPathLayout() {
+        float progress = mProgress;
+        //获取当前的宽度和高度
+        float width = getValueByLine(getWidth(), mTargetWidth, progress);
+        float height = getValueByLine(0, mAllowMaxHeight, progress);
+        //确定圆的相关参数
+        float cPonitX = width / 2;
+        float cPonitY = height - mCircleRadius;
+        float cRedius = mCircleRadius;
+        //更新圆心的位置
+        mCirclePointX = cPonitX;
+        mCirclePointY = cPonitY;
+        //控制点结束位置的坐标
+        int endContralY = mDownHeight;
+        Log.i("X", "回调进来的进度:" + progress + "圆心的坐标:" + mCirclePointX + "," + mCirclePointY);
+        mPath.reset();
+        mPath.moveTo(0, 0);
+        //计算控制点和结束点的位置
+        //左边控制点的高度
+        float lControlPointX, lControlPointY;
+        //左边结束点的x,y
+        float lEndx, lEndy;
+        //获取切线角的弧度(将角度变成弧度)
+        double radians = Math.toRadians(getValueByLine(0, mTangentAngl, progress));
+        //结束点的X的坐标为圆心的X坐标-半径*sin（radians）
+        lEndx = (float) (cPonitX - Math.sin(radians) * cRedius);
+        //结束点的Y坐标等于圆心位置的y坐标+半径*cos(cRedius)
+        lEndy = (float) (cPonitY + Math.cos(radians) * cRedius);
+        //控制的y坐标
+        lControlPointY = getValueByLine(0, endContralY, progress);
+        //控制点和结束点之前的相差的高度
+        float diffHeight = lEndy - lControlPointY;
+        //可以根据两点相差的高度,和切线角度求出两点之间x的差值
+        float diffWidth = (float) (diffHeight / Math.tan(radians));
+        //得到控制点的X坐标
+        lControlPointX = lEndx - diffWidth;
+        mPath.quadTo(lControlPointX, lControlPointY, lEndx, lEndy);
+        //将path左象平移一段至cPonitX+(cPonitX-lEndx)
+        mPath.lineTo(cPonitX + (cPonitX - lEndx), lEndy);
+        //绘制右边的贝塞尔曲线
+        mPath.quadTo(cPonitX + cPonitX - lControlPointX, lControlPointY, width, 0);
+    }
+
+    /**
+     * 回弹的动画
+     */
+    public void pringbBack() {
+        //通过属性动画实现
+        mAnimator = ValueAnimator.ofFloat(mProgress, 0);
+        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                Object progress = animation.getAnimatedValue();
+                if (progress instanceof Float) {
+                    setProgress((Float) progress);
+                }
+            }
+        });
+        mAnimator.setDuration(500);
+        mAnimator.setInterpolator(new DecelerateInterpolator());
+        if (!mAnimator.isRunning()) {
+            mAnimator.start();
+        }
+    }
+
+    /**
+     * 根据线性规律获得值
+     */
+    private float getValueByLine(float startValue, float endValue, float progress) {
+        return startValue + (endValue - startValue) * progress;
     }
 
     /**
@@ -125,14 +239,24 @@ public class PullViscousView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        //基础坐标参数系的改变
+        int save = canvas.save();
+        //重新构建坐标系
+        float tranX = (getWidth() - getValueByLine(getWidth(), mTargetWidth, mProgress)) / 2;
+        canvas.translate(tranX, 0);
         //绘制圆
         canvas.drawCircle(mCirclePointX, mCirclePointY, mCircleRadius, mPaint);
+        //绘制贝塞尔曲线
+        canvas.drawPath(mPath, mPathPaint);
+        //复位
+        canvas.restoreToCount(save);
     }
 
     /**
      * 初始化操作
      */
     private void init() {
+        //绘制圆的画笔
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         //抗锯齿
         mPaint.setAntiAlias(true);
@@ -142,11 +266,22 @@ public class PullViscousView extends View {
         mPaint.setStyle(Paint.Style.FILL);
         //设置画笔颜色
         mPaint.setColor(getContext().getResources().getColor(R.color.colorAccent));
+
+        //绘制贝塞尔曲线的画笔
+        mPathPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        //抗锯齿
+        mPathPaint.setAntiAlias(true);
+        //防抖动
+        mPathPaint.setDither(true);
+        //画笔为填充
+        mPathPaint.setStyle(Paint.Style.FILL);
+        //设置画笔颜色
+        mPathPaint.setColor(getContext().getResources().getColor(R.color.colorAccent));
     }
 
     public void setProgress(float progress) {
         this.mProgress = progress;
-        Log.i("X", "回调进来的进度:" + progress);
+//        Log.i("X", "回调进来的进度:" + progress);
         //请求重新进行测量和布局
         requestLayout();
     }
