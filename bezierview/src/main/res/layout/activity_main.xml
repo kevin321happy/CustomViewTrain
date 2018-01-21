@@ -11,12 +11,16 @@
         android:id="@+id/pull_viscousview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible" />
+        android:visibility="visible"
+        app:PullViewCircleRadius="80px"
+        app:PullViewColor="@color/colorAccent"
+        app:PullViewCentreDrawable="@drawable/github"
+        app:PullViewContentMargin="10px" />
 
     <com.wh.jxd.com.bezierview.widget.LowOderBezierPath
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 
 </LinearLayout>

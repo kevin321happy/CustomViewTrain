@@ -10,11 +10,11 @@
         <!--切线角的最大角度-->
         <attr name="PullViewTangentAngle" format="integer" />
         <!--拉到最低点时控件的宽度-->
-        <attr name="PullViewTargetWidth" format="integer" />
+        <attr name="PullViewTargetWidth" format="dimension" />
         <!--控件下移的高度-->
-        <attr name="PullViewDownHeight" format="integer" />
+        <attr name="PullViewDownHeight" format="dimension" />
         <!--中间内容的外边距-->
-        <attr name="PullViewContentMargin" format="integer" />
+        <attr name="PullViewContentMargin" format="dimension" />
         <!--中间圆显示的drawable-->
         <attr name="PullViewCentreDrawable" format="reference" />
     </declare-styleable>

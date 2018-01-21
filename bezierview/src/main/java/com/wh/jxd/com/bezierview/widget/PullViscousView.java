@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.view.animation.RotateAnimation;
 
 import com.wh.jxd.com.bezierview.R;
 
@@ -133,7 +135,7 @@ public class PullViscousView extends View {
         //画笔为填充
         mPaint.setStyle(Paint.Style.FILL);
         //设置画笔颜色
-        mPaint.setColor(getContext().getResources().getColor(R.color.colorAccent));
+        mPaint.setColor(mColor);
 
         //绘制贝塞尔曲线的画笔
         mPathPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -144,7 +146,7 @@ public class PullViscousView extends View {
         //画笔为填充
         mPathPaint.setStyle(Paint.Style.FILL);
         //设置画笔颜色
-        mPathPaint.setColor(getContext().getResources().getColor(R.color.colorAccent));
+        mPathPaint.setColor(mColor);
     }
 
     /**
@@ -163,7 +165,6 @@ public class PullViscousView extends View {
         mDrawable = ta.getDrawable(R.styleable.PullViscousView_PullViewCentreDrawable);
         mContentMargin = ta.getDimensionPixelSize(R.styleable.PullViscousView_PullViewContentMargin, 0);
         ta.recycle();
-
     }
 
 
@@ -268,6 +269,27 @@ public class PullViscousView extends View {
         mPath.lineTo(cPonitX + (cPonitX - lEndx), lEndy);
         //绘制右边的贝塞尔曲线
         mPath.quadTo(cPonitX + cPonitX - lControlPointX, lControlPointY, width, 0);
+
+        upDataContentLayout(cPonitX, cPonitY, cRedius);
+    }
+
+    /**
+     * 更新测量中间部分的边界
+     *
+     * @param cx
+     * @param cy
+     * @param radius
+     */
+    private void upDataContentLayout(float cx, float cy, float radius) {
+        Drawable drawable=mDrawable;
+        if(drawable!=null){
+            int margin=mContentMargin;
+            int l=(int)(cx-radius+margin);
+            int r=(int)(cx+radius-margin);
+            int t=(int)(cy-radius+margin);
+            int b=(int)(cy+radius-margin);
+            drawable.setBounds(l,t,r,b);
+        }
     }
 
     /**
@@ -312,13 +334,24 @@ public class PullViscousView extends View {
         //重新构建坐标系
         float tranX = (getWidth() - getValueByLine(getWidth(), mTargetWidth, mProgress)) / 2;
         canvas.translate(tranX, 0);
-        //绘制圆
-        canvas.drawCircle(mCirclePointX, mCirclePointY, mCircleRadius, mPaint);
         //绘制贝塞尔曲线
         canvas.drawPath(mPath, mPathPaint);
+        //绘制圆
+        canvas.drawCircle(mCirclePointX, mCirclePointY, mCircleRadius, mPaint);
+
+        if (mDrawable != null) {
+            canvas.save();
+            //裁剪出中间部分绘制Drawable
+            Rect bounds = mDrawable.getBounds();
+            canvas.clipRect(bounds);
+            mDrawable.draw(canvas);
+            canvas.restore();
+
+        }
         //复位
         canvas.restoreToCount(save);
     }
+
 
 
     public void setProgress(float progress) {
