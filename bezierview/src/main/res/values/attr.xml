@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PullViscousView">
+        <!--下拉的最大距离-->
+        <attr name="PullViewPullDownMaxHeight" format="dimension"></attr>
+        <!--控件的颜色-->
+        <attr name="PullViewColor" format="color" />
+        <!--圆的半径-->
+        <attr name="PullViewCircleRadius" format="dimension" />
+        <!--切线角的最大角度-->
+        <attr name="PullViewTangentAngle" format="integer" />
+        <!--拉到最低点时控件的宽度-->
+        <attr name="PullViewTargetWidth" format="integer" />
+        <!--控件下移的高度-->
+        <attr name="PullViewDownHeight" format="integer" />
+        <!--中间内容的外边距-->
+        <attr name="PullViewContentMargin" format="integer" />
+        <!--中间圆显示的drawable-->
+        <attr name="PullViewCentreDrawable" format="reference" />
+    </declare-styleable>
+
+
+</resources>

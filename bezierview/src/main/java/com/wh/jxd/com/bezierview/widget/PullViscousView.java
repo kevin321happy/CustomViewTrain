@@ -2,9 +2,12 @@ package com.wh.jxd.com.bezierview.widget;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -12,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 
 import com.wh.jxd.com.bezierview.R;
 
@@ -21,6 +25,8 @@ import com.wh.jxd.com.bezierview.R;
  */
 
 public class PullViscousView extends View {
+
+    private Context mContext;
 
     private Paint mPaint;
     /**
@@ -38,7 +44,7 @@ public class PullViscousView extends View {
     /**
      * 允许拖动的最大的高度
      */
-    private int mAllowMaxHeight = 500;
+    private int mAllowMaxHeight = 400;
 
     /**
      * 绘制贝塞尔的路径
@@ -67,7 +73,7 @@ public class PullViscousView extends View {
      *
      * @param context
      */
-    private int mTangentAngl = 110;
+    private int mTangentAngl = 105;
 
     /**
      * 空间在改变中不断变化的宽度
@@ -77,27 +83,89 @@ public class PullViscousView extends View {
     private int mTargetWidth = 600;
     private ValueAnimator mAnimator;
 
+    /**
+     * 进度变化的插值器（由慢到快）
+     *
+     * @param context
+     */
+    private Interpolator mProgressInterpolator = new DecelerateInterpolator();
+    private int mContentMargin;
+    private Drawable mDrawable;
+    private int mColor;
+
     public PullViscousView(Context context) {
         super(context);
-        init();
+        init(context, null);
     }
 
 
     public PullViscousView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context, attrs);
     }
 
     public PullViscousView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context, attrs);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public PullViscousView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init();
+        init(context, attrs);
     }
+
+    /**
+     * 初始化操作
+     *
+     * @param context
+     * @param attrs
+     */
+    private void init(Context context, AttributeSet attrs) {
+        this.mContext = context;
+        initAttr(attrs);
+        //绘制圆的画笔
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        //抗锯齿
+        mPaint.setAntiAlias(true);
+        //防抖动
+        mPaint.setDither(true);
+        //画笔为填充
+        mPaint.setStyle(Paint.Style.FILL);
+        //设置画笔颜色
+        mPaint.setColor(getContext().getResources().getColor(R.color.colorAccent));
+
+        //绘制贝塞尔曲线的画笔
+        mPathPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        //抗锯齿
+        mPathPaint.setAntiAlias(true);
+        //防抖动
+        mPathPaint.setDither(true);
+        //画笔为填充
+        mPathPaint.setStyle(Paint.Style.FILL);
+        //设置画笔颜色
+        mPathPaint.setColor(getContext().getResources().getColor(R.color.colorAccent));
+    }
+
+    /**
+     * 初始化自定义属性
+     *
+     * @param attrs
+     */
+    private void initAttr(AttributeSet attrs) {
+        TypedArray ta = mContext.obtainStyledAttributes(attrs, R.styleable.PullViscousView);
+        mCircleRadius = ta.getDimensionPixelSize(R.styleable.PullViscousView_PullViewCircleRadius, 50);
+        mAllowMaxHeight = ta.getDimensionPixelSize(R.styleable.PullViscousView_PullViewPullDownMaxHeight, 400);
+        mDownHeight = ta.getDimensionPixelSize(R.styleable.PullViscousView_PullViewDownHeight, 10);
+        mTangentAngl = ta.getInteger(R.styleable.PullViscousView_PullViewTangentAngle, 105);
+        mColor = ta.getColor(R.styleable.PullViscousView_PullViewColor, Color.RED);
+        mTargetWidth = ta.getDimensionPixelSize(R.styleable.PullViscousView_PullViewTargetWidth, 400);
+        mDrawable = ta.getDrawable(R.styleable.PullViscousView_PullViewCentreDrawable);
+        mContentMargin = ta.getDimensionPixelSize(R.styleable.PullViscousView_PullViewContentMargin, 0);
+        ta.recycle();
+
+    }
+
 
     /**
      * 测量控件
@@ -160,10 +228,10 @@ public class PullViscousView extends View {
      * 更新Path的路径
      */
     private void upDataPathLayout() {
-        float progress = mProgress;
+        float progress = mProgressInterpolator.getInterpolation(mProgress);
         //获取当前的宽度和高度
-        float width = getValueByLine(getWidth(), mTargetWidth, progress);
-        float height = getValueByLine(0, mAllowMaxHeight, progress);
+        float width = getValueByLine(getWidth(), mTargetWidth, mProgress);
+        float height = getValueByLine(0, mAllowMaxHeight, mProgress);
         //确定圆的相关参数
         float cPonitX = width / 2;
         float cPonitY = height - mCircleRadius;
@@ -252,32 +320,6 @@ public class PullViscousView extends View {
         canvas.restoreToCount(save);
     }
 
-    /**
-     * 初始化操作
-     */
-    private void init() {
-        //绘制圆的画笔
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        //抗锯齿
-        mPaint.setAntiAlias(true);
-        //防抖动
-        mPaint.setDither(true);
-        //画笔为填充
-        mPaint.setStyle(Paint.Style.FILL);
-        //设置画笔颜色
-        mPaint.setColor(getContext().getResources().getColor(R.color.colorAccent));
-
-        //绘制贝塞尔曲线的画笔
-        mPathPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        //抗锯齿
-        mPathPaint.setAntiAlias(true);
-        //防抖动
-        mPathPaint.setDither(true);
-        //画笔为填充
-        mPathPaint.setStyle(Paint.Style.FILL);
-        //设置画笔颜色
-        mPathPaint.setColor(getContext().getResources().getColor(R.color.colorAccent));
-    }
 
     public void setProgress(float progress) {
         this.mProgress = progress;
