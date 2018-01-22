@@ -292,4 +292,24 @@ public class CircleProgressPlate extends View {
         mHeightLightPath.reset();
         initPathLayout();
     }
+    /**
+     * 相关属性的设置
+     *
+     * @param
+     */
+    public void setStrokeWidth(int strokeWidth) {
+        mStrokeWidth = strokeWidth;
+    }
+
+    public void setLineLength(int lineLength) {
+        mLineLength = lineLength;
+    }
+
+    public void setScaleLineColor(int scaleLineColor) {
+        mScaleLineColor = scaleLineColor;
+    }
+
+    public void setTextColor(int textColor) {
+        mTextColor = textColor;
+    }
 }
