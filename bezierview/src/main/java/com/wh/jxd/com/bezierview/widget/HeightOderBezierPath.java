@@ -12,7 +12,7 @@ import android.view.View;
 
 /**
  * Created by kevin321vip on 2018/1/21.
- * 高阶的贝塞尔曲线4~6
+ * 高阶的贝塞尔曲线4~n阶
  */
 
 public class HeightOderBezierPath extends View {
@@ -37,7 +37,6 @@ public class HeightOderBezierPath extends View {
         super(context, attrs, defStyleAttr);
         init();
     }
-
     /**
      * 初始化方法
      */
@@ -56,9 +55,7 @@ public class HeightOderBezierPath extends View {
                 initBezier();
             }
         }).start();
-
     }
-
     /**
      * 初始化贝塞尔曲线
      */
@@ -94,10 +91,7 @@ public class HeightOderBezierPath extends View {
             Log.i("path", "path的当前点:" + x + "," + y);
         }
 //        calculatePoint(progress,xPonits);
-
-
     }
-
     /**
      * 计算某时刻贝塞尔点的值 x,或y的值
      * t 0-1
@@ -118,10 +112,8 @@ public class HeightOderBezierPath extends View {
         //运算时的的结果永远保存在第一位
         return values[0];
     }
-
     /**
      * 绘制
-     *
      * @param canvas
      */
     @Override

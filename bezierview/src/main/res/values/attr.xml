@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--粘性下拉控件的自定义属性-->
     <declare-styleable name="PullViscousView">
         <!--下拉的最大距离-->
         <attr name="PullViewPullDownMaxHeight" format="dimension"></attr>
@@ -17,6 +18,20 @@
         <attr name="PullViewContentMargin" format="dimension" />
         <!--中间圆显示的drawable-->
         <attr name="PullViewCentreDrawable" format="reference" />
+    </declare-styleable>
+
+    <!--刻度进度盘的自定义属性-->
+    <declare-styleable name="CircleProgressPlate">
+        <!--刻度线长度-->
+        <attr name="PlatScaleLngth" format="dimension" />
+        <!--刻度的颜色-->
+        <attr name="PlatScaleColor" format="color" />
+        <!--画笔的描边的宽度-->
+        <attr name="PlatStrokeWidth" format="dimension" />
+        <!--外圈圆颜色mOutRingColor-->
+        <attr name="PlatOutCircleColor" format="color" />
+        <!--文字的颜色-->
+        <attr name="PlatTextColr" format="color" />
     </declare-styleable>
 
 

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorAccent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <com.wh.jxd.com.bezierview.widget.CircleProgressPlate
+        android:id="@+id/progress1"
+        android:layout_width="500px"
+        android:layout_height="500px"
+        app:PlatOutCircleColor="@color/colorPrimary"
+        app:PlatScaleColor="#8a15b1"
+        app:PlatTextColr="@color/colorPrimary"
+         />
+    <Button
+        android:onClick="startProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始"/>
+
+
+    <com.wh.jxd.com.bezierview.widget.CircleProgressPlate
+        android:layout_marginTop="30px"
+        android:id="@+id/progress2"
+        android:layout_width="700px"
+        app:PlatScaleLngth="50px"
+        android:layout_height="700px"
+        />
+    <Button
+        android:onClick="startProgress1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开始"/>
+</LinearLayout>
