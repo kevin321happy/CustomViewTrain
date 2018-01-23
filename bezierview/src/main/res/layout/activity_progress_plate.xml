@@ -8,8 +8,6 @@
     android:background="@color/colorAccent"
     android:gravity="center"
     android:orientation="vertical">
-
-
     <com.wh.jxd.com.bezierview.widget.CircleProgressPlate
         android:id="@+id/progress1"
         android:layout_width="500px"

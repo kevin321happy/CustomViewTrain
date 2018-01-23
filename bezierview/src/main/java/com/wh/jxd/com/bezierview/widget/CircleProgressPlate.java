@@ -184,7 +184,7 @@ public class CircleProgressPlate extends View implements Runnable {
         mGradientPaint.setStyle(Paint.Style.STROKE);
         mGradientPaint.setStrokeWidth(mLineLength);
 
-          //如果设置了需要扫描
+        //如果设置了需要扫描
         if (mShouldScan) {
             setSrartRunning(Running);
         }
@@ -300,18 +300,37 @@ public class CircleProgressPlate extends View implements Runnable {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //如果需要扫描,才去绘制扫描的环
-        if (mShouldScan){
+        if (mShouldScan) {
             drawScan(canvas);
         }
-        //绘制圆
-        mPaint.setColor(mOutRingColor);
-        mPaint.setStrokeWidth(30);
-        canvas.drawCircle(mCPointX, mCPonitY, mRadius + 20, mPaint);
+        drawCircle(canvas);
+        drawBgScalePath(canvas);
+    }
+
+    /**
+     * 绘制背景的刻度线
+     *
+     * @param canvas
+     */
+    private void drawBgScalePath(Canvas canvas) {
         //绘制底层的线
         mPaint.setColor(Color.GRAY);
         mPaint.setStrokeWidth(mStrokeWidth / 2);
         canvas.drawPath(mPath, mPaint);
+        //绘制进度部分刻度和文字
         upDataProgress(canvas);
+    }
+
+    /**
+     * 绘制外层的圆环
+     *
+     * @param canvas
+     */
+    private void drawCircle(Canvas canvas) {
+        //绘制圆
+        mPaint.setColor(mOutRingColor);
+        mPaint.setStrokeWidth(30);
+        canvas.drawCircle(mCPointX, mCPonitY, mRadius + 20, mPaint);
     }
 
     /**
@@ -393,10 +412,11 @@ public class CircleProgressPlate extends View implements Runnable {
         mHeightLightPath.reset();
         initPathLayout();
         //当设置进度进来了停止扫描
-        if (mShouldScan){
+        if (mShouldScan) {
             setSrartRunning(false);
         }
     }
+
     /**
      * 相关属性的设置
      *
