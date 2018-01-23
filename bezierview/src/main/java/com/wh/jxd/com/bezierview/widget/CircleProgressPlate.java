@@ -15,7 +15,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.CycleInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 
 
 import com.wh.jxd.com.bezierview.LineInfo;
@@ -31,7 +34,7 @@ import static android.content.ContentValues.TAG;
  * 圆形进度盘控件
  */
 
-public class CircleProgressPlate extends View implements Runnable {
+public class CircleProgressPlate extends View {
     private Paint mPaint;
     private int mRadius;
     private int mWidth;
@@ -73,18 +76,6 @@ public class CircleProgressPlate extends View implements Runnable {
      */
     private int mProgress = 0;
     /**
-     * 当前进度(用来绘制文字部分)
-     */
-    private int mCurrentProgress = 0;
-    /**
-     * 更新的线程
-     */
-    private Thread mUpDatathread;
-    /**
-     * mLineInfos中当前的元素的个数
-     */
-    private int mCurrentSize;
-    /**
      * 绘制的文字的颜色
      */
     private int mTextColor;
@@ -106,10 +97,6 @@ public class CircleProgressPlate extends View implements Runnable {
      */
     private Paint mGradientPaint;
     /**
-     * 是否在扫描动画
-     */
-    private boolean Running = true;
-    /**
      * 是否需要扫描的效果
      */
     private boolean mShouldScan = false;
@@ -117,18 +104,16 @@ public class CircleProgressPlate extends View implements Runnable {
      * 扫描的颜色
      */
     private int mScanColor = Color.GRAY;
-    private ValueAnimator mAnimator;
+    private ValueAnimator mProgressAnimator;
     /**
      * 动画的进度值 0-1之间
      */
     private float mAnimatedValue;
-
-
     /**
-     * 进度插值器
-     *
-     * @param context
+     * 扫描的动画
      */
+    private ValueAnimator mScanAnimation;
+
     public CircleProgressPlate(Context context) {
         super(context);
         init(context, null);
@@ -158,6 +143,7 @@ public class CircleProgressPlate extends View implements Runnable {
         mRadius = min / 2 - mStrokeWidth - 30;
         mCPointX = mWidth / 2;
         mCPonitY = mHeight / 2;
+        //最初版
 //        initPathLayout();
         //改进版
         upDataPathLayout();
@@ -188,34 +174,55 @@ public class CircleProgressPlate extends View implements Runnable {
         //文字的画笔
         mTextPaint.setTextSize(mRadius / 3);
         mTextPaint.setColor(mTextColor);
-
         //绘制扫描的画笔
         mGradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mGradientPaint.setStyle(Paint.Style.STROKE);
         mGradientPaint.setStrokeWidth(mLineLength);
         //如果设置了需要扫描
         if (mShouldScan) {
-            setSrartRunning(Running);
+            initScanAnimation();
         }
     }
+
     /**
-     * 初始化动画
+     * 初始化扫描的动画
+     */
+    private void initScanAnimation() {
+        mScanAnimation = ValueAnimator.ofInt(0, 360);
+        mScanAnimation.setDuration(1500);
+        //开始和结束慢中间快
+        mScanAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        mScanAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                //添加动画插值
+                rotate = (int) animation.getAnimatedValue();
+                postInvalidate();
+            }
+        });
+        mScanAnimation.setRepeatMode(ValueAnimator.RESTART);
+        mScanAnimation.setRepeatCount(1000);
+        mScanAnimation.start();
+    }
+
+    /**
+     * 初始化进度的动画
      * 通过属性动画的方式来实现进度的线速变化
      */
-    private void ininAnimation() {
-        mAnimator = ValueAnimator.ofFloat(0, 1);
-        //动画的插值器,先快后慢
-        mAnimator.setInterpolator(new DecelerateInterpolator());
+    private void initProgressAnimation() {
+        mProgressAnimator = ValueAnimator.ofFloat(0, 1);
+        //动画的插值器,开始和结束慢中间快
+        mProgressAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         //动画的时间也是随着进度的值变化的
-        mAnimator.setDuration(300000 / mProgress);
-        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        mProgressAnimator.setDuration(300000 / mProgress);
+        mProgressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 mAnimatedValue = (float) animation.getAnimatedValue();
                 upDataPathLayout();
             }
         });
-        mAnimator.start();
+        mProgressAnimator.start();
     }
 
 
@@ -242,6 +249,7 @@ public class CircleProgressPlate extends View implements Runnable {
      * 更新Path
      */
     private void upDataPathLayout() {
+        //重置Path
         mHeightLightPath.reset();
         mPath.reset();
         //最大的角度值为360
@@ -427,31 +435,6 @@ public class CircleProgressPlate extends View implements Runnable {
     }
 
     /**
-     * 开始动起来
-     *
-     * @param running
-     */
-    public void setSrartRunning(boolean running) {
-        Running = running;
-        Log.i(TAG, "setSrartRunning: kaishi " + Running);
-        postDelayed(this, 1);
-    }
-
-    /**
-     * 执行的Run方法，不停的扫描
-     */
-    @Override
-    public void run() {
-        if (Running) {
-            rotate++;
-            postInvalidate();
-            rotate = rotate == 360 ? 0 : rotate;
-            //循环调用
-            postDelayed(this, 1);
-        }
-    }
-
-    /**
      * 更新进度和中间的文字
      */
     public void upDataProgress(Canvas canvas) {
@@ -465,20 +448,19 @@ public class CircleProgressPlate extends View implements Runnable {
 //        String progress = mCurrentProgress + "";
         //改进版
         String progress = mProgress * mAnimatedValue + "";
-        progress = checkut(progress);
+        progress = checkOut(progress);
         mTextPaint.getTextBounds(progress, 0, progress.length(), rect);
         canvas.drawText(progress, mCPointX - rect.width() / 2 - 20, mCPonitY + rect.height() / 2, mTextPaint);
         mTextPaint.setTextSize(mRadius / 4);
         canvas.drawText("分", mCPointX + mWidth / 6, mCPonitY + rect.height() / 2, mTextPaint);
     }
-
     /**
      * 对进度值进行规范
      *
      * @param progress
      * @return
      */
-    private String checkut(String progress) {
+    private String checkOut(String progress) {
         //对最后绘制的进度做长度的截取
         if (progress.length() > 2) {
             if (mProgress == 100) {
@@ -487,8 +469,8 @@ public class CircleProgressPlate extends View implements Runnable {
                 progress = progress.substring(0, 2);
             }
         } else {
-            if (mProgress == 0) {
-                progress = "0";
+            if (mProgress <10) {
+                progress = mProgress+"";
             }
         }
         return progress;
@@ -501,15 +483,14 @@ public class CircleProgressPlate extends View implements Runnable {
      */
     public void setProgress(int progress) {
         this.mProgress = progress;
-        //方式1：
+        //原始版
 //        mHeightLightPath.reset();
 //        initPathLayout();
-        //当设置进度进来了停止扫描
-
         //改进版通过属性动画来动态的绘制进度
-        ininAnimation();
-        if (mShouldScan) {
-            setSrartRunning(false);
+        initProgressAnimation();
+        //如果扫描动画在跑怎么取消扫描动画
+        if (mScanAnimation!=null&&mScanAnimation.isRunning()) {
+            mScanAnimation.cancel();
         }
     }
 
