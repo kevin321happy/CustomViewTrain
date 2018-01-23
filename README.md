@@ -13,6 +13,10 @@
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlate.gif)
 
+    #### 还能通过改变属性设置是否需要扫描的效果
+
+    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlatescan.gif)
+
 
 -------
 
