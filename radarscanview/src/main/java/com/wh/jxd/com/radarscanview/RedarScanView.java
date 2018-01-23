@@ -111,7 +111,6 @@ public class RedarScanView extends View implements Runnable {
         mTextPaint.setTextSize(mTextSize);
 
     }
-
     /**
      * 绘制
      *

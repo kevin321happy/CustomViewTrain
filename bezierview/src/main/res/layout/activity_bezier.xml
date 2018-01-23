@@ -4,18 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_root"
     android:layout_width="match_parent"
+    android:gravity="center"
     android:layout_height="match_parent"
     tools:context="com.wh.jxd.com.bezierview.MainActivity">
 
     <com.wh.jxd.com.bezierview.widget.HeightOderBezierPath
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <com.wh.jxd.com.bezierview.widget.PathDemo
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
+    <com.wh.jxd.com.bezierview.widget.hc.ChongPath
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.wh.jxd.com.bezierview.widget.hc.ChongScalePlate
+        android:layout_width="800px"
+        android:layout_height="800px" />
 
 
 </LinearLayout>
