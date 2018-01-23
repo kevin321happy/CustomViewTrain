@@ -397,7 +397,6 @@ public class CircleProgressPlate extends View implements Runnable {
             setSrartRunning(false);
         }
     }
-
     /**
      * 相关属性的设置
      *
