@@ -113,6 +113,14 @@ public class CircleProgressPlate extends View {
      * 扫描的动画
      */
     private ValueAnimator mScanAnimation;
+    /**
+     * 进度的动画插值器
+     */
+    private Interpolator mProgressInterpolator=new AccelerateDecelerateInterpolator();;
+    /**
+     * 扫描的动画插值器
+     */
+    private Interpolator mScanInterpolator=new AccelerateDecelerateInterpolator();;
 
     public CircleProgressPlate(Context context) {
         super(context);
@@ -191,7 +199,7 @@ public class CircleProgressPlate extends View {
         mScanAnimation = ValueAnimator.ofInt(0, 360);
         mScanAnimation.setDuration(1500);
         //开始和结束慢中间快
-        mScanAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        mScanAnimation.setInterpolator(mScanInterpolator);
         mScanAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -211,8 +219,7 @@ public class CircleProgressPlate extends View {
      */
     private void initProgressAnimation() {
         mProgressAnimator = ValueAnimator.ofFloat(0, 1);
-        //动画的插值器,开始和结束慢中间快
-        mProgressAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        mProgressAnimator.setInterpolator(mProgressInterpolator);
         //动画的时间也是随着进度的值变化的
         mProgressAnimator.setDuration(300000 / mProgress);
         mProgressAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -225,6 +232,14 @@ public class CircleProgressPlate extends View {
         mProgressAnimator.start();
     }
 
+
+    /**
+     * 设置进度的动画插值器
+     * @param progressInterpolator
+     */
+    public void setProgressInterpolator(Interpolator progressInterpolator) {
+        mProgressInterpolator = progressInterpolator;
+    }
 
     /**
      * 获取自定义属性
