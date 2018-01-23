@@ -116,11 +116,13 @@ public class CircleProgressPlate extends View {
     /**
      * 进度的动画插值器
      */
-    private Interpolator mProgressInterpolator=new AccelerateDecelerateInterpolator();;
+    private Interpolator mProgressInterpolator = new AccelerateDecelerateInterpolator();
+    ;
     /**
      * 扫描的动画插值器
      */
-    private Interpolator mScanInterpolator=new AccelerateDecelerateInterpolator();;
+    private Interpolator mScanInterpolator = new AccelerateDecelerateInterpolator();
+    ;
 
     public CircleProgressPlate(Context context) {
         super(context);
@@ -235,6 +237,7 @@ public class CircleProgressPlate extends View {
 
     /**
      * 设置进度的动画插值器
+     *
      * @param progressInterpolator
      */
     public void setProgressInterpolator(Interpolator progressInterpolator) {
@@ -462,13 +465,14 @@ public class CircleProgressPlate extends View {
 //        mCurrentProgress=mPorgress
 //        String progress = mCurrentProgress + "";
         //改进版
-        String progress = mProgress * mAnimatedValue + "";
+        String progress = String.valueOf(mProgress * mAnimatedValue);
         progress = checkOut(progress);
         mTextPaint.getTextBounds(progress, 0, progress.length(), rect);
         canvas.drawText(progress, mCPointX - rect.width() / 2 - 20, mCPonitY + rect.height() / 2, mTextPaint);
         mTextPaint.setTextSize(mRadius / 4);
         canvas.drawText("分", mCPointX + mWidth / 6, mCPonitY + rect.height() / 2, mTextPaint);
     }
+
     /**
      * 对进度值进行规范
      *
@@ -479,13 +483,11 @@ public class CircleProgressPlate extends View {
         //对最后绘制的进度做长度的截取
         if (progress.length() > 2) {
             if (mProgress == 100) {
-                progress = 100 + "";
-            } else {
-                progress = progress.substring(0, 2);
-            }
-        } else {
-            if (mProgress <10) {
-                progress = mProgress+"";
+                progress = String.valueOf(100);
+            } else if (mProgress*mAnimatedValue < 10) {
+                progress = progress.substring(0, 1);
+            }else {
+                progress=progress.substring(0,2);
             }
         }
         return progress;
@@ -504,7 +506,7 @@ public class CircleProgressPlate extends View {
         //改进版通过属性动画来动态的绘制进度
         initProgressAnimation();
         //如果扫描动画在跑怎么取消扫描动画
-        if (mScanAnimation!=null&&mScanAnimation.isRunning()) {
+        if (mScanAnimation != null && mScanAnimation.isRunning()) {
             mScanAnimation.cancel();
         }
     }

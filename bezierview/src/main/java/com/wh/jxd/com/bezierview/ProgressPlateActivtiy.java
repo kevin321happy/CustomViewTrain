@@ -24,11 +24,11 @@ public class ProgressPlateActivtiy extends AppCompatActivity {
 
     }
     public void startProgress(View view) {
-        mProgressPlate.setProgress(40);
+        mProgressPlate.setProgress(88);
     }
 
     public void startProgress1(View view) {
-        mProgressPlate1.setProgress(60);
+        mProgressPlate1.setProgress(75);
 
     }
 }

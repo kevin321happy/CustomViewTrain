@@ -9,11 +9,11 @@
 
 * [刻度进度盘](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java)
 
-   #### 仿华为手机管家的圆盘刻度控件,支持刻度线颜色长度,以及中间文字的相关属性定制
+   #### 仿华为手机管家的圆盘刻度控件,支持刻度线颜色长度,以及中间文字的相关属性定制,还可通过设置动画插值器来改变进度的动画
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlate.gif)
 
-    #### 还能通过改变属性设置是否需要扫描的效果
+    #### 还能通过改变属性设置是否需要扫描的效果,扫描的动画效果
 
     ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlatescan.gif)
 

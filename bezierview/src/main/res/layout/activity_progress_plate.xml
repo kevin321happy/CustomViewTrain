@@ -12,13 +12,13 @@
         android:id="@+id/progress1"
         android:layout_width="500px"
         android:layout_height="500px"
-        android:visibility="gone"
+        android:visibility="visible"
         app:PlatOutCircleColor="@color/colorPrimary"
         app:PlatScaleColor="#8a15b1"
         app:PlatTextColr="@color/colorPrimary" />
 
     <Button
-        android:visibility="gone"
+        android:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="startProgress"
@@ -26,13 +26,14 @@
 
     <com.wh.jxd.com.bezierview.widget.CircleProgressPlate
         android:id="@+id/progress2"
+        android:visibility="visible"
         android:layout_width="700px"
         android:layout_height="700px"
         android:layout_marginTop="30px"
         app:PlatScaleColor="#3561e5"
         app:PlatScaleLngth="50px"
         app:PlatScanColor="#f7dfdf"
-        app:PlatShouldScan="true" />
+        app:PlatShouldScan="false" />
 
     <Button
         android:layout_width="wrap_content"
