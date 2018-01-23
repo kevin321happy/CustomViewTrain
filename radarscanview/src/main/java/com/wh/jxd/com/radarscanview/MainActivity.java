@@ -19,6 +19,7 @@ public class MainActivity extends Activity {
         mRedar1 = (RedarScanView) findViewById(R.id.redar_view1);
     }
 
+
     public void startRun(View view) {
         runing = runing == true ? false : true;
         mRedar.setSrartRunning(runing);

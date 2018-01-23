@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.SweepGradient;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -19,13 +22,14 @@ import com.wh.jxd.com.bezierview.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by kevin321vip on 2018/1/22.
  * 圆形进度盘控件
  */
 
-public class CircleProgressPlate extends View {
-
+public class CircleProgressPlate extends View implements Runnable {
     private Paint mPaint;
     private int mRadius;
     private int mWidth;
@@ -82,6 +86,35 @@ public class CircleProgressPlate extends View {
      * 绘制的文字的颜色
      */
     private int mTextColor;
+    /**
+     * 设置扫描图像的坐标矩阵
+     */
+    Matrix matrix = new Matrix();
+    /**
+     * 扫描的角度
+     */
+    private float rotate;
+    private SweepGradient mShader;
+    /**
+     * 渐变色
+     */
+    private int mShaderColor = Color.LTGRAY;
+    /**
+     * 绘制扫描的画笔
+     */
+    private Paint mGradientPaint;
+    /**
+     * 是否在扫描动画
+     */
+    private boolean Running = true;
+    /**
+     * 是否需要扫描的效果
+     */
+    private boolean mShouldScan = false;
+    /**
+     * 扫描的颜色
+     */
+    private int mScanColor = Color.GRAY;
 
     /**
      * 进度插值器
@@ -145,6 +178,17 @@ public class CircleProgressPlate extends View {
         //文字的画笔
         mTextPaint.setTextSize(mRadius / 3);
         mTextPaint.setColor(mTextColor);
+
+        //绘制扫描的画笔
+        mGradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mGradientPaint.setStyle(Paint.Style.STROKE);
+        mGradientPaint.setStrokeWidth(mLineLength);
+
+          //如果设置了需要扫描
+        if (mShouldScan) {
+            setSrartRunning(Running);
+        }
+
     }
 
     /**
@@ -160,6 +204,8 @@ public class CircleProgressPlate extends View {
         mOutRingColor = ta.getColor(R.styleable.CircleProgressPlate_PlatOutCircleColor, Color.parseColor("#f5f5f5"));
         mScaleLineColor = ta.getColor(R.styleable.CircleProgressPlate_PlatScaleColor, Color.parseColor("#3561e5"));
         mTextColor = ta.getColor(R.styleable.CircleProgressPlate_PlatTextColr, Color.BLACK);
+        mScanColor = ta.getColor(R.styleable.CircleProgressPlate_PlatScanColor, Color.GRAY);
+        mShouldScan = ta.getBoolean(R.styleable.CircleProgressPlate_PlatShouldScan, false);
         ta.recycle();
     }
 
@@ -253,6 +299,10 @@ public class CircleProgressPlate extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        //如果需要扫描,才去绘制扫描的环
+        if (mShouldScan){
+            drawScan(canvas);
+        }
         //绘制圆
         mPaint.setColor(mOutRingColor);
         mPaint.setStrokeWidth(30);
@@ -265,13 +315,64 @@ public class CircleProgressPlate extends View {
     }
 
     /**
+     * 绘制扫描的效果
+     *
+     * @param canvas
+     */
+    private void drawScan(Canvas canvas) {
+        //如果开始设置了进度,则通过设置画笔透明取消扫描的效果
+        if (mPorgress > 0) {
+            mShaderColor = Color.TRANSPARENT;
+            //绘制扫描效果
+            mGradientPaint.setColor(Color.TRANSPARENT);
+            canvas.drawCircle(mCPointX, mCPonitY, mRadius - mLineLength / 2 - 5, mGradientPaint);
+        } else {
+            //绘制雷达扫描的效果
+            matrix.setRotate(rotate, mCPointX, mCPonitY);
+            if (mShader == null) {
+                //渐变效果
+                mShader = new SweepGradient(mCPointX, mCPonitY, Color.TRANSPARENT, mShaderColor);
+            }
+            mShader.setLocalMatrix(matrix);
+            mGradientPaint.setShader(mShader);
+            //绘制扫描效果
+            canvas.drawCircle(mCPointX, mCPonitY, mRadius - mLineLength / 2 - 5, mGradientPaint);
+        }
+    }
+
+    /**
+     * 开始动起来
+     *
+     * @param running
+     */
+    public void setSrartRunning(boolean running) {
+        Running = running;
+        Log.i(TAG, "setSrartRunning: kaishi " + Running);
+        postDelayed(this, 1);
+    }
+
+    /**
+     * 执行的Run方法，不停的扫描
+     */
+    @Override
+    public void run() {
+        if (Running) {
+            rotate++;
+            postInvalidate();
+            rotate = rotate == 360 ? 0 : rotate;
+            //循环调用
+            postDelayed(this, 1);
+        }
+    }
+
+    /**
      * 更新进度和中间的文字
      */
     public void upDataProgress(Canvas canvas) {
         mPaint.setColor(mScaleLineColor);
         mPaint.setStrokeWidth(mStrokeWidth);
         canvas.drawPath(mHeightLightPath, mPaint);
-        mTextPaint.setTextSize(mRadius/2);
+        mTextPaint.setTextSize(mRadius / 2);
         Log.i("Plat", "控件的圆心 :" + mCPointX + "," + mCPonitY + "半径 ：" + mRadius);
         Rect rect = new Rect();
 //        mCurrentProgress=mPorgress
@@ -279,7 +380,7 @@ public class CircleProgressPlate extends View {
         mTextPaint.getTextBounds(progress, 0, progress.length(), rect);
         canvas.drawText(progress, mCPointX - rect.width() / 2 - 20, mCPonitY + rect.height() / 2, mTextPaint);
         mTextPaint.setTextSize(mRadius / 4);
-        canvas.drawText("分", mCPointX + mWidth/6, mCPonitY + rect.height() / 2, mTextPaint);
+        canvas.drawText("分", mCPointX + mWidth / 6, mCPonitY + rect.height() / 2, mTextPaint);
     }
 
     /**
@@ -291,7 +392,12 @@ public class CircleProgressPlate extends View {
         this.mPorgress = progress;
         mHeightLightPath.reset();
         initPathLayout();
+        //当设置进度进来了停止扫描
+        if (mShouldScan){
+            setSrartRunning(false);
+        }
     }
+
     /**
      * 相关属性的设置
      *

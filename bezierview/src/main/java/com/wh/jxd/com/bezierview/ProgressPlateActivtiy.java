@@ -21,6 +21,7 @@ public class ProgressPlateActivtiy extends AppCompatActivity {
         setContentView(R.layout.activity_progress_plate);
         mProgressPlate = findViewById(R.id.progress1);
         mProgressPlate1 = findViewById(R.id.progress2);
+
     }
     public void startProgress(View view) {
         mProgressPlate.setProgress(40);

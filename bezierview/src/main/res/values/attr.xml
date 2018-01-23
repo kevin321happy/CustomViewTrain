@@ -19,7 +19,6 @@
         <!--中间圆显示的drawable-->
         <attr name="PullViewCentreDrawable" format="reference" />
     </declare-styleable>
-
     <!--刻度进度盘的自定义属性-->
     <declare-styleable name="CircleProgressPlate">
         <!--刻度线长度-->
@@ -32,6 +31,10 @@
         <attr name="PlatOutCircleColor" format="color" />
         <!--文字的颜色-->
         <attr name="PlatTextColr" format="color" />
+        <!--是否需要扫描-->
+        <attr name="PlatShouldScan" format="boolean" />
+        <!--扫描的颜色-->
+        <attr name="PlatScanColor" format="color" />
     </declare-styleable>
 
 

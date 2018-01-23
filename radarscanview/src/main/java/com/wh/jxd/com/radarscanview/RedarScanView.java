@@ -80,7 +80,6 @@ public class RedarScanView extends View implements Runnable {
         mShaderColor = ta.getColor(R.styleable.RedarScanView_redar_shader_color, Color.BLUE);
         ta.recycle();
 
-
     }
 
     @Override
@@ -105,6 +104,7 @@ public class RedarScanView extends View implements Runnable {
         //绘制扫描的画笔
         mGradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mGradientPaint.setStyle(Paint.Style.FILL);
+//        mGradientPaint.setStrokeWidth(80);
         //中间文字的画笔
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setColor(mTextColor);
@@ -155,7 +155,7 @@ public class RedarScanView extends View implements Runnable {
      */
     public void setSrartRunning(boolean running) {
         Running = running;
-        postDelayed(this, 100);
+        postDelayed(this, 10);
     }
 
     @Override
