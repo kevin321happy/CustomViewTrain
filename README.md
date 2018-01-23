@@ -93,7 +93,7 @@
 
    #### 自动换行的流式标签,功能做的很简陋,主要在onMeasure和onLayout中处理实现流式摆放的效果
 
-   ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/flowView.gif)
+
 
 -------
 
@@ -101,7 +101,7 @@
 
    #### 手动实现类似ExpandableListView展开收缩的效果,同事展开收缩的动画效果
 
-   ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/collapseView.gif)
+
 
 -------
 
