@@ -1,5 +1,6 @@
 package com.wh.jxd.com.bezierview.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -14,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 
 
 import com.wh.jxd.com.bezierview.LineInfo;
@@ -69,7 +71,7 @@ public class CircleProgressPlate extends View implements Runnable {
     /**
      * 进度
      */
-    private int mPorgress = 0;
+    private int mProgress = 0;
     /**
      * 当前进度(用来绘制文字部分)
      */
@@ -115,6 +117,12 @@ public class CircleProgressPlate extends View implements Runnable {
      * 扫描的颜色
      */
     private int mScanColor = Color.GRAY;
+    private ValueAnimator mAnimator;
+    /**
+     * 动画的进度值 0-1之间
+     */
+    private float mAnimatedValue;
+
 
     /**
      * 进度插值器
@@ -150,7 +158,9 @@ public class CircleProgressPlate extends View implements Runnable {
         mRadius = min / 2 - mStrokeWidth - 30;
         mCPointX = mWidth / 2;
         mCPonitY = mHeight / 2;
-        initPathLayout();
+//        initPathLayout();
+        //改进版
+        upDataPathLayout();
     }
 
     /**
@@ -183,13 +193,31 @@ public class CircleProgressPlate extends View implements Runnable {
         mGradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mGradientPaint.setStyle(Paint.Style.STROKE);
         mGradientPaint.setStrokeWidth(mLineLength);
-
         //如果设置了需要扫描
         if (mShouldScan) {
             setSrartRunning(Running);
         }
-
     }
+    /**
+     * 初始化动画
+     * 通过属性动画的方式来实现进度的线速变化
+     */
+    private void ininAnimation() {
+        mAnimator = ValueAnimator.ofFloat(0, 1);
+        //动画的插值器,先快后慢
+        mAnimator.setInterpolator(new DecelerateInterpolator());
+        //动画的时间也是随着进度的值变化的
+        mAnimator.setDuration(300000 / mProgress);
+        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mAnimatedValue = (float) animation.getAnimatedValue();
+                upDataPathLayout();
+            }
+        });
+        mAnimator.start();
+    }
+
 
     /**
      * 获取自定义属性
@@ -210,86 +238,125 @@ public class CircleProgressPlate extends View implements Runnable {
     }
 
     /**
+     * 改进版的
+     * 更新Path
+     */
+    private void upDataPathLayout() {
+        mHeightLightPath.reset();
+        mPath.reset();
+        //最大的角度值为360
+        int MAX_ANGLE_VALUE = 360;
+        mLineInfos.clear();
+        for (int i = 0; i < MAX_ANGLE_VALUE; i += 5) {
+            //所有角度是5的倍数的圆上的点绘制一条线出来
+            //定义起始点和结束点
+            int startX, startY, endX, endY;
+            //将角度转成弧度
+            double radians = Math.toRadians(i);
+            //根据三角函数求出圆上的点的坐标
+            startX = (int) (mCPointX + mRadius * Math.cos(radians));
+            startY = (int) (mCPonitY + mRadius * Math.sin(radians));
+            int len = mRadius - mLineLength;
+            endX = (int) (mCPointX + len * Math.cos(radians));
+            endY = (int) (mCPonitY + len * Math.sin(radians));
+            mPath.moveTo(startX, startY);
+            mPath.lineTo(endX, endY);
+            mLineInfos.add(new LineInfo(startX, startY, endX, endY));
+            int size = mLineInfos.size();
+            //当前显示的个数
+            int courrentSize = (int) (size * mAnimatedValue * mProgress / 100);
+            for (int j = 0; j < courrentSize; j++) {
+                LineInfo lineInfo = mLineInfos.get(j);
+                mHeightLightPath.moveTo(lineInfo.getLineSrartX(), lineInfo.getLineSrartY());
+                mHeightLightPath.lineTo(lineInfo.getLineEndX(), lineInfo.getLineEndY());
+            }
+        }
+        //重绘制
+        postInvalidate();
+    }
+    /**
+     * 原始版
      * 初始化Path的路径
      */
-    private void initPathLayout() {
-        if (mUpDatathread == null) {
-            mUpDatathread = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    upDataPathByProgress();
-                }
-            });
-        }
-        mUpDatathread.start();
-    }
+//    private void initPathLayout() {
+//        if (mUpDatathread == null) {
+//            mUpDatathread = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    upDataPathByProgress();
+//                }
+//            });
+//        }
+//        mUpDatathread.start();
+//    }
 
     /**
      * 根据进度来更新Path
+     * 原始版算法
      */
-    private void upDataPathByProgress() {
-        if (mLineInfos.size() > 0) {
-            mLineInfos.clear();
-        }
-        int MaximumAngle = 360;
-        //移动线到角度为0的位置
-        mPath.moveTo(mWidth, mHeight / 2);
-        /**
-         *循环确定每一条线的路径
-         */
-        for (int i = 0; i < MaximumAngle; i++) {
-            //当角度为5的倍数的点绘制直线
-            if (i % 5 == 0) {
-                //将当前的角度转换为弧度(-90度保证其实点在正上方)
-                double radians = Math.toRadians(i - 90);
-                //有圆心坐标求出圆上的目标点的坐标
-                //目标点的X,Y的开始和介绍点左边
-                int lineSrartX, lineSrartY, lineEndX, lineEndY;
-                //根据半径和角度,计算出圆上直线起点的坐标
-                lineSrartX = (int) (mCPointX + (mRadius - mStrokeWidth) * Math.cos(radians));
-                lineSrartY = (int) (mCPonitY + (mRadius - mStrokeWidth) * Math.sin(radians));
-                //结束点和起点都在起点和圆心的连线上,所以计算方式类似，
-                //半径的长度-要画的线的长度，得到新的半径
-                int len = mRadius - mLineLength;
-                lineEndX = (int) (mCPointX + len * Math.cos(radians));
-                lineEndY = (int) (mCPonitY + len * Math.sin(radians));
-                //将所有线添加到集合当中
-                mLineInfos.add(new LineInfo(lineSrartX, lineSrartY, lineEndX, lineEndY));
-                //path移动到新的起点
-                mPath.moveTo(lineSrartX, lineSrartY);
-                //绘制到终点
-                mPath.lineTo(lineEndX, lineEndY);
-            }
-        }
-        int size = mLineInfos.size();
-        //如果进度>0才计算进度path的路径
-        if (mPorgress > 0) {
-            //根据进度计算出需要高亮显示的点的个数及mlineinfos中需要显示的点的个数
-            mCurrentSize = size * mPorgress / 100;
-            for (int i = 0; i < mPorgress; i++) {
-                //TODO 当前的进度值,这里存在一个小问题进度的文字的绘制和进度刻度的绘制不同步
-                mCurrentProgress = i + 1;
-                LineInfo line;
-                //如果i大于了集合的长度，就直接去集合的最后元素的线对象
-                if (i > mCurrentSize) {
-                    line = mLineInfos.get(mCurrentSize);
-                } else {
-                    line = mLineInfos.get(i);
-                }
-                //取出每个线段的对象,然后path去确定路径
-                mHeightLightPath.moveTo(line.getLineSrartX(), line.getLineSrartY());
-                mHeightLightPath.lineTo(line.getLineEndX(), line.getLineEndY());
-                //请求重新绘制
-                postInvalidate();
-                //线程休眠50毫秒,保证绘制的动态效果
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
+//    private void upDataPathByProgress() {
+//        if (mLineInfos.size() > 0) {
+//            mLineInfos.clear();
+//        }
+//        int MaximumAngle = 360;
+//        //移动线到角度为0的位置
+//        mPath.moveTo(mWidth, mHeight / 2);
+//        /**
+//         *循环确定每一条线的路径
+//         */
+//        for (int i = 0; i < MaximumAngle; i++) {
+//            //当角度为5的倍数的点绘制直线
+//            if (i % 5 == 0) {
+//                //将当前的角度转换为弧度(-90度保证其实点在正上方)
+//                double radians = Math.toRadians(i - 90);
+//                //有圆心坐标求出圆上的目标点的坐标
+//                //目标点的X,Y的开始和介绍点左边
+//                int lineSrartX, lineSrartY, lineEndX, lineEndY;
+//                //根据半径和角度,计算出圆上直线起点的坐标
+//                lineSrartX = (int) (mCPointX + (mRadius - mStrokeWidth) * Math.cos(radians));
+//                lineSrartY = (int) (mCPonitY + (mRadius - mStrokeWidth) * Math.sin(radians));
+//                //结束点和起点都在起点和圆心的连线上,所以计算方式类似，
+//                //半径的长度-要画的线的长度，得到新的半径
+//                int len = mRadius - mLineLength;
+//                lineEndX = (int) (mCPointX + len * Math.cos(radians));
+//                lineEndY = (int) (mCPonitY + len * Math.sin(radians));
+//                //将所有线添加到集合当中
+//                mLineInfos.add(new LineInfo(lineSrartX, lineSrartY, lineEndX, lineEndY));
+//                //path移动到新的起点
+//                mPath.moveTo(lineSrartX, lineSrartY);
+//                //绘制到终点
+//                mPath.lineTo(lineEndX, lineEndY);
+//            }
+//        }
+//        int size = mLineInfos.size();
+//        //如果进度>0才计算进度path的路径
+//        if (mProgress > 0) {
+//            //根据进度计算出需要高亮显示的点的个数及mlineinfos中需要显示的点的个数
+//            mCurrentSize = size * mProgress / 100;
+//            for (int i = 0; i < mProgress; i++) {
+//                //TODO 当前的进度值,这里存在一个小问题进度的文字的绘制和进度刻度的绘制不同步
+//                mCurrentProgress = i + 1;
+//                LineInfo line;
+//                //如果i大于了集合的长度，就直接去集合的最后元素的线对象
+//                if (i > mCurrentSize) {
+//                    line = mLineInfos.get(mCurrentSize);
+//                } else {
+//                    line = mLineInfos.get(i);
+//                }
+//                //取出每个线段的对象,然后path去确定路径
+//                mHeightLightPath.moveTo(line.getLineSrartX(), line.getLineSrartY());
+//                mHeightLightPath.lineTo(line.getLineEndX(), line.getLineEndY());
+//                //请求重新绘制
+//                postInvalidate();
+//                //线程休眠50毫秒,保证绘制的动态效果
+//                try {
+//                    Thread.sleep(50);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//    }
 
     /**
      * 开始绘制
@@ -340,7 +407,7 @@ public class CircleProgressPlate extends View implements Runnable {
      */
     private void drawScan(Canvas canvas) {
         //如果开始设置了进度,则通过设置画笔透明取消扫描的效果
-        if (mPorgress > 0) {
+        if (mProgress > 0) {
             mShaderColor = Color.TRANSPARENT;
             //绘制扫描效果
             mGradientPaint.setColor(Color.TRANSPARENT);
@@ -395,11 +462,36 @@ public class CircleProgressPlate extends View implements Runnable {
         Log.i("Plat", "控件的圆心 :" + mCPointX + "," + mCPonitY + "半径 ：" + mRadius);
         Rect rect = new Rect();
 //        mCurrentProgress=mPorgress
-        String progress = mCurrentProgress + "";
+//        String progress = mCurrentProgress + "";
+        //改进版
+        String progress = mProgress * mAnimatedValue + "";
+        progress = checkut(progress);
         mTextPaint.getTextBounds(progress, 0, progress.length(), rect);
         canvas.drawText(progress, mCPointX - rect.width() / 2 - 20, mCPonitY + rect.height() / 2, mTextPaint);
         mTextPaint.setTextSize(mRadius / 4);
         canvas.drawText("分", mCPointX + mWidth / 6, mCPonitY + rect.height() / 2, mTextPaint);
+    }
+
+    /**
+     * 对进度值进行规范
+     *
+     * @param progress
+     * @return
+     */
+    private String checkut(String progress) {
+        //对最后绘制的进度做长度的截取
+        if (progress.length() > 2) {
+            if (mProgress == 100) {
+                progress = 100 + "";
+            } else {
+                progress = progress.substring(0, 2);
+            }
+        } else {
+            if (mProgress == 0) {
+                progress = "0";
+            }
+        }
+        return progress;
     }
 
     /**
@@ -408,10 +500,14 @@ public class CircleProgressPlate extends View implements Runnable {
      * @param progress
      */
     public void setProgress(int progress) {
-        this.mPorgress = progress;
-        mHeightLightPath.reset();
-        initPathLayout();
+        this.mProgress = progress;
+        //方式1：
+//        mHeightLightPath.reset();
+//        initPathLayout();
         //当设置进度进来了停止扫描
+
+        //改进版通过属性动画来动态的绘制进度
+        ininAnimation();
         if (mShouldScan) {
             setSrartRunning(false);
         }
