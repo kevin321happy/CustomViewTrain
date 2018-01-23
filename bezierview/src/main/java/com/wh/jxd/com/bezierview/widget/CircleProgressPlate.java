@@ -114,6 +114,10 @@ public class CircleProgressPlate extends View {
      */
     private ValueAnimator mScanAnimation;
     /**
+     * 扫描的透明度
+     */
+    private int mScanAlpha = 100;
+    /**
      * 进度的动画插值器
      */
     private Interpolator mProgressInterpolator = new AccelerateDecelerateInterpolator();
@@ -439,6 +443,12 @@ public class CircleProgressPlate extends View {
             mGradientPaint.setColor(Color.TRANSPARENT);
             canvas.drawCircle(mCPointX, mCPonitY, mRadius - mLineLength / 2 - 5, mGradientPaint);
         } else {
+            //设置透明度
+            mGradientPaint.setAlpha(mScanAlpha);
+            mScanAlpha -= 5;
+            if (mScanAlpha < 0) {
+                mScanAlpha = 100;
+            }
             //绘制雷达扫描的效果
             matrix.setRotate(rotate, mCPointX, mCPonitY);
             if (mShader == null) {
@@ -484,10 +494,10 @@ public class CircleProgressPlate extends View {
         if (progress.length() > 2) {
             if (mProgress == 100) {
                 progress = String.valueOf(100);
-            } else if (mProgress*mAnimatedValue < 10) {
+            } else if (mProgress * mAnimatedValue < 10) {
                 progress = progress.substring(0, 1);
-            }else {
-                progress=progress.substring(0,2);
+            } else {
+                progress = progress.substring(0, 2);
             }
         }
         return progress;

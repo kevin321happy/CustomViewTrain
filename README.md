@@ -94,7 +94,6 @@
    #### 自动换行的流式标签,功能做的很简陋,主要在onMeasure和onLayout中处理实现流式摆放的效果
 
 
-
 -------
 
 * [收缩布局](https://github.com/kevin321happy/CustomViewTrain/tree/master/collapseviewsample/src)

@@ -33,7 +33,7 @@
         app:PlatScaleColor="#3561e5"
         app:PlatScaleLngth="50px"
         app:PlatScanColor="#f7dfdf"
-        app:PlatShouldScan="false" />
+        app:PlatShouldScan="true" />
 
     <Button
         android:layout_width="wrap_content"
