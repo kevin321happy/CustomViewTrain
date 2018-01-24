@@ -9,7 +9,7 @@
 
 * [刻度进度盘](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java)
 
-   #### 仿华为手机管家的圆盘刻度控件,支持刻度线颜色长度,以及中间文字的相关属性定制,还可通过设置动画插值器来改变进度的动画
+   #### 仿华为手机管家的[圆盘刻度控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java),支持刻度线颜色长度,以及中间文字的相关属性定制,还可通过设置动画插值器来改变进度的动画
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlate.gif)
 
@@ -26,11 +26,11 @@
 
    #### 贝塞尔控件，[1-3阶贝塞尔](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/LowOderBezierPath.java) 直接调用系统提供的api，[高阶贝塞尔](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HeightOderBezierPath.java)根据规律实现高级贝塞尔绘制
 
-   #### 曲线的绘制
+   #### [曲线的绘制](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HeightOderBezierPath.java)
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/bezierline.gif)
 
-   #### 自定义的下拉的粘性控件,可设置中间的Drawable的显示,以及颜色半径等基础属性设置
+   #### 自定义的[下拉粘性控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/PullViscousView.java),可设置中间的Drawable的显示,以及颜色半径等基础属性设置
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/pullview.gif)
 

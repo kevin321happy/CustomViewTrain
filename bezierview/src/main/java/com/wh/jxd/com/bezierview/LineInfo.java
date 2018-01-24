@@ -16,6 +16,11 @@ public class LineInfo {
         this.lineEndY = lineEndY;
     }
 
+    public LineInfo(int lineSrartX, int lineSrartY) {
+        this.lineSrartX = lineSrartX;
+        this.lineSrartY = lineSrartY;
+    }
+
     public int getLineSrartX() {
         return lineSrartX;
     }
