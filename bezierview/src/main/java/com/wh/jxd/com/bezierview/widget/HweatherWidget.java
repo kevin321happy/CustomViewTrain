@@ -81,6 +81,16 @@ public class HweatherWidget extends View {
      */
     private PathEffect mEffects;
 
+    /**
+     * 文字的大小
+     * @param context
+     */
+    private int mTextSize=30;
+    /**
+     * 绘制文字的画笔
+     */
+    private Paint mTextPaint;
+
     public HweatherWidget(Context context) {
         super(context);
         init();
@@ -122,10 +132,13 @@ public class HweatherWidget extends View {
         mCirclePaint.setDither(true);
         mCirclePaint.setStrokeWidth(mStrokeWidth);
         mCirclePaint.setColor(Color.YELLOW);
-        //轨迹
-        mPath = new Path();
-        mSecondPath = new Path();
-        mSunPath = new Path();
+        //绘制文字的画笔
+        mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mTextPaint.setAntiAlias(true);
+        mTextPaint.setDither(true);
+        mTextPaint.setColor(Color.BLUE);
+        mTextPaint.setTextSize(mTextSize);
+
         initAnimation();
     }
 
@@ -153,7 +166,6 @@ public class HweatherWidget extends View {
                 @Override
                 public void run() {
                     postInvalidate();
-
                 }
             });
         }
@@ -167,9 +179,9 @@ public class HweatherWidget extends View {
         mHeight = MeasureSpec.getSize(heightMeasureSpec);
         mCPointX = mWidth / 2;
         mRadius = mWidth / 2;
-        mCPointY =mWidth/2;
+        mCPointY = mWidth / 2;
         //手动测量View的宽高,保证多出的空间
-        setMeasuredDimension(mWidth , mHeight);
+        setMeasuredDimension(mWidth, mHeight+mPadding);
     }
 
     @Override
@@ -182,7 +194,7 @@ public class HweatherWidget extends View {
      * 初始化点的路径，将点存到集合中
      */
     private void initPointPath() {
-        int len=mRadius-mStrokeWidth-40;
+        int len = mRadius - mStrokeWidth - 40;
         for (int i = 180; i < 360; i++) {
             double radians = Math.toRadians(i);
             //通过半径和弧度可以求出圆上的点的坐标
@@ -198,6 +210,16 @@ public class HweatherWidget extends View {
         drawFirstArc(canvas);
         drawSecondArc(canvas);
         drawWeatherIcon(canvas);
+        drawLine(canvas);
+    }
+
+    /**
+     * 绘制底部的线
+     */
+    private void drawLine(Canvas canvas) {
+//        mRectF = new RectF(mPadding, mPadding, 2 * mRadius - mPadding, 2 * mRadius - mPadding);
+
+        canvas.drawLine(0,mHeight+mPadding,mWidth,mHeight+mPadding,mTextPaint);
     }
 
     /**
@@ -221,7 +243,6 @@ public class HweatherWidget extends View {
         canvas.drawArc(mRectF, 180, sweepAngle, false, mSecondArcPaint);
     }
 
-
     /**
      * 绘制天气的图标
      *
@@ -230,24 +251,17 @@ public class HweatherWidget extends View {
     private void drawWeatherIcon(Canvas canvas) {
         mCirclePaint.setColor(Color.YELLOW);
         mCirclePaint.setStyle(Paint.Style.STROKE);
-        mCirclePaint.setStrokeWidth(mStrokeWidth);
         //获取当前进度下面的点
         int position = (int) (mSize * mAnimatedValuevalue);
-//        double radians = Math.toRadians(180 * mAnimatedValuevalue);
         //获取当前的角度
         if (position < mSize) {
             Point point = mPoints.get(position);
-//            int x = (int) (point.x + Math.cos(radians));
-//            int y = (int) (point.y + Math.sin(radians));
             int x = point.x;
             int y = point.y;
             canvas.drawCircle(x, y, 40, mCirclePaint);
+            mCirclePaint.setStyle(Paint.Style.FILL);
             mCirclePaint.setColor(Color.WHITE);
             canvas.drawCircle(x, y, 35, mCirclePaint);
-            mCirclePaint.setColor(Color.BLACK);
-            mCirclePaint.setStyle(Paint.Style.FILL);
-            mCirclePaint.setStrokeWidth(3);
-            canvas.drawPoint(x,y,mCirclePaint);
         }
     }
 }
