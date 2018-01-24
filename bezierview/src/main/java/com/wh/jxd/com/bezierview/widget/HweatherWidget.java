@@ -13,6 +13,7 @@ import android.graphics.Path;
 import android.graphics.PathEffect;
 import android.graphics.PathMeasure;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -83,13 +84,16 @@ public class HweatherWidget extends View {
 
     /**
      * 文字的大小
+     *
      * @param context
      */
-    private int mTextSize=30;
+    private int mTextSize = 30;
     /**
      * 绘制文字的画笔
      */
     private Paint mTextPaint;
+    private Rect mRect = new Rect();
+    ;
 
     public HweatherWidget(Context context) {
         super(context);
@@ -116,7 +120,6 @@ public class HweatherWidget extends View {
         mFirstArcPaint.setColor(Color.GRAY);
         mFirstArcPaint.setStrokeWidth(mStrokeWidth);
         mFirstArcPaint.setStyle(Paint.Style.STROKE);
-
         //绘制第二个圆弧的画笔
         mSecondArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mSecondArcPaint.setPathEffect(mEffects);
@@ -181,7 +184,7 @@ public class HweatherWidget extends View {
         mRadius = mWidth / 2;
         mCPointY = mWidth / 2;
         //手动测量View的宽高,保证多出的空间
-        setMeasuredDimension(mWidth, mHeight+mPadding);
+        setMeasuredDimension(mWidth, mHeight);
     }
 
     @Override
@@ -195,6 +198,7 @@ public class HweatherWidget extends View {
      */
     private void initPointPath() {
         int len = mRadius - mStrokeWidth - 40;
+//        int len = mRadius ;
         for (int i = 180; i < 360; i++) {
             double radians = Math.toRadians(i);
             //通过半径和弧度可以求出圆上的点的坐标
@@ -211,15 +215,31 @@ public class HweatherWidget extends View {
         drawSecondArc(canvas);
         drawWeatherIcon(canvas);
         drawLine(canvas);
+        drawText(canvas);
+    }
+
+    /**
+     * 绘制文字
+     */
+    private void drawText(Canvas canvas) {
+        String text = "早上7:20";
+        String text1="晚上7:20";
+        mRect=new Rect();
+//        mTextPaint.setColor(Color.GREEN);
+        mTextPaint.setTextSize(40);
+        mTextPaint.getTextBounds(text,0,text.length(),mRect);
+        canvas.drawText(text,10,mHeight-mRect.height(),mTextPaint);
+//
+        canvas.drawText(text1,mWidth-mRect.width()-10,mHeight-mRect.height(),mTextPaint);
+
+
     }
 
     /**
      * 绘制底部的线
      */
     private void drawLine(Canvas canvas) {
-//        mRectF = new RectF(mPadding, mPadding, 2 * mRadius - mPadding, 2 * mRadius - mPadding);
-
-        canvas.drawLine(0,mHeight+mPadding,mWidth,mHeight+mPadding,mTextPaint);
+        canvas.drawLine(0, mWidth/2, mWidth, mWidth/2, mTextPaint);
     }
 
     /**
@@ -228,7 +248,7 @@ public class HweatherWidget extends View {
      * @param canvas
      */
     private void drawFirstArc(Canvas canvas) {
-        mRectF = new RectF(mPadding, mPadding, 2 * mRadius - mPadding, 2 * mRadius - mPadding);
+        mRectF = new RectF(mPadding, mPadding, mWidth - mPadding, mWidth - mPadding);
         canvas.drawArc(mRectF, 180, 180, false, mFirstArcPaint);
     }
 
@@ -239,7 +259,7 @@ public class HweatherWidget extends View {
      */
     private void drawSecondArc(Canvas canvas) {
         float sweepAngle = 180 * mAnimatedValuevalue;
-        mRectF = new RectF(mPadding, mPadding, 2 * mRadius - mPadding, 2 * mRadius - mPadding);
+        mRectF = new RectF(mPadding, mPadding, mWidth - mPadding, mWidth - mPadding);
         canvas.drawArc(mRectF, 180, sweepAngle, false, mSecondArcPaint);
     }
 

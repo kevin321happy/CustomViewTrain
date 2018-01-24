@@ -24,8 +24,9 @@
 
     <com.wh.jxd.com.bezierview.widget.HweatherWidget
         android:layout_marginTop="150px"
-        android:layout_width="match_parent"
-        android:layout_height="500px" />
+        android:layout_width="1000px"
+        android:layout_height="600px"
+        android:background="@color/colorAccent"/>
 
 
 </LinearLayout>
