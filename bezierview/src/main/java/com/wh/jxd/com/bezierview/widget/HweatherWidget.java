@@ -6,9 +6,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathEffect;
 import android.graphics.PathMeasure;
 import android.graphics.Point;
 import android.graphics.RectF;
@@ -31,8 +33,6 @@ import java.util.List;
  */
 
 public class HweatherWidget extends View {
-
-    private Paint mPathpaint;
     private int mWidth;
     private int mHeight;
     private int mCPointX;
@@ -40,9 +40,7 @@ public class HweatherWidget extends View {
     private int mRadius;
 
     private Path mPath;
-    private RectF mRectF;
     private Path mSecondPath;
-    private PathMeasure mPathMeasure;
     private ValueAnimator mAnimator;
     private float mAnimatedValuevalue;
     Matrix matrix = new Matrix();
@@ -54,16 +52,39 @@ public class HweatherWidget extends View {
      * 记录图片的左上角的点
      */
     private List<Point> mIconPoints = new ArrayList<>();
-    private Bitmap mSunbitmap;
     private int mSize;
     private Thread mThread;
     private Path mSunPath;
+    /**
+     * 画圈的画笔
+     */
+    private Paint mCirclePaint;
+    /**
+     * 画笔宽度
+     */
+    private int mStrokeWidth = 4;
+    private RectF mRectF;
+    /**
+     * 控件的内边距,保证空间可以完整的画出来
+     */
+    private int mPadding = 50;
+    /**
+     * 绘制第一个圆弧的画笔
+     */
+    private Paint mFirstArcPaint;
+    /**
+     * 绘制第二个圆弧的画笔
+     */
+    private Paint mSecondArcPaint;
+    /**
+     * 虚线
+     */
+    private PathEffect mEffects;
 
     public HweatherWidget(Context context) {
         super(context);
         init();
     }
-
 
     public HweatherWidget(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -76,22 +97,35 @@ public class HweatherWidget extends View {
     }
 
     private void init() {
-        //绘制路径的画笔
-        mPathpaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPathpaint.setAntiAlias(true);
-        mPathpaint.setDither(true);
-        mPathpaint.setColor(Color.GRAY);
-        mPathpaint.setStrokeWidth(10);
-        mPathpaint.setStyle(Paint.Style.STROKE);
+        mEffects = new DashPathEffect(new float[]{30, 30}, 0);
+        //绘制第一个圆弧的画笔
+        mFirstArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mFirstArcPaint.setPathEffect(mEffects);
+        mFirstArcPaint.setAntiAlias(true);
+        mFirstArcPaint.setDither(true);
+        mFirstArcPaint.setColor(Color.GRAY);
+        mFirstArcPaint.setStrokeWidth(mStrokeWidth);
+        mFirstArcPaint.setStyle(Paint.Style.STROKE);
 
+        //绘制第二个圆弧的画笔
+        mSecondArcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mSecondArcPaint.setPathEffect(mEffects);
+        mSecondArcPaint.setAntiAlias(true);
+        mSecondArcPaint.setDither(true);
+        mSecondArcPaint.setColor(Color.RED);
+        mSecondArcPaint.setStrokeWidth(mStrokeWidth);
+        mSecondArcPaint.setStyle(Paint.Style.STROKE);
+
+        //绘制太阳的画笔
+        mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mCirclePaint.setAntiAlias(true);
+        mCirclePaint.setDither(true);
+        mCirclePaint.setStrokeWidth(mStrokeWidth);
+        mCirclePaint.setColor(Color.YELLOW);
         //轨迹
         mPath = new Path();
-        mPathMeasure = new PathMeasure();
         mSecondPath = new Path();
         mSunPath = new Path();
-
-        //太阳的图标
-        mSunbitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_sun);
         initAnimation();
     }
 
@@ -103,8 +137,6 @@ public class HweatherWidget extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 mAnimatedValuevalue = (float) animation.getAnimatedValue();
-                Log.i("tag", "当前的mAnimatedValuevalue" + mAnimatedValuevalue);
-//                postInvalidate();
                 upDataDraw();
 
             }
@@ -126,73 +158,45 @@ public class HweatherWidget extends View {
             });
         }
         mThread.start();
-
-
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        mWidth = MeasureSpec.getSize(widthMeasureSpec);
+        mHeight = MeasureSpec.getSize(heightMeasureSpec);
+        mCPointX = mWidth / 2;
+        mRadius = mWidth / 2;
+        mCPointY =mWidth/2;
+        //手动测量View的宽高,保证多出的空间
+        setMeasuredDimension(mWidth , mHeight);
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mWidth = getWidth();
-        mHeight = getHeight();
-        mCPointX = mWidth / 2;
-        mCPointY = mHeight;
-        mRadius = mWidth / 2 - 100;
-        initPathTrack();
+        initPointPath();
     }
 
     /**
-     * 初始化路线的轨迹
+     * 初始化点的路径，将点存到集合中
      */
-    private void initPathTrack() {
-        mPoints.clear();
-        mIconPoints.clear();
-        mPath.reset();
-        //移动到圆弧的起点
-        mPath.moveTo(mCPointX - mRadius, mCPointY + mRadius);
+    private void initPointPath() {
+        int len=mRadius-mStrokeWidth-40;
         for (int i = 180; i < 360; i++) {
-            int pointX, pointY;
             double radians = Math.toRadians(i);
-            pointX = (int) (mCPointX + mRadius * Math.cos(radians));
-            pointY = (int) (mCPointY + mRadius * Math.sin(radians));
-            //移动到圆上的各个点
-            mPath.lineTo(pointX, pointY);
-            Point point = new Point(pointX, pointY);
-
-            mPoints.add(point);
-            Point iconPoint = new Point();
-            iconPoint.y = pointY;
-            if (i > 270) {
-                iconPoint.x = pointX - 80;
-            } else {
-                iconPoint.x = pointX;
-            }
-            mIconPoints.add(iconPoint);
+            //通过半径和弧度可以求出圆上的点的坐标
+            int x = (int) (mCPointX + Math.cos(radians) * len);
+            int y = (int) (mCPointY + Math.sin(radians) * len);
+            mPoints.add(new Point(x, y));
         }
-    }
-
-    private void initSecondPathTrack() {
-        mSecondPath.reset();
-        mSecondPath.moveTo(mCPointX - mRadius, mCPointY + mRadius);
         mSize = mPoints.size();
-        int currentSize = (int) (mSize * mAnimatedValuevalue);
-        for (int i = 0; i < currentSize; i++) {
-            Point point = mPoints.get(i);
-            mSecondPath.lineTo(point.x, point.y);
-        }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        mPathpaint.setStyle(Paint.Style.STROKE);
-        mPathpaint.setStrokeWidth(10);
-        drawFirstPath(canvas);
-        drawSecondPath(canvas);
+        drawFirstArc(canvas);
+        drawSecondArc(canvas);
         drawWeatherIcon(canvas);
     }
 
@@ -201,10 +205,9 @@ public class HweatherWidget extends View {
      *
      * @param canvas
      */
-    private void drawFirstPath(Canvas canvas) {
-        initPathTrack();
-        mPathpaint.setColor(Color.GRAY);
-        canvas.drawPath(mPath, mPathpaint);
+    private void drawFirstArc(Canvas canvas) {
+        mRectF = new RectF(mPadding, mPadding, 2 * mRadius - mPadding, 2 * mRadius - mPadding);
+        canvas.drawArc(mRectF, 180, 180, false, mFirstArcPaint);
     }
 
     /**
@@ -212,11 +215,10 @@ public class HweatherWidget extends View {
      *
      * @param canvas
      */
-    private void drawSecondPath(Canvas canvas) {
-        mPathpaint.setColor(Color.RED);
-        initSecondPathTrack();
-        canvas.drawPath(mSecondPath, mPathpaint);
-
+    private void drawSecondArc(Canvas canvas) {
+        float sweepAngle = 180 * mAnimatedValuevalue;
+        mRectF = new RectF(mPadding, mPadding, 2 * mRadius - mPadding, 2 * mRadius - mPadding);
+        canvas.drawArc(mRectF, 180, sweepAngle, false, mSecondArcPaint);
     }
 
 
@@ -226,22 +228,26 @@ public class HweatherWidget extends View {
      * @param canvas
      */
     private void drawWeatherIcon(Canvas canvas) {
-        mPathpaint.setColor(Color.YELLOW);
-        mPathpaint.setStyle(Paint.Style.FILL);
-//        mPathpaint.setStrokeWidth(30);
+        mCirclePaint.setColor(Color.YELLOW);
+        mCirclePaint.setStyle(Paint.Style.STROKE);
+        mCirclePaint.setStrokeWidth(mStrokeWidth);
         //获取当前进度下面的点
         int position = (int) (mSize * mAnimatedValuevalue);
-        double radians = Math.toRadians(180 * mAnimatedValuevalue);
+//        double radians = Math.toRadians(180 * mAnimatedValuevalue);
         //获取当前的角度
         if (position < mSize) {
             Point point = mPoints.get(position);
-            Log.i("IC", "图标的点坐标:" + point.x + "，" + point.y);
-            int x = (int) (point.x+Math.cos(radians));
-            int y = (int) (point.y+Math.sin(radians))                                                                                                                                                                                                                                                                                                                                                                                                                                                ;
-            canvas.drawCircle(x,y,40,mPathpaint);
-            mPathpaint.setColor(Color.WHITE);
-            canvas.drawCircle(x,y,35,mPathpaint);
+//            int x = (int) (point.x + Math.cos(radians));
+//            int y = (int) (point.y + Math.sin(radians));
+            int x = point.x;
+            int y = point.y;
+            canvas.drawCircle(x, y, 40, mCirclePaint);
+            mCirclePaint.setColor(Color.WHITE);
+            canvas.drawCircle(x, y, 35, mCirclePaint);
+            mCirclePaint.setColor(Color.BLACK);
+            mCirclePaint.setStyle(Paint.Style.FILL);
+            mCirclePaint.setStrokeWidth(3);
+            canvas.drawPoint(x,y,mCirclePaint);
         }
     }
-
 }
