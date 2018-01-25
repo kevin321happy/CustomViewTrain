@@ -1,1 +1,1 @@
-include ':app', ':viewdraghelper', ':layoutsample', ':drawsample', ':collapseviewsample', ':flowviewsample', ':ringwave', ':circleindicator', ':radarscanview', ':roundimageview', ':sidemenuview', ':bezierview'
+include ':app', ':viewdraghelper', ':layoutsample', ':drawsample', ':collapseviewsample', ':flowviewsample', ':ringwave', ':circleindicator', ':radarscanview', ':roundimageview', ':sidemenuview', ':bezierview', ':progressbar'
