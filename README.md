@@ -7,6 +7,13 @@
 
 -------
 
+* [仿华为天气的日出控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HweatherWidget.java)
+
+   #### 仿华为天气里面的日出的空间,随着时间的移动改变太阳在圆弧上面的位置,动画效果
+   ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/hWeather.gif)
+
+-------
+
 * [刻度进度盘](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java)
 
    #### 仿华为手机管家的[圆盘刻度控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java),支持刻度线颜色长度,以及中间文字的相关属性定制,还可通过设置动画插值器来改变进度的动画
