@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.wh.jxd.com.bezierview.widget.HweatherWidget;
 import com.wh.jxd.com.bezierview.widget.PullViscousView;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
@@ -17,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     //触摸的起始的X点和Y点的坐标
     private float mStartX;
     private float mStartY;
+    private HweatherWidget mHweatherWidget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +26,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         setContentView(R.layout.activity_main);
         mLl_root = (LinearLayout) findViewById(R.id.ll_root);
         mPull_viscous_view = (PullViscousView) findViewById(R.id.pull_viscousview);
+        mHweatherWidget = (HweatherWidget) findViewById(R.id.weather);
         mLl_root.setOnTouchListener(this);
+
+        //设置当前时间模拟早上6点
+
+        mHweatherWidget.setCurrentTime(300);
     }
 
     /**

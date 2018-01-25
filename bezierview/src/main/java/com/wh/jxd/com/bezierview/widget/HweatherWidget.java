@@ -92,8 +92,27 @@ public class HweatherWidget extends View {
      * 绘制文字的画笔
      */
     private Paint mTextPaint;
+    /**
+     * 早上时间
+     */
+    private String MorningTime = "早上7:20";
+    /**
+     * 晚上时间
+     */
+    private String EveningTime = "晚上7:20";
+    /**
+     * 模拟当前时间,这里用的是距离早上6的的时间差值的分钟数
+     */
+    private int mCurrentTime = 540;
+
+    /**
+     * 当前的进度
+     */
+    private float mProgress = 0.75f;
+    /**
+     * 测量文字边界的Rect
+     */
     private Rect mRect = new Rect();
-    ;
 
     public HweatherWidget(Context context) {
         super(context);
@@ -117,7 +136,7 @@ public class HweatherWidget extends View {
         mFirstArcPaint.setPathEffect(mEffects);
         mFirstArcPaint.setAntiAlias(true);
         mFirstArcPaint.setDither(true);
-        mFirstArcPaint.setColor(Color.GRAY);
+        mFirstArcPaint.setColor(Color.WHITE);
         mFirstArcPaint.setStrokeWidth(mStrokeWidth);
         mFirstArcPaint.setStyle(Paint.Style.STROKE);
         //绘制第二个圆弧的画笔
@@ -125,7 +144,7 @@ public class HweatherWidget extends View {
         mSecondArcPaint.setPathEffect(mEffects);
         mSecondArcPaint.setAntiAlias(true);
         mSecondArcPaint.setDither(true);
-        mSecondArcPaint.setColor(Color.RED);
+        mSecondArcPaint.setColor(Color.YELLOW);
         mSecondArcPaint.setStrokeWidth(mStrokeWidth);
         mSecondArcPaint.setStyle(Paint.Style.STROKE);
 
@@ -139,7 +158,7 @@ public class HweatherWidget extends View {
         mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setDither(true);
-        mTextPaint.setColor(Color.BLUE);
+        mTextPaint.setColor(Color.WHITE);
         mTextPaint.setTextSize(mTextSize);
 
         initAnimation();
@@ -147,17 +166,19 @@ public class HweatherWidget extends View {
 
     private void initAnimation() {
         mAnimator = ValueAnimator.ofFloat(0, 1);
-        mAnimator.setDuration(10000);
+        mAnimator.setDuration(5000);
         mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 mAnimatedValuevalue = (float) animation.getAnimatedValue();
+                if (mAnimatedValuevalue > mProgress) {
+                    mAnimatedValuevalue = mProgress;
+                }
                 upDataDraw();
-
             }
         });
-        mAnimator.start();
+//        mAnimator.start();
     }
 
     /**
@@ -222,24 +243,24 @@ public class HweatherWidget extends View {
      * 绘制文字
      */
     private void drawText(Canvas canvas) {
-        String text = "早上7:20";
-        String text1="晚上7:20";
-        mRect=new Rect();
-//        mTextPaint.setColor(Color.GREEN);
-        mTextPaint.setTextSize(40);
-        mTextPaint.getTextBounds(text,0,text.length(),mRect);
-        canvas.drawText(text,10,mHeight-mRect.height(),mTextPaint);
-//
-        canvas.drawText(text1,mWidth-mRect.width()-10,mHeight-mRect.height(),mTextPaint);
-
-
+        mTextPaint.setTextSize(mTextSize);
+        String text = MorningTime;
+        mRect = new Rect();
+        mTextPaint.getTextBounds(text, 0, text.length(), mRect);
+        canvas.drawText(text, 10, mHeight - mRect.height(), mTextPaint);
+        text = EveningTime;
+        canvas.drawText(text, mWidth - mRect.width() - 10, mHeight - mRect.height(), mTextPaint);
+        mTextPaint.setTextSize((float) (1.2 * mTextSize));
+        Rect rect = new Rect();
+        mTextPaint.getTextBounds("日出日落", 0, 4, rect);
+        canvas.drawText("日出日落", mCPointX - rect.width() / 2, (float) mCPointY - rect.height(), mTextPaint);
     }
 
     /**
      * 绘制底部的线
      */
     private void drawLine(Canvas canvas) {
-        canvas.drawLine(0, mWidth/2, mWidth, mWidth/2, mTextPaint);
+        canvas.drawLine(0, mWidth / 2, mWidth, mWidth / 2, mTextPaint);
     }
 
     /**
@@ -282,6 +303,20 @@ public class HweatherWidget extends View {
             mCirclePaint.setStyle(Paint.Style.FILL);
             mCirclePaint.setColor(Color.WHITE);
             canvas.drawCircle(x, y, 35, mCirclePaint);
+        }
+    }
+
+    /**
+     * 设置当前时间（是分钟值,当前时间距离早上六点的时间）
+     *
+     * @param currentTime
+     */
+    public void setCurrentTime(int currentTime) {
+        mCurrentTime = currentTime;
+        mProgress = (float) mCurrentTime / 720;
+        Log.i("curr",mProgress+"");
+        if (mAnimator != null) {
+            mAnimator.start();
         }
     }
 }

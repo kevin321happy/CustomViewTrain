@@ -5,6 +5,9 @@
     android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
     tools:context="com.wh.jxd.com.bezierview.MainActivity">
 
     <com.wh.jxd.com.bezierview.widget.PullViscousView
@@ -12,9 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        app:PullViewCentreDrawable="@drawable/github"
         app:PullViewCircleRadius="80px"
         app:PullViewColor="@color/colorAccent"
-        app:PullViewCentreDrawable="@drawable/github"
         app:PullViewContentMargin="10px" />
 
     <com.wh.jxd.com.bezierview.widget.LowOderBezierPath
@@ -23,10 +26,10 @@
         android:visibility="gone" />
 
     <com.wh.jxd.com.bezierview.widget.HweatherWidget
-        android:layout_marginTop="150px"
+        android:id="@+id/weather"
         android:layout_width="1000px"
         android:layout_height="600px"
-        android:background="@color/colorAccent"/>
+        android:layout_marginTop="150px" />
 
 
 </LinearLayout>
