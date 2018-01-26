@@ -7,6 +7,14 @@
 
 -------
 
+* [自定义水平ProgressBar](https://github.com/kevin321happy/CustomViewTrain/blob/master/progressbar/src/main/java/com/wh/jxd/com/progressbar/widget/HorizontalProgress.java)
+
+   #### 水平的进度条,支持已达到进度未到达进度的颜色高度定制,进度文字的颜色大小以及左右边距的定制
+   ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/progressbar.png)
+
+-------
+
+
 * [仿华为天气的日出控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HweatherWidget.java)
 
    #### 仿华为天气里面的日出的空间,随着时间的移动改变太阳在圆弧上面的位置,动画效果
