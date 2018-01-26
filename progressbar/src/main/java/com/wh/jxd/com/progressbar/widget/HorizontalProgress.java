@@ -1,7 +1,9 @@
 package com.wh.jxd.com.progressbar.widget;
 
+import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,6 +11,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ProgressBar;
+
+import com.wh.jxd.com.progressbar.R;
 
 /**
  * Created by kevin321vip on 2018/1/25.
@@ -21,38 +25,38 @@ public class HorizontalProgress extends ProgressBar {
     /**
      * 到达的进度的颜色
      */
-    private int mReachColor = Color.RED;
+    private int mReachColor;
     /**
      * 未达到的进度的颜色
      */
-    private int mUnRearchColor = Color.GRAY;
+    private int mUnRearchColor;
 
     /**
      * 达到的进度的高度
      *
      * @param context
      */
-    private int mRearchBarHeight = 8;
+    private int mRearchBarHeight;
     /**
      * 未到达的进度的高度
      *
      * @param context
      */
-    private int mUnRearchBarHeight = 8;
+    private int mUnRearchBarHeight;
 
     /**
      * 进度文字的颜色
      *
      * @param context
      */
-    private int mTextColor = Color.BLUE;
+    private int mTextColor;
 
     /**
      * 进度文字的大小
      *
      * @param context
      */
-    private int mTextSize = 40;
+    private int mTextSize;
     /**
      * 实际可用的宽度
      */
@@ -63,7 +67,7 @@ public class HorizontalProgress extends ProgressBar {
      *
      * @param context
      */
-    private int mTextMargin = 10;
+    private int mTextMargin;
     private int mTextWidth;
     private int mRearchEndX;
     private int mTextStartX;
@@ -79,9 +83,15 @@ public class HorizontalProgress extends ProgressBar {
      */
     private int mProgress;
 
-    private float mValue;
-    private Paint mPaint1;
-    private Paint mPaint2;
+    private PropertyValuesHolder[] mValue;
+
+    /**
+     * 记录当前的进度（0~1）
+     *
+     * @param context
+     */
+    private float mFCurrentProgress = 0.0f;
+
 
     public HorizontalProgress(Context context) {
         this(context, null);
@@ -93,38 +103,50 @@ public class HorizontalProgress extends ProgressBar {
 
     public HorizontalProgress(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context, attrs);
     }
 
-    private void init() {
+    private void init(Context context, AttributeSet attrs) {
         mPaint = new Paint();
+        getAttrs(context, attrs);
+        //注意：这里要先获取到自定义属性
         mPaint.setTextSize(mTextSize);
-
-        mPaint1 = new Paint();
-        mPaint2 = new Paint();
-        initAnimation();
     }
 
     /**
-     * 属性动画实现绘制的动态效果
+     * 获取自定义属性
+     *
+     * @param context
+     * @param attrs
      */
-    private void initAnimation() {
-        mAnimator = ValueAnimator.ofFloat(0, 1);
-        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                mValue = (float) animation.getAnimatedValue();
-                if (getProgress() * mValue < mProgress) {
-                    invalidate();
-                }
-            }
-        });
-        //设置动画插值器
-        mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-        mAnimator.setDuration(2000);
+    private void getAttrs(Context context, AttributeSet attrs) {
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.HorizontalProgress);
+        mReachColor = ta.getColor(R.styleable.HorizontalProgress_HorProgressReacherColor, Color.RED);
+        mUnRearchColor = ta.getColor(R.styleable.HorizontalProgress_HorProgressUnReacherColor, Color.GRAY);
+        mRearchBarHeight = ta.getDimensionPixelOffset(R.styleable.HorizontalProgress_HorProgressReacherHeight, 10);
+        mUnRearchBarHeight = ta.getDimensionPixelSize(R.styleable.HorizontalProgress_HorProgressUnReacherHeight, 10);
+        mTextColor = ta.getColor(R.styleable.HorizontalProgress_HorProgressTextColor, Color.BLUE);
+        mTextSize = ta.getDimensionPixelSize(R.styleable.HorizontalProgress_HorProgressTextSize, 40);
+        mTextMargin = ta.getDimensionPixelOffset(R.styleable.HorizontalProgress_HorProgressTextMargin, 10);
+        //回收
+        ta.recycle();
     }
+
+
+//        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            @Override
+//            public void onAnimationUpdate(ValueAnimator animation) {
+//                //设置mValue的值,后面在ondraw中根据这个值来绘制已经达到的进度
+//                mValue = (float) animation.getAnimatedValue()+mFCurrentProgress;
+//                if (getProgress() * mValue < mProgress) {
+//                    invalidate();
+//                }
+//            }
+//        });
+    //设置动画插值器
+//        mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+//        mAnimator.setDuration(2000);
+//    }
 
     @Override
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -178,7 +200,7 @@ public class HorizontalProgress extends ProgressBar {
         String text = getProgress() + "%";
         float progress = getProgress() * 1.0f / 100;
         //进度达到的宽度
-        int progressWidth = (int) (mActualWidth * progress * mValue);
+        int progressWidth = (int) (mActualWidth * progress);
         //进度文本的宽度
         int TextWidth = (int) mPaint.measureText(text);
         //进度到达部分的终点X位置=进度宽度-文字的左边距-文字宽度的一半(开始位置为左边距但是这里做了画布的平移,所以起点是0)
@@ -211,7 +233,7 @@ public class HorizontalProgress extends ProgressBar {
     private void drawProgressText(Canvas canvas, String text, int textStartX) {
         mPaint.setColor(mTextColor);
         int textHeight = (int) (mPaint.descent() - mPaint.ascent());
-        canvas.drawText(text, textStartX, 0 + textHeight / 2-mRearchBarHeight/2, mPaint);
+        canvas.drawText(text, textStartX, 0 + textHeight / 2 - mRearchBarHeight / 2, mPaint);
         Log.i("tt", "绘制了文字");
     }
 
@@ -222,10 +244,10 @@ public class HorizontalProgress extends ProgressBar {
      * @param unRearchStartX
      */
     private void drawUnRearchBar(Canvas canvas, int unRearchStartX) {
-        mPaint2.setColor(mUnRearchColor);
-        mPaint2.setStrokeWidth(mUnRearchBarHeight);
+        mPaint.setColor(mUnRearchColor);
+        mPaint.setStrokeWidth(mUnRearchBarHeight);
         if (mShowDrawunRearchBar) {
-            canvas.drawLine(unRearchStartX, 0, mActualWidth, 0, mPaint2);
+            canvas.drawLine(unRearchStartX, 0, mActualWidth, 0, mPaint);
         }
     }
 
@@ -236,18 +258,17 @@ public class HorizontalProgress extends ProgressBar {
      * @param rearchEndX
      */
     private void drawRerchBar(Canvas canvas, int rearchEndX) {
-        mPaint1.setColor(mReachColor);
-        mPaint1.setStrokeWidth(mRearchBarHeight);
-        canvas.drawLine(0, 0, rearchEndX, 0, mPaint1);
+        mPaint.setColor(mReachColor);
+        mPaint.setStrokeWidth(mRearchBarHeight);
+        canvas.drawLine(0, 0, rearchEndX, 0, mPaint);
     }
 
     @Override
     public synchronized void setProgress(int progress) {
         super.setProgress(progress);
         this.mProgress = progress;
-        if (mAnimator != null) {
-            mAnimator.start();
-        }
-
+//        if (mAnimator != null) {
+//            mAnimator.start();
+//        }
     }
 }

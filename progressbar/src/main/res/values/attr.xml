@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HorizontalProgress">
+        <!--已到达的进度的颜色-->
+        <attr name="HorProgressReacherColor" format="color" />
+        <!--已到达的进度高度-->
+        <attr name="HorProgressReacherHeight" format="dimension" />
+        <!--未到达的进度的颜色-->
+        <attr name="HorProgressUnReacherColor" format="color" />
+        <!--未到达的进度的高度-->
+        <attr name="HorProgressUnReacherHeight" format="dimension" />
+        <!--进度文字的颜色-->
+        <attr name="HorProgressTextColor" format="color" />
+        <!--进度文字的大小-->
+        <attr name="HorProgressTextSize" format="dimension" />
+        <!--进度文字的左右边距-->
+        <attr name="HorProgressTextMargin" format="dimension" />
+    </declare-styleable>
+
+</resources>

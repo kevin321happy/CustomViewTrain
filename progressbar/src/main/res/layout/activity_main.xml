@@ -4,15 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.wh.jxd.com.progressbar.MainActivity">
 
     <com.wh.jxd.com.progressbar.widget.HorizontalProgress
         android:id="@+id/progress"
-        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_marginTop="30dp"
         android:paddingLeft="20dp"
-        android:paddingRight="20dp"/>
+        android:paddingRight="20dp" />
+
+    <com.wh.jxd.com.progressbar.widget.HorizontalProgress
+        android:id="@+id/progress2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:HorProgressReacherColor="@color/colorAccent"
+        app:HorProgressTextColor="#000000"
+        app:HorProgressReacherHeight="25px"
+        app:HorProgressUnReacherHeight="25px"
+        app:HorProgressUnReacherColor="@color/colorPrimaryDark" />
+
+
+    <com.wh.jxd.com.progressbar.widget.HorizontalProgress
+        android:id="@+id/progress3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:HorProgressReacherColor="#00ff00"
+        app:HorProgressTextColor="#cf234b"
+        app:HorProgressReacherHeight="25px"
+        app:HorProgressUnReacherHeight="15px"
+        app:HorProgressUnReacherColor="#35e1a7"/>
+
+    <com.wh.jxd.com.progressbar.widget.HorizontalProgress
+        android:id="@+id/progress4"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        app:HorProgressReacherColor="#dae114"
+        app:HorProgressTextColor="#de14e9"
+        app:HorProgressTextSize="60px"
+        app:HorProgressTextMargin="20px"
+        app:HorProgressReacherHeight="25px"
+        app:HorProgressUnReacherHeight="15px"
+        app:HorProgressUnReacherColor="#b5ec47" />
 
 
 </LinearLayout>

@@ -12,6 +12,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         HorizontalProgress progress = (HorizontalProgress) findViewById(R.id.progress);
+        HorizontalProgress progress2 = (HorizontalProgress) findViewById(R.id.progress2);
+        HorizontalProgress progress3 = (HorizontalProgress) findViewById(R.id.progress3);
+        HorizontalProgress progress4 = (HorizontalProgress) findViewById(R.id.progress4);
         progress.setProgress(80);
+        progress2.setProgress(60);
+        progress3.setProgress(40);
+        progress4.setProgress(75);
     }
 }
