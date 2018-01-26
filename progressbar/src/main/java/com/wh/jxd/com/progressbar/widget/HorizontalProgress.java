@@ -79,8 +79,6 @@ public class HorizontalProgress extends ProgressBar {
     private boolean mShowDrawunRearchBar;
 
 
-
-
     public HorizontalProgress(Context context) {
         this(context, null);
     }
@@ -119,6 +117,7 @@ public class HorizontalProgress extends ProgressBar {
         //回收
         ta.recycle();
     }
+
     @Override
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -175,8 +174,8 @@ public class HorizontalProgress extends ProgressBar {
         //进度文本的宽度
         int TextWidth = (int) mPaint.measureText(text);
         //进度到达部分的终点X位置=进度宽度-文字的左边距-文字宽度的一半(开始位置为左边距但是这里做了画布的平移,所以起点是0)
-        int RearchEndX = progressWidth - mTextMargin - mTextWidth / 2;
-//        Log.i("Tag","进度结束点:"+RearchEndX,"当前进度:"+getProgress()+"进度宽度")
+        int RearchEndX = progressWidth - mTextMargin - TextWidth / 2;
+         // Log.i("Tag","进度结束点:"+RearchEndX,"当前进度:"+getProgress()+"进度宽度")
         //进度文字的开始位置
         int TextStartX = RearchEndX + mTextMargin;
         //未开始部分的进度的起始点
