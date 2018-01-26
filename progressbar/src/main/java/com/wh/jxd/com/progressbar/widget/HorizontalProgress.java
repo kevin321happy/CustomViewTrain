@@ -68,29 +68,17 @@ public class HorizontalProgress extends ProgressBar {
      * @param context
      */
     private int mTextMargin;
-    private int mTextWidth;
-    private int mRearchEndX;
-    private int mTextStartX;
-    private int mUnRearchStartX;
+
+    /**
+     * 实际测量的高度
+     */
     private int mMeasureHeight;
     /**
      * 是否需要绘制mUnRearch部分,当文字绘制达到了终点就不需要
      */
     private boolean mShowDrawunRearchBar;
-    private ValueAnimator mAnimator;
-    /**
-     * 设置进度
-     */
-    private int mProgress;
 
-    private PropertyValuesHolder[] mValue;
 
-    /**
-     * 记录当前的进度（0~1）
-     *
-     * @param context
-     */
-    private float mFCurrentProgress = 0.0f;
 
 
     public HorizontalProgress(Context context) {
@@ -131,23 +119,6 @@ public class HorizontalProgress extends ProgressBar {
         //回收
         ta.recycle();
     }
-
-
-//        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//            @Override
-//            public void onAnimationUpdate(ValueAnimator animation) {
-//                //设置mValue的值,后面在ondraw中根据这个值来绘制已经达到的进度
-//                mValue = (float) animation.getAnimatedValue()+mFCurrentProgress;
-//                if (getProgress() * mValue < mProgress) {
-//                    invalidate();
-//                }
-//            }
-//        });
-    //设置动画插值器
-//        mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-//        mAnimator.setDuration(2000);
-//    }
-
     @Override
     protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -266,9 +237,5 @@ public class HorizontalProgress extends ProgressBar {
     @Override
     public synchronized void setProgress(int progress) {
         super.setProgress(progress);
-        this.mProgress = progress;
-//        if (mAnimator != null) {
-//            mAnimator.start();
-//        }
     }
 }
