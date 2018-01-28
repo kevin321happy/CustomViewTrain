@@ -65,15 +65,15 @@
 
 #### -  自定义带圆角的ImageView,可以随意设置ImageView四个角的圆角,还能通过属性调整显示为圆形和椭圆,还支持描边的颜色宽度设置
 
-    * round1 带圆角的ImaView
+- round1 带圆角的ImaView
 
      ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud03.png)
 
-    * round2 圆形,椭圆的形态
+- round2 圆形,椭圆的形态
 
      ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud01.png)
 
-    * round3 进化版的圆形,椭圆的形态,加上了描边
+- round3 进化版的圆形,椭圆的形态,加上了描边
 
      ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud02.png)
 
