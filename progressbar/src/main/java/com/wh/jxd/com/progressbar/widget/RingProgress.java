@@ -48,9 +48,10 @@ public class RingProgress extends ProgressBar {
      * 圆心坐标
      */
     private int mCpointX, mCPointY;
-    private int mWidthSize;
-    private int mHeightSize;
-
+    /**
+     * 控件的宽高
+     */
+    private int mWidthSize,mHeightSize;
     /**
      * 存放圆上的点的集合
      *
@@ -61,8 +62,7 @@ public class RingProgress extends ProgressBar {
      * 圆环的宽度
      */
     private int mRingwidth;
-    //圆心的位置的偏移,
-    private int mOffsetAngle = 20;
+
     private RectF mRectF;
 
     public RingProgress(Context context) {

@@ -5,10 +5,11 @@
 
 #### -  自定义View中常用的五个辅助类,包括手势识别,速度追综，拖拽，滑动,设备信息等
 
-## [自定义水平ProgressBar](https://github.com/kevin321happy/CustomViewTrain/blob/master/progressbar/src/main/java/com/wh/jxd/com/progressbar/widget/HorizontalProgress.java)
+## [自定义ProgressBar](https://github.com/kevin321happy/CustomViewTrain/blob/master/progressbar/src/main/java/com/wh/jxd/com/progressbar/widget)
+<a href="gif/progressbar.png"><img src="gif/progressbar.png" width="40%"/><a href="gif/ringprogress.png"><img src="gif/ringprogress.png" width="40%"/>
 
-   ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/progressbar.png)
-#### - 水平的进度条,支持已达到进度未到达进度的颜色高度定制,进度文字的颜色大小以及左右边距的定制
+#### - 水平的进度条[https://github.com/kevin321happy/CustomViewTrain/blob/master/progressbar/src/main/java/com/wh/jxd/com/progressbar/widget/HorizontalProgress.java],支持已达到进度未到达进度的颜色高度定制,进度文字的颜色大小以及左右边距的定制。
+圆环进度条[https://github.com/kevin321happy/CustomViewTrain/blob/master/progressbar/src/main/java/com/wh/jxd/com/progressbar/widget/RingProgress.java]圆环的宽度,颜色,环背景,以及中间文字的相关属性设置
 ```xml
     <!--水平进度条的自定义属性-->
        <declare-styleable name="HorizontalProgress">
@@ -27,6 +28,19 @@
            <!--进度文字的左右边距-->
            <attr name="HorProgressTextMargin" format="dimension" />
        </declare-styleable>
+
+       <!--环形进度条的自定义属性-->
+           <declare-styleable name="RingProgress">
+               <!--已到达的进度的颜色-->
+               <attr name="RingProgressRearchColor" format="color" />
+               <!--未达到的进度的颜色-->
+               <attr name="RingProgressUnRearchColor" format="color" />
+               <attr name="RingWidth" format="dimension" />
+               <!--进度文字的颜色-->
+               <attr name="RingProgressTextColor" format="color" />
+               <!--进度文字的大小-->
+               <attr name="RingProgressTextSize" format="dimension" />
+           </declare-styleable>
 ```
 ------------
 
@@ -442,7 +456,7 @@ private void initAnimation() {
 
 ------------
 
-* 未完待续....
+## 未完待续....
 
 
  
