@@ -30,13 +30,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         mLl_root.setOnTouchListener(this);
 
         //设置当前时间模拟早上6点
-
         mHweatherWidget.setCurrentTime(300);
     }
 
     /**
      * 根布局的触摸监听
-     *
      * @param v
      * @param event
      * @return
@@ -53,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 float endX = event.getX();
                 //下拉的距离
                 float distance = endY - mStartY;
-                //定义一个进度
+                //下拉的高度除以定义的允许的最大高度可以得到一个进度值
                 float progress = distance >= ALLOW_PULL_MAXHEIGHT ? 1 : distance / ALLOW_PULL_MAXHEIGHT;
 
                 if (mPull_viscous_view != null) {
@@ -61,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 }
                 return true;
             case MotionEvent.ACTION_UP:
+                //当Up的时候控件回弹回去
                 mPull_viscous_view.pringbBack();
                 break;
         }

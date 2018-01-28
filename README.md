@@ -28,28 +28,42 @@
            <attr name="HorProgressTextMargin" format="dimension" />
        </declare-styleable>
 ```
-
-
 ------------
 
 ## [仿华为天气的日出控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HweatherWidget.java)
-
-#### - 仿华为天气里面的日出的空间,随着时间的移动改变太阳在圆弧上面的位置,动画效果
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/hWeather.gif)
+#### - 仿华为天气里面的日出的空间,随着时间的移动改变太阳在圆弧上面的位置,动画效果
 
 ------------
 
 ## [刻度进度盘](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java)
 
+ <div align="center">
+    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlate.gif" width="400">
+    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlatescan.gif" width="400">
+  </div>
+
 #### - 仿华为手机管家的[圆盘刻度控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java),支持刻度线颜色长度,以及中间文字的相关属性定制,还可通过设置动画插值器来改变进度的动画
-
-   ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlate.gif)
-
-    #### 还能通过改变属性设置是否需要扫描的效果,扫描的动画效果
-
-    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlatescan.gif)
-
-
+#### 还能通过改变属性设置是否需要扫描的效果,扫描的动画效果
+```xml
+    <!--刻度进度盘的自定义属性-->
+       <declare-styleable name="CircleProgressPlate">
+           <!--刻度线长度-->
+           <attr name="PlatScaleLngth" format="dimension" />
+           <!--刻度的颜色-->
+           <attr name="PlatScaleColor" format="color" />
+           <!--画笔的描边的宽度-->
+           <attr name="PlatStrokeWidth" format="dimension" />
+           <!--外圈圆颜色mOutRingColor-->
+           <attr name="PlatOutCircleColor" format="color" />
+           <!--文字的颜色-->
+           <attr name="PlatTextColr" format="color" />
+           <!--是否需要扫描-->
+           <attr name="PlatShouldScan" format="boolean" />
+           <!--扫描的颜色-->
+           <attr name="PlatScanColor" format="color" />
+       </declare-styleable>
+```
 ------------
 
 

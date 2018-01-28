@@ -178,7 +178,6 @@ public class HweatherWidget extends View {
                 upDataDraw();
             }
         });
-//        mAnimator.start();
     }
 
     /**
@@ -219,7 +218,6 @@ public class HweatherWidget extends View {
      */
     private void initPointPath() {
         int len = mRadius - mStrokeWidth - 40;
-//        int len = mRadius ;
         for (int i = 180; i < 360; i++) {
             double radians = Math.toRadians(i);
             //通过半径和弧度可以求出圆上的点的坐标
