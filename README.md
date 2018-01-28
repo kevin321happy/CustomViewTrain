@@ -128,10 +128,38 @@
            return values[0];
        }
 ```
-#### -  [曲线的绘制](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HeightOderBezierPath.java)
-
+#### -  [曲线的填充效果](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HeightOderBezierPath.java)
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/bezierline.gif)
-
+-主要实现是绘制两条路径相同的线,第二条Path在计算路径的时候在for循环中根据规则动态计算各个点坐标
+```java
+ private void initBezier() {
+        mBgpath.moveTo(0,600);
+        float[] xPonits = new float[]{0,200, 800, 1000};
+        //y点坐标的数组
+        float[] yPonits = new float[]{600,0, 1200, 0};
+        mBgpath.cubicTo(200,0,800,1200,1000,0);
+        //进度t值为0.2的时候
+//        float progress = 0.2f;
+        //循环刷新的次数,当值足够大,连起来的点就会是一个平滑的曲线了
+        int fps = 10000;
+        for (int i = 0; i < fps; i++) {
+            float t = i / (float) fps;
+            float x = calculatePoint(t, xPonits);
+            float y = calculatePoint(t, yPonits);
+            //path连接的方式
+            mPath.lineTo(x, y);
+            //刷新
+            postInvalidate();
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.i("path", "path的当前点:" + x + "," + y);
+        }
+//        calculatePoint(progress,xPonits);
+    }
+```
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/pullview.gif)
 #### -  自定义的[下拉粘性控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/PullViscousView.java),可设置中间的Drawable的显示,以及颜色半径等基础属性设置
 ```xml
@@ -239,10 +267,6 @@
         upDataContentLayout(cPonitX, cPonitY, cRedius);
     }
 ```
-
-
-
-
 
 ------------
 ## [侧滑菜单](https://github.com/kevin321happy/CustomViewTrain/tree/master/sidemenuview)
