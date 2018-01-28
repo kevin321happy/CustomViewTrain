@@ -2,13 +2,21 @@
 <resources>
     <!--圆角图片的自定义属性-->
     <declare-styleable name="RoundImage">
+        <!--左上的圆角-->
         <attr name="roundImageLeftTopRadius" format="dimension" />
+        <!--右上的圆角-->
         <attr name="roundImageRightTopRadius" format="dimension" />
+        <!--左下的圆角-->
         <attr name="roundImageLeftBottomRadius" format="dimension" />
+        <!--右下的圆角-->
         <attr name="roundImageRightButtomRadius" format="dimension" />
+        <!--整体圆角-->
         <attr name="roundImageRadius" format="dimension" />
+        <!--描边的宽度-->
         <attr name="roundImageStrokeWidth" format="dimension" />
+        <!--描边的颜色-->
         <attr name="roundImageStrokeColor" format="color" />
+        <!--是否显示圆形-->
         <attr name="roundImageCyclo" format="boolean" />
     </declare-styleable>
 </resources>

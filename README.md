@@ -65,8 +65,6 @@
 ```
 ------------
 
-
-
 ## [贝塞尔控件](https://github.com/kevin321happy/CustomViewTrain/tree/master/bezierview/src/main/java/com/wh/jxd/com/bezierview)
 #### - [1-3阶贝塞尔](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/LowOderBezierPath.java) 直接调用系统提供的api，
 ```java
@@ -130,6 +128,7 @@
 ```
 #### -  [曲线的填充效果](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HeightOderBezierPath.java)
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/bezierline.gif)
+
 -主要实现是绘制两条路径相同的线,第二条Path在计算路径的时候在for循环中根据规则动态计算各个点坐标
 ```java
  private void initBezier() {
@@ -160,8 +159,10 @@
 //        calculatePoint(progress,xPonits);
     }
 ```
+#### -  自定义的[下拉粘性控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/PullViscousView.java)
+
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/pullview.gif)
-#### -  自定义的[下拉粘性控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/PullViscousView.java),可设置中间的Drawable的显示,以及颜色半径等基础属性设置
+-可设置中间的Drawable的显示,以及颜色半径等基础属性设置
 ```xml
      <!--粘性下拉控件的自定义属性-->
         <declare-styleable name="PullViscousView">
@@ -270,38 +271,118 @@
 
 ------------
 ## [侧滑菜单](https://github.com/kevin321happy/CustomViewTrain/tree/master/sidemenuview)
-
-#### -  侧拉删除,处理菜单视图的回弹动画和关闭菜单动画,支持菜单视图的定制
-
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/slidedelete.gif)
 
+#### -  侧拉删除,处理菜单视图的回弹动画和关闭菜单动画,支持菜单视图的定制
+-通过属性动画实现回弹效果的处理
+```java
+ /**
+     * 平滑的滑到到结束位置
+     *
+     * @param distanceX
+     */
+    private void smoothToEnd(final int distanceX) {
+        ValueAnimator valueAnimator;
+        if (distanceX > mMenuWidth / 2) {
+            //动画的初值和结束值
+            valueAnimator = ValueAnimator.ofInt(getScrollX(), mMenuWidth);
+        } else {
+            valueAnimator = ValueAnimator.ofInt(getScrollX(), 0);
+        }
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                scrollTo((Integer) animation.getAnimatedValue(), 0);
+            }
+        });
+        //设置动画插值器,开始慢后面变快
+        valueAnimator.setInterpolator(new AccelerateInterpolator());
+        valueAnimator.setDuration(500).start();
+        valueAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                //超过了二分之一的子菜单宽度则是展开的状态,反之则为关闭
+                if (distanceX > mMenuWidth / 2) {
+                    mExpand = true;
+                } else {
+                    mExpand = false;
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+
+```
 
 ------------
 
 ## [带圆角的ImageView](https://github.com/kevin321happy/CustomViewTrain/tree/master/roundimageview/src/main)
+ <div align="center">
+    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud03.png" width="400">
+    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud01.png" width="400">
+    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud02.png" width="400">
+  </div>
 
 #### -  自定义带圆角的ImageView,可以随意设置ImageView四个角的圆角,还能通过属性调整显示为圆形和椭圆,还支持描边的颜色宽度设置
-
-- round1 带圆角的ImaView
-
-     ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud03.png)
-
-- round2 圆形,椭圆的形态
-
-     ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud01.png)
-
-- round3 进化版的圆形,椭圆的形态,加上了描边
-
-     ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud02.png)
-
+```xml
+<!--圆角图片的自定义属性-->
+    <declare-styleable name="RoundImage">
+        <!--左上的圆角-->
+        <attr name="roundImageLeftTopRadius" format="dimension" />
+        <!--右上的圆角-->
+        <attr name="roundImageRightTopRadius" format="dimension" />
+        <!--左下的圆角-->
+        <attr name="roundImageLeftBottomRadius" format="dimension" />
+        <!--右下的圆角-->
+        <attr name="roundImageRightButtomRadius" format="dimension" />
+        <!--整体圆角-->
+        <attr name="roundImageRadius" format="dimension" />
+        <!--描边的宽度-->
+        <attr name="roundImageStrokeWidth" format="dimension" />
+        <!--描边的颜色-->
+        <attr name="roundImageStrokeColor" format="color" />
+        <!--是否显示圆形-->
+        <attr name="roundImageCyclo" format="boolean" />
+    </declare-styleable>
+ ```
 ------------
 
 ## [自定义圆形的Viewpager指示器](https://github.com/kevin321happy/CustomViewTrain/tree/master/circleindicator/src/main/java/com/wh/jxd/com/circleindicator)
 
-#### -  通用的Viewpager指示器,支持颜色,大小,间距设置,还支持圆点中心显示数字,字母等定制
-
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/CIndicator.gif)
 
+#### -  通用的Viewpager指示器,支持颜色,大小,间距设置,还支持圆点中心显示数字,字母等定制
+```xml
+ <!--自定义指示器的自定义属性-->
+    <declare-styleable name="CircleIndicator">
+        <!--半徑-->
+        <attr name="indicatorRadius" format="dimension" />
+        <!--画笔的颜色-->
+        <attr name="indicatorColor" format="color" />
+        <!--间距-->
+        <attr name="indicatorSpace" format="dimension" />
+        <!--环的宽度-->
+        <attr name="indicatorBorderWidth" format="dimension" />
+        <!--环的中间的文字的颜色-->
+        <attr name="indicatorTextColor" format="color" />
+        <!--环的填充模式(数字、字母、纯色)-->
+        <attr name="indicatorFillMode" format="integer" />
+    </declare-styleable>
+```
 ------------
 
 ## [雷达扫描](https://github.com/kevin321happy/CustomViewTrain/tree/master/radarscanview/src/main)

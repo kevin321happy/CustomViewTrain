@@ -12,7 +12,7 @@
         <attr name="indicatorBorderWidth" format="dimension" />
         <!--环的中间的文字的颜色-->
         <attr name="indicatorTextColor" format="color" />
-        <!--环的填充模式-->
+        <!--环的填充模式(数字、字母、纯色)-->
         <attr name="indicatorFillMode" format="integer" />
     </declare-styleable>
 </resources>
