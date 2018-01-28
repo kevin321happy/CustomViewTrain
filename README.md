@@ -162,6 +162,7 @@
 #### -  自定义的[下拉粘性控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/PullViscousView.java)
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/pullview.gif)
+
 -可设置中间的Drawable的显示,以及颜色半径等基础属性设置
 ```xml
      <!--粘性下拉控件的自定义属性-->
@@ -332,9 +333,9 @@
 
 ## [带圆角的ImageView](https://github.com/kevin321happy/CustomViewTrain/tree/master/roundimageview/src/main)
  <div align="center">
-    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud03.png" width="300" ,height="600">
-    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud01.png" width="300" ,height="600">
-    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud02.png" width="300" ,height="600">
+    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud03.png" width="300" height="600">
+    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud01.png" width="300" height="600">
+    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud02.png" width="300" height="600">
   </div>
 
 #### -  自定义带圆角的ImageView,可以随意设置ImageView四个角的圆角,还能通过属性调整显示为圆形和椭圆,还支持描边的颜色宽度设置
