@@ -33,7 +33,36 @@
 ## [仿华为天气的日出控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HweatherWidget.java)
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/hWeather.gif)
 #### - 仿华为天气里面的日出的空间,随着时间的移动改变太阳在圆弧上面的位置,动画效果
-
+-主要通过属性动画的线性变化的值得到0~目标进度的中间值,重绘形成动画效果
+```java
+private void initAnimation() {
+        mAnimator = ValueAnimator.ofFloat(0, 1);
+        mAnimator.setDuration(5000);
+        mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+        mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mAnimatedValuevalue = (float) animation.getAnimatedValue();
+                if (mAnimatedValuevalue > mProgress) {
+                    mAnimatedValuevalue = mProgress;
+                }
+                upDataDraw();
+            }
+        });
+    }
+```
+```java
+        /**
+         * 绘制第二条路径
+         *
+         * @param canvas
+         */
+        private void drawSecondArc(Canvas canvas) {
+            float sweepAngle = 180 * mAnimatedValuevalue;
+            mRectF = new RectF(mPadding, mPadding, mWidth - mPadding, mWidth - mPadding);
+            canvas.drawArc(mRectF, 180, sweepAngle, false, mSecondArcPaint);
+        }
+```
 ------------
 
 ## [刻度进度盘](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java)
