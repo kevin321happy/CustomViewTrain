@@ -132,9 +132,114 @@
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/bezierline.gif)
 
-#### -  自定义的[下拉粘性控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/PullViscousView.java),可设置中间的Drawable的显示,以及颜色半径等基础属性设置
-
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/pullview.gif)
+#### -  自定义的[下拉粘性控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/PullViscousView.java),可设置中间的Drawable的显示,以及颜色半径等基础属性设置
+```xml
+     <!--粘性下拉控件的自定义属性-->
+        <declare-styleable name="PullViscousView">
+            <!--下拉的最大距离-->
+            <attr name="PullViewPullDownMaxHeight" format="dimension"></attr>
+            <!--控件的颜色-->
+            <attr name="PullViewColor" format="color" />
+            <!--圆的半径-->
+            <attr name="PullViewCircleRadius" format="dimension" />
+            <!--切线角的最大角度-->
+            <attr name="PullViewTangentAngle" format="integer" />
+            <!--拉到最低点时控件的宽度-->
+            <attr name="PullViewTargetWidth" format="dimension" />
+            <!--控件下移的高度-->
+            <attr name="PullViewDownHeight" format="dimension" />
+            <!--中间内容的外边距-->
+            <attr name="PullViewContentMargin" format="dimension" />
+            <!--中间圆显示的drawable-->
+            <attr name="PullViewCentreDrawable" format="reference" />
+        </declare-styleable>
+```
+-在控件所在的根布局中重写根布局的触摸事件,根据下来的高度得到进度至,然后去实现控件下拉
+```java
+       /**
+        * 根布局的触摸监听
+        * @param v
+        * @param event
+        * @return
+        */
+       @Override
+       public boolean onTouch(View v, MotionEvent event) {
+           switch (event.getAction()) {
+               case MotionEvent.ACTION_DOWN:
+                   mStartX = event.getX();
+                   mStartY = event.getY();
+                   return true;
+               case MotionEvent.ACTION_MOVE:
+                   float endY = event.getY();
+                   float endX = event.getX();
+                   //下拉的距离
+                   float distance = endY - mStartY;
+                   //下拉的高度除以定义的允许的最大高度可以得到一个进度值
+                   float progress = distance >= ALLOW_PULL_MAXHEIGHT ? 1 : distance / ALLOW_PULL_MAXHEIGHT;
+
+                   if (mPull_viscous_view != null) {
+                       mPull_viscous_view.setProgress(progress);
+                   }
+                   return true;
+               case MotionEvent.ACTION_UP:
+                   //当Up的时候控件回弹回去
+                   mPull_viscous_view.pringbBack();
+                   break;
+           }
+           return false;
+       }
+```
+-根据进度可以得到圆心坐标和切线角度,绘制两边的贝塞尔曲线核心是根据圆心坐标和切线角运用三角函数动态的计算结束点和控制点
+```java
+ /**
+     * 更新Path的路径
+     */
+    private void upDataPathLayout() {
+        float progress = mProgressInterpolator.getInterpolation(mProgress);
+        //获取当前的宽度和高度
+        float width = getValueByLine(getWidth(), mTargetWidth, mProgress);
+        float height = getValueByLine(0, mAllowMaxHeight, mProgress);
+        //确定圆的相关参数
+        float cPonitX = width / 2;
+        float cPonitY = height - mCircleRadius;
+        float cRedius = mCircleRadius;
+        //更新圆心的位置
+        mCirclePointX = cPonitX;
+        mCirclePointY = cPonitY;
+        //控制点结束位置的坐标
+        int endContralY = mDownHeight;
+        Log.i("X", "回调进来的进度:" + progress + "圆心的坐标:" + mCirclePointX + "," + mCirclePointY);
+        mPath.reset();
+        mPath.moveTo(0, 0);
+        //计算控制点和结束点的位置
+        //左边控制点的高度
+        float lControlPointX, lControlPointY;
+        //左边结束点的x,y
+        float lEndx, lEndy;
+        //获取切线角的弧度(将角度变成弧度)
+        double radians = Math.toRadians(getValueByLine(0, mTangentAngl, progress));
+        //结束点的X的坐标为圆心的X坐标-半径*sin（radians）
+        lEndx = (float) (cPonitX - Math.sin(radians) * cRedius);
+        //结束点的Y坐标等于圆心位置的y坐标+半径*cos(cRedius)
+        lEndy = (float) (cPonitY + Math.cos(radians) * cRedius);
+        //控制的y坐标
+        lControlPointY = getValueByLine(0, endContralY, progress);
+        //控制点和结束点之前的相差的高度
+        float diffHeight = lEndy - lControlPointY;
+        //可以根据两点相差的高度,和切线角度求出两点之间x的差值
+        float diffWidth = (float) (diffHeight / Math.tan(radians));
+        //得到控制点的X坐标
+        lControlPointX = lEndx - diffWidth;
+        mPath.quadTo(lControlPointX, lControlPointY, lEndx, lEndy);
+        //将path左象平移一段至cPonitX+(cPonitX-lEndx)
+        mPath.lineTo(cPonitX + (cPonitX - lEndx), lEndy);
+        //绘制右边的贝塞尔曲线
+        mPath.quadTo(cPonitX + cPonitX - lControlPointX, lControlPointY, width, 0);
+        upDataContentLayout(cPonitX, cPonitY, cRedius);
+    }
+```
+
 
 
 
