@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
+        android:visibility="gone"
         app:HorProgressUnReacherColor="#ffffff"
         app:HorProgressReacherColor="@color/colorPrimaryDark"
         app:HorProgressTextColor="#fffb00"
@@ -21,6 +22,7 @@
 
     <com.wh.jxd.com.progressbar.widget.HorizontalProgress
         android:id="@+id/progress2"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
@@ -35,6 +37,7 @@
 
     <com.wh.jxd.com.progressbar.widget.HorizontalProgress
         android:id="@+id/progress3"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
@@ -48,6 +51,7 @@
 
     <com.wh.jxd.com.progressbar.widget.HorizontalProgress
         android:id="@+id/progress4"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
@@ -60,6 +64,11 @@
         app:HorProgressReacherHeight="15px"
         app:HorProgressUnReacherHeight="10px"
         app:HorProgressUnReacherColor="#f1f7e5"/>
+
+    <com.wh.jxd.com.progressbar.widget.RingProgress
+        android:layout_gravity="center"
+        android:layout_width="500px"
+        android:layout_height="500px" />
 
 
 </LinearLayout>

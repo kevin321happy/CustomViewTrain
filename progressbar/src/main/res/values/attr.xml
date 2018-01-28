@@ -18,4 +18,17 @@
         <attr name="HorProgressTextMargin" format="dimension" />
     </declare-styleable>
 
+    <!--环形进度条的自定义属性-->
+    <declare-styleable name="RingProgress">
+        <!--已到达的进度的颜色-->
+        <attr name="RingProgressRearchColor" format="color" />
+        <!--未达到的进度的颜色-->
+        <attr name="RingProgressUnRearchColor" format="color" />
+        <attr name="RingWidth" format="dimension" />
+        <!--进度文字的颜色-->
+        <attr name="RingProgressTextColor" format="color" />
+        <!--进度文字的大小-->
+        <attr name="RingProgressTextSize" format="dimension" />
+    </declare-styleable>
+
 </resources>
