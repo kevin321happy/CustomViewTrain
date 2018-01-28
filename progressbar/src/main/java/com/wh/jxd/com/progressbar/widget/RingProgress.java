@@ -199,7 +199,7 @@ public class RingProgress extends ProgressBar {
         mPaint.setColor(Color.BLUE);
         canvas.drawArc(rectF, 0, 270, false, mPaint);
         mPaint.setStyle(Paint.Style.FILL);
-//        mPaint.setColor(Color.BLUE);
+        mPaint.setColor(Color.BLUE);
         Point startPoint = mPoints.get(0);
         Point endPoint = mPoints.get(270);
         Log.i("Point", "圆心上的点:" + startPoint.x + "，" + startPoint.y);
