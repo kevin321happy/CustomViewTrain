@@ -332,11 +332,8 @@
 ------------
 
 ## [带圆角的ImageView](https://github.com/kevin321happy/CustomViewTrain/tree/master/roundimageview/src/main)
- <div align="center">
-    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud03.png" width="300" height="600">
-    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud01.png" width="300" height="600">
-    <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud02.png" width="300" height="600">
-  </div>
+ <a href="roud03.png"><img src="gif/roud03.png" width="30%"/></a> <a href="roud02.png"><img src="roud02.png" width="30%"/></a> <a href="roud01.png"><img src="gif/roud01.png" width="30%"/></a>
+
 
 #### -  自定义带圆角的ImageView,可以随意设置ImageView四个角的圆角,还能通过属性调整显示为圆形和椭圆,还支持描边的颜色宽度设置
 ```xml
