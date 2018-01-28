@@ -9,7 +9,7 @@
 <a href="gif/progressbar.png"><img src="gif/progressbar.png" width="40%"/><a href="gif/ringprogress.gif"><img src="gif/ringprogress.gif" width="40%"/>
 
 #### - [水平的进度条](https://github.com/kevin321happy/CustomViewTrain/blob/master/progressbar/src/main/java/com/wh/jxd/com/progressbar/widget/HorizontalProgress.java),支持已达到进度未到达进度的颜色高度定制,进度文字的颜色大小以及左右边距的定制。
-[圆环进度条](https://github.com/kevin321happy/CustomViewTrain/blob/master/progressbar/src/main/java/com/wh/jxd/com/progressbar/widget/RingProgress.java)圆环的宽度,颜色,环背景,以及中间文字的相关属性设置
+#### [圆环进度条](https://github.com/kevin321happy/CustomViewTrain/blob/master/progressbar/src/main/java/com/wh/jxd/com/progressbar/widget/RingProgress.java)圆环的宽度,颜色,环背景,以及中间文字的相关属性设置
 ```xml
     <!--水平进度条的自定义属性-->
        <declare-styleable name="HorizontalProgress">
