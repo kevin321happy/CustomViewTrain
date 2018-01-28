@@ -67,7 +67,6 @@ public class LowOderBezierPath extends View {
          * 所以控制点相对的x ，y 为100,-400   结束点的相对 x ，y是 300,0
          */
         mPath.rQuadTo(100,-400,300,0);
-
         //三阶贝塞尔
         mPath.moveTo(400,800);
         /**
@@ -80,10 +79,7 @@ public class LowOderBezierPath extends View {
          * 相对位置绘制发,各个点的x，y值分别相对起始点的，y的值
         */
         mPath.moveTo(400,1000);
-
         mPath.rCubicTo(100,-400,300,400,600,0);
-
         canvas.drawPath(mPath,mPaint);
-
     }
 }

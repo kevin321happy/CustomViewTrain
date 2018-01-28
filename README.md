@@ -37,13 +37,12 @@
 ------------
 
 ## [刻度进度盘](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java)
-
  <div align="center">
     <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlate.gif" width="400">
     <img src="https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlatescan.gif" width="400">
   </div>
 
-#### - 仿华为手机管家的[圆盘刻度控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java),支持刻度线颜色长度,以及中间文字的相关属性定制,还可通过设置动画插值器来改变进度的动画
+#### - 仿华为手机管家的[圆盘刻度控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java),支持刻度线颜色长度,以及中间文字的相关属性定制,能设置动画插值器来改变进度的动画
 #### 还能通过改变属性设置是否需要扫描的效果,扫描的动画效果
 ```xml
     <!--刻度进度盘的自定义属性-->
@@ -69,9 +68,66 @@
 
 
 ## [贝塞尔控件](https://github.com/kevin321happy/CustomViewTrain/tree/master/bezierview/src/main/java/com/wh/jxd/com/bezierview)
-
-#### -  贝塞尔控件，[1-3阶贝塞尔](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/LowOderBezierPath.java) 直接调用系统提供的api，[高阶贝塞尔](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HeightOderBezierPath.java)根据规律实现高级贝塞尔绘制
-
+#### - [1-3阶贝塞尔](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/LowOderBezierPath.java) 直接调用系统提供的api，
+```java
+    @Override
+       protected void onDraw(Canvas canvas) {
+           super.onDraw(canvas);
+           //一阶贝塞尔
+           mPath.moveTo(200, 200);
+           mPath.lineTo(500, 400);
+           //二阶贝塞尔
+           /**
+            * 绝对绘制
+            * 控制钱的坐标和结束点的坐标
+            */
+   //        mPath.quadTo(600,0,800,400);
+           /**
+            * 相对位置绘制
+            * 600相对500是100,0相对400是-400,800相对500是300,400相对400是0
+            * 所以控制点相对的x ，y 为100,-400   结束点的相对 x ，y是 300,0
+            */
+           mPath.rQuadTo(100,-400,300,0);
+           //三阶贝塞尔
+           mPath.moveTo(400,800);
+           /**
+            * 控制点1  x,y坐标
+            * 控制点2 x,y坐标
+            * 结束点的 x,y坐标
+            */
+           mPath.cubicTo(500,400,700,1200,1000,800);
+           /**
+            * 相对位置绘制发,各个点的x，y值分别相对起始点的，y的值
+           */
+           mPath.moveTo(400,1000);
+           mPath.rCubicTo(100,-400,300,400,600,0);
+           canvas.drawPath(mPath,mPaint);
+       }
+```
+#### -[高阶贝塞尔](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HeightOderBezierPath.java)根据规律实现高级贝塞尔绘制
+-主要是计算贝塞尔点的规则:
+```java
+    /**
+        * 计算某时刻贝塞尔点的值 x,或y的值
+        * t 0-1
+        * values贝塞尔点的x，y的集合
+        * 算法规则：
+        * 相邻两个点之间根据贝塞尔公式两两运算,运算的结果存在前面一个值中
+        * 没运算一轮就减少一个点(那一轮的在最后的一个点)
+        * 通过双重循环到最后计算得到的值存贮在了数组中的0元素
+        */
+       private float calculatePoint(float t, float... values) {
+           int length = values.length;
+           for (int i = length - 1; i >= 0; i--) {
+               for (int j = 0; j < i; j++) {
+                   //根据上一个点的位置得到下一个点
+                   values[j] = values[j] + (values[j + 1] - values[j]) * t;
+               }
+           }
+           //运算时的的结果永远保存在第一位
+           return values[0];
+       }
+```
 #### -  [曲线的绘制](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HeightOderBezierPath.java)
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/bezierline.gif)
