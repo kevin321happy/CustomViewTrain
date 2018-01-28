@@ -202,7 +202,7 @@ public class RingProgress extends ProgressBar {
 //        mPaint.setColor(Color.BLUE);
         Point startPoint = mPoints.get(0);
         Point endPoint = mPoints.get(270);
-//        Log.i("Point", "圆心上的点:" + point.x + "，" + point.y);
+        Log.i("Point", "圆心上的点:" + startPoint.x + "，" + startPoint.y);
         canvas.drawCircle(startPoint.x, startPoint.y, 20, mPaint);
         canvas.drawCircle(endPoint.x, endPoint.y, 20, mPaint);
 //        canvas.drawCircle();
