@@ -12,14 +12,14 @@
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/progressbar.png)
 
-----------
+------------
 
 ## [仿华为天气的日出控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/HweatherWidget.java)
 
 #### - 仿华为天气里面的日出的空间,随着时间的移动改变太阳在圆弧上面的位置,动画效果
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/hWeather.gif)
 
-----------
+------------
 
 ## [刻度进度盘](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CircleProgressPlate.java)
 
@@ -32,7 +32,7 @@
     ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/ScalePlatescan.gif)
 
 
-----------
+------------
 
 
 
@@ -51,7 +51,7 @@
 
 
 
-----------
+------------
 ## [侧滑菜单](https://github.com/kevin321happy/CustomViewTrain/tree/master/sidemenuview)
 
 #### -  侧拉删除,处理菜单视图的回弹动画和关闭菜单动画,支持菜单视图的定制
@@ -59,7 +59,7 @@
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/slidedelete.gif)
 
 
-----------
+------------
 
 ## [带圆角的ImageView](https://github.com/kevin321happy/CustomViewTrain/tree/master/roundimageview/src/main)
 
@@ -77,7 +77,7 @@
 
      ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/roud02.png)
 
-----------
+------------
 
 ## [自定义圆形的Viewpager指示器](https://github.com/kevin321happy/CustomViewTrain/tree/master/circleindicator/src/main/java/com/wh/jxd/com/circleindicator)
 
@@ -85,7 +85,7 @@
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/CIndicator.gif)
 
-----------
+------------
 
 ## [雷达扫描](https://github.com/kevin321happy/CustomViewTrain/tree/master/radarscanview/src/main)
 
@@ -93,7 +93,7 @@
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/RedarView.gif)
 
-----------
+------------
 
 ## [动感圆环](https://github.com/kevin321happy/CustomViewTrain/tree/master/ringwave/src)
 
@@ -101,14 +101,14 @@
 
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/Rwave.gif)
 
-----------
+------------
 
 ## [流式标签](https://github.com/kevin321happy/CustomViewTrain/tree/master/flowviewsample/src/main)
 
 #### -  自动换行的流式标签,功能做的很简陋,主要在onMeasure和onLayout中处理实现流式摆放的效果
 
 
-----------
+------------
 
 ## [收缩布局](https://github.com/kevin321happy/CustomViewTrain/tree/master/collapseviewsample/src)
 
@@ -116,7 +116,7 @@
 
 
 
-----------
+------------
 
 * 未完待续....
 
