@@ -79,7 +79,9 @@ public class RingProgress extends ProgressBar {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        mPaint = new Paint();
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setAntiAlias(true);
+        mPaint.setDither(true);
         getAttrs(context, attrs);
         //注意：这里要先获取到自定义属性
         mPaint.setTextSize(mTextSize);
@@ -184,7 +186,6 @@ public class RingProgress extends ProgressBar {
         canvas.drawArc(mRectF, 0, sweepAngle, false, mPaint);
         //绘制两端的圆形,让圆环看起来是圆滑的
         mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(Color.BLUE);
         Point startPoint = mPoints.get(0);
         Point endPoint = mPoints.get(endPointIndex);
         canvas.drawCircle(startPoint.x, startPoint.y, mRingwidth / 2, mPaint);

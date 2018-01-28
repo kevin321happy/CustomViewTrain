@@ -1,5 +1,6 @@
 package com.wh.jxd.com.progressbar;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -11,22 +12,28 @@ import com.wh.jxd.com.progressbar.widget.RingProgress;
 public class MainActivity extends AppCompatActivity {
     int mProgress = 0;
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-
                 case 0:
                     if (mProgress < 100) {
                         mProgress++;
                         if (mRing_progress != null) {
                             mRing_progress.setProgress(mProgress);
-                            mHandler.handleMessage();
+                            final Message message = new Message();
+                            message.what = 0;
+                            mHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    handleMessage(message);
+                                }
+                            }, 100);
                         }
                     }
                     break;
-
             }
         }
     };
@@ -46,6 +53,11 @@ public class MainActivity extends AppCompatActivity {
         progress3.setProgress(40);
         progress4.setProgress(75);
 
-        mRing_progress.setProgress(50);
+
+        mProgress = mRing_progress.getProgress();
+        Message message = new Message();
+        message.what = 0;
+        mHandler.handleMessage(message);
+
     }
 }

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorAccent"
+    android:orientation="vertical"
     tools:context="com.wh.jxd.com.progressbar.MainActivity">
 
     <com.wh.jxd.com.progressbar.widget.HorizontalProgress
@@ -13,63 +13,97 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:visibility="gone"
-        app:HorProgressUnReacherColor="#ffffff"
         app:HorProgressReacherColor="@color/colorPrimaryDark"
         app:HorProgressTextColor="#fffb00"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp" />
+        app:HorProgressUnReacherColor="#ffffff" />
 
     <com.wh.jxd.com.progressbar.widget.HorizontalProgress
         android:id="@+id/progress2"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:visibility="gone"
         app:HorProgressReacherColor="#a709e6"
-        app:HorProgressTextColor="#11d6f4"
         app:HorProgressReacherHeight="25px"
-        app:HorProgressUnReacherHeight="25px"
-        app:HorProgressUnReacherColor="#de4ae6" />
+        app:HorProgressTextColor="#11d6f4"
+        app:HorProgressUnReacherColor="#de4ae6"
+        app:HorProgressUnReacherHeight="25px" />
 
 
     <com.wh.jxd.com.progressbar.widget.HorizontalProgress
         android:id="@+id/progress3"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:visibility="gone"
         app:HorProgressReacherColor="#ede610"
-        app:HorProgressTextColor="#312121"
         app:HorProgressReacherHeight="25px"
-        app:HorProgressUnReacherHeight="10px"
-        app:HorProgressUnReacherColor="#9ae71e"/>
+        app:HorProgressTextColor="#312121"
+        app:HorProgressUnReacherColor="#9ae71e"
+        app:HorProgressUnReacherHeight="10px" />
 
     <com.wh.jxd.com.progressbar.widget.HorizontalProgress
         android:id="@+id/progress4"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginTop="30dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
+        android:visibility="gone"
         app:HorProgressReacherColor="#000000"
-        app:HorProgressTextColor="#ffffff"
-        app:HorProgressTextSize="60px"
-        app:HorProgressTextMargin="20px"
         app:HorProgressReacherHeight="15px"
-        app:HorProgressUnReacherHeight="10px"
-        app:HorProgressUnReacherColor="#f1f7e5"/>
+        app:HorProgressTextColor="#ffffff"
+        app:HorProgressTextMargin="20px"
+        app:HorProgressTextSize="60px"
+        app:HorProgressUnReacherColor="#f1f7e5"
+        app:HorProgressUnReacherHeight="10px" />
+
+    <com.wh.jxd.com.progressbar.widget.RingProgress
+        android:id="@+id/ring_progress2"
+        android:layout_width="300px"
+        android:layout_height="300px"
+        android:layout_gravity="center"
+        android:layout_marginTop="50px"
+        android:progress="80"
+        app:RingProgressRearchColor="@color/colorPrimary"
+        app:RingProgressTextColor="@color/colorPrimary"
+        app:RingProgressTextSize="40px"
+        app:RingProgressUnRearchColor="#ffffff"
+        app:RingWidth="10px" />
+
+    <com.wh.jxd.com.progressbar.widget.RingProgress
+        android:id="@+id/ring_progress1"
+        android:layout_width="450px"
+        android:layout_height="450px"
+        android:layout_gravity="center"
+        android:layout_marginTop="50px"
+        android:progress="60"
+        app:RingProgressRearchColor="#a709e6"
+        app:RingProgressTextColor="#ffffff"
+        app:RingProgressTextSize="50px"
+        app:RingProgressUnRearchColor="#de4ae6"
+        app:RingWidth="20px" />
+
 
     <com.wh.jxd.com.progressbar.widget.RingProgress
         android:id="@+id/ring_progress"
+        android:layout_width="600px"
+        android:layout_height="600px"
         android:layout_gravity="center"
-        android:layout_width="500px"
-        android:layout_height="500px" />
+        android:progress="10"
+        app:RingProgressRearchColor="#81057b"
+        app:RingProgressTextColor="#81057b"
+        app:RingProgressTextSize="60px"
+        app:RingProgressUnRearchColor="#ffffff" />
+
+
 
 
 </LinearLayout>
