@@ -10,6 +10,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.wh.jxd.com.progressbar.R;
@@ -32,54 +33,17 @@ public class RingProgress extends ProgressBar {
      */
     private int mUnRearchColor;
     /**
-     * 达到的进度的高度
-     *
-     * @param context
-     */
-    private int mRearchBarHeight;
-    /**
-     * 未到达的进度的高度
-     *
-     * @param context
-     */
-    private int mUnRearchBarHeight;
-    /**
      * 进度文字的颜色
      *
      * @param context
      */
     private int mTextColor;
-
     /**
      * 进度文字的大小
      *
      * @param context
      */
     private int mTextSize;
-    /**
-     * 实际可用的宽度
-     */
-    private int mActualWidth;
-
-    /**
-     * 文字的左边的边距
-     *
-     * @param context
-     */
-    private int mTextMargin;
-
-    /**
-     * 实际测量的高度
-     */
-    private int mMeasureHeight;
-    /**
-     * 是否需要绘制mUnRearch部分,当文字绘制达到了终点就不需要
-     */
-    private boolean mShowDrawunRearchBar;
-    /**
-     * 实际高度
-     */
-    private int mActualHeight;
     /**
      * 圆心坐标
      */
@@ -97,6 +61,9 @@ public class RingProgress extends ProgressBar {
      * 圆环的宽度
      */
     private int mRingwidth;
+    //圆心的位置的偏移,
+    private int mOffsetAngle = 20;
+    private RectF mRectF;
 
     public RingProgress(Context context) {
         this(context, null);
@@ -116,7 +83,6 @@ public class RingProgress extends ProgressBar {
         getAttrs(context, attrs);
         //注意：这里要先获取到自定义属性
         mPaint.setTextSize(mTextSize);
-
     }
 
     /**
@@ -142,11 +108,11 @@ public class RingProgress extends ProgressBar {
      */
     private void getAttrs(Context context, AttributeSet attrs) {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.RingProgress);
-        mReachColor = ta.getColor(R.styleable.RingProgress_RingProgressRearchColor, Color.RED);
+        mReachColor = ta.getColor(R.styleable.RingProgress_RingProgressRearchColor, Color.BLUE);
         mUnRearchColor = ta.getColor(R.styleable.RingProgress_RingProgressUnRearchColor, Color.GRAY);
         mRingwidth = ta.getDimensionPixelSize(R.styleable.RingProgress_RingWidth, 40);
-        mTextSize = ta.getDimensionPixelSize(R.styleable.RingProgress_RingProgressTextSize, 40);
-        mTextColor = ta.getColor(R.styleable.RingProgress_RingProgressTextColor, Color.RED);
+        mTextSize = ta.getDimensionPixelSize(R.styleable.RingProgress_RingProgressTextSize, 60);
+        mTextColor = ta.getColor(R.styleable.RingProgress_RingProgressTextColor, Color.BLACK);
         //回收
         ta.recycle();
     }
@@ -160,8 +126,6 @@ public class RingProgress extends ProgressBar {
         mCPointY = mHeightSize / 2;
         //初始化环上的圆的圆心点
         initPointOnRing();
-
-
     }
 
     /**
@@ -175,37 +139,56 @@ public class RingProgress extends ProgressBar {
         canvas.save();
         //平移画布,保证实际的起点是从实际有效区域开始的
         canvas.translate(getPaddingLeft(), getPaddingTop());
-        String text = getProgress() + "%";
-        drawRearchArc(canvas);
+        int progress = getProgress();
+        float precent = ((float) progress) / 100;
+        //圆环的结束位置对应的Point在mPoints中的脚标索引
+        int endPointIndex = (int) (360 * precent);
+        //进度弧形扫描过的角度
+        float sweepAngle = 360 * precent;
+        String text = progress + "%";
+        drawBackGroundArc(canvas);
+        drawRearchArc(canvas, endPointIndex, sweepAngle);
+        drawProgressText(canvas, text);
         //画布还原
         canvas.restore();
+    }
+
+    /**
+     * 绘制背景的圆弧
+     *
+     * @param canvas
+     */
+    private void drawBackGroundArc(Canvas canvas) {
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setStrokeWidth(mRingwidth);
+        mPaint.setColor(mUnRearchColor);
+        canvas.drawCircle(mCpointX, mCPointY, mWidthSize / 2 - mRingwidth, mPaint);
     }
 
     /**
      * 绘制进度的圆弧
      *
      * @param canvas
+     * @param endPointIndex
+     * @param sweepAngle
      */
-    private void drawRearchArc(Canvas canvas) {
-        mPaint.setColor(Color.GREEN);
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(mRingwidth);
-        RectF rectF = new RectF();
-        rectF.left = 0 +mRingwidth;
-        rectF.top = 0 + mRingwidth;
-        rectF.right = mWidthSize - mRingwidth;
-        rectF.bottom = mHeightSize - mRingwidth;
-        canvas.drawCircle(mCpointX,mCPointY,mWidthSize/2-mRingwidth,mPaint);
-        mPaint.setColor(Color.BLUE);
-        canvas.drawArc(rectF, 0, 270, false, mPaint);
+    private void drawRearchArc(Canvas canvas, int endPointIndex, float sweepAngle) {
+        mPaint.setColor(mReachColor);
+        if (mRectF == null) {
+            mRectF = new RectF();
+        }
+        mRectF.left = mRingwidth;
+        mRectF.top = mRingwidth;
+        mRectF.right = mWidthSize - mRingwidth;
+        mRectF.bottom = mHeightSize - mRingwidth;
+        canvas.drawArc(mRectF, 0, sweepAngle, false, mPaint);
+        //绘制两端的圆形,让圆环看起来是圆滑的
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(Color.BLUE);
         Point startPoint = mPoints.get(0);
-        Point endPoint = mPoints.get(270);
-        Log.i("Point", "圆心上的点:" + startPoint.x + "，" + startPoint.y);
-        canvas.drawCircle(startPoint.x, startPoint.y, 20, mPaint);
-        canvas.drawCircle(endPoint.x, endPoint.y, 20, mPaint);
-//        canvas.drawCircle();
+        Point endPoint = mPoints.get(endPointIndex);
+        canvas.drawCircle(startPoint.x, startPoint.y, mRingwidth / 2, mPaint);
+        canvas.drawCircle(endPoint.x, endPoint.y, mRingwidth / 2, mPaint);
     }
 
     /**
@@ -213,40 +196,14 @@ public class RingProgress extends ProgressBar {
      *
      * @param canvas
      * @param text
-     * @param textStartX
      */
-    private void drawProgressText(Canvas canvas, String text, int textStartX) {
+    private void drawProgressText(Canvas canvas, String text) {
         mPaint.setColor(mTextColor);
-
+        //测量出Text的宽度
+        int textWidth = (int) mPaint.measureText(text);
         int textHeight = (int) (mPaint.descent() - mPaint.ascent());
-        canvas.drawText(text, textStartX, 0 + textHeight / 2 - mRearchBarHeight / 2, mPaint);
+        canvas.drawText(text, mCpointX - textWidth / 2, mCPointY + textHeight / 2, mPaint);
         Log.i("tt", "绘制了文字");
-    }
-
-    /**
-     * 绘制未到达的进度
-     *
-     * @param canvas
-     * @param unRearchStartX
-     */
-    private void drawUnRearchBar(Canvas canvas, int unRearchStartX) {
-        mPaint.setColor(mUnRearchColor);
-        mPaint.setStrokeWidth(mUnRearchBarHeight);
-        if (mShowDrawunRearchBar) {
-            canvas.drawLine(unRearchStartX, 0, mActualWidth, 0, mPaint);
-        }
-    }
-
-    /**
-     * 绘制已到达的进度
-     *
-     * @param canvas
-     * @param rearchEndX
-     */
-    private void drawRerchBar(Canvas canvas, int rearchEndX) {
-        mPaint.setColor(mReachColor);
-        mPaint.setStrokeWidth(mRearchBarHeight);
-        canvas.drawLine(0, 0, rearchEndX, 0, mPaint);
     }
 
     @Override

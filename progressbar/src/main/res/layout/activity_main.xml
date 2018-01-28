@@ -66,6 +66,7 @@
         app:HorProgressUnReacherColor="#f1f7e5"/>
 
     <com.wh.jxd.com.progressbar.widget.RingProgress
+        android:id="@+id/ring_progress"
         android:layout_gravity="center"
         android:layout_width="500px"
         android:layout_height="500px" />
