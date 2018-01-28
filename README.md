@@ -5,12 +5,30 @@
 
 #### -  自定义View中常用的五个辅助类,包括手势识别,速度追综，拖拽，滑动,设备信息等
 
-
 ## [自定义水平ProgressBar](https://github.com/kevin321happy/CustomViewTrain/blob/master/progressbar/src/main/java/com/wh/jxd/com/progressbar/widget/HorizontalProgress.java)
 
-#### - 水平的进度条,支持已达到进度未到达进度的颜色高度定制,进度文字的颜色大小以及左右边距的定制
-
    ![image](https://github.com/kevin321happy/CustomViewTrain/blob/master/gif/progressbar.png)
+#### - 水平的进度条,支持已达到进度未到达进度的颜色高度定制,进度文字的颜色大小以及左右边距的定制
+```xml
+    <!--水平进度条的自定义属性-->
+       <declare-styleable name="HorizontalProgress">
+           <!--已到达的进度的颜色-->
+           <attr name="HorProgressReacherColor" format="color" />
+           <!--已到达的进度高度-->
+           <attr name="HorProgressReacherHeight" format="dimension" />
+           <!--未到达的进度的颜色-->
+           <attr name="HorProgressUnReacherColor" format="color" />
+           <!--未到达的进度的高度-->
+           <attr name="HorProgressUnReacherHeight" format="dimension" />
+           <!--进度文字的颜色-->
+           <attr name="HorProgressTextColor" format="color" />
+           <!--进度文字的大小-->
+           <attr name="HorProgressTextSize" format="dimension" />
+           <!--进度文字的左右边距-->
+           <attr name="HorProgressTextMargin" format="dimension" />
+       </declare-styleable>
+```
+
 
 ------------
 
