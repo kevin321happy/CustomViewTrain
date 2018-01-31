@@ -11,7 +11,7 @@
     <com.wh.jxd.com.bezierview.widget.HeightOderBezierPath
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+         />
 
     <com.wh.jxd.com.bezierview.widget.PathDemo
         android:layout_width="match_parent"

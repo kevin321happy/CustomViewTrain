@@ -4,19 +4,19 @@
         <item
             android:id="@+id/nav_one"
             android:icon="@drawable/ic_sun"
-            android:title="切换图层"/>
+            android:title="进度刻度盘" />
         <item
             android:id="@+id/nav_two"
             android:icon="@drawable/ic_sun"
-            android:title="显示自定义mark和infoWindow"/>
+            android:title="贝塞尔线" />
         <item
             android:id="@+id/nav_three"
             android:icon="@drawable/ic_sun"
-            android:title="发大级别"/>
+            android:title="下拉的粘性控件" />
         <item
             android:id="@+id/nav_four"
             android:icon="@drawable/ic_sun"
-            android:title="允许所有的手势和UI控件"/>
+            android:title="允许所有的手势和UI控件" />
     </group>
 
     <item android:title="其他">
@@ -24,15 +24,15 @@
             <item
                 android:id="@+id/nav_five"
                 android:icon="@drawable/ic_sun"
-                android:title="设置"/>
+                android:title="设置" />
             <item
                 android:id="@+id/nav_six"
                 android:icon="@drawable/ic_sun"
-                android:title="关于我们"/>
+                android:title="关于我们" />
             <item
                 android:id="@+id/nav_seven"
                 android:icon="@drawable/ic_sun"
-                android:title="去到首页"/>
+                android:title="去到首页" />
         </menu>
     </item>
 </menu>
