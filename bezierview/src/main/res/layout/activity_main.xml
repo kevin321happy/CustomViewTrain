@@ -1,35 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:background="@color/colorAccent"
-    tools:context="com.wh.jxd.com.bezierview.MainActivity">
 
-    <com.wh.jxd.com.bezierview.widget.PullViscousView
-        android:id="@+id/pull_viscousview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:PullViewCentreDrawable="@drawable/github"
-        app:PullViewCircleRadius="80px"
-        app:PullViewColor="@color/colorAccent"
-        app:PullViewContentMargin="10px" />
 
-    <com.wh.jxd.com.bezierview.widget.LowOderBezierPath
+    >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:background="@color/colorAccent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        tools:context="com.wh.jxd.com.bezierview.MainActivity">
 
-    <com.wh.jxd.com.bezierview.widget.HweatherWidget
-        android:id="@+id/weather"
-        android:layout_width="1000px"
-        android:layout_height="600px"
-        android:layout_marginTop="150px" />
+        <com.wh.jxd.com.bezierview.widget.PullViscousView
+            android:id="@+id/pull_viscousview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:PullViewCentreDrawable="@drawable/github"
+            app:PullViewCircleRadius="80px"
+            app:PullViewColor="@color/colorAccent"
+            app:PullViewContentMargin="10px" />
+
+        <com.wh.jxd.com.bezierview.widget.LowOderBezierPath
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <com.wh.jxd.com.bezierview.widget.HweatherWidget
+            android:id="@+id/weather"
+            android:layout_width="1000px"
+            android:layout_height="600px"
+            android:layout_marginTop="150px" />
 
 
-</LinearLayout>
+    </LinearLayout>
+    <!--菜单布局-->
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nv_main_navigation"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/drawer_view" />
+
+</android.support.v4.widget.DrawerLayout>

@@ -69,7 +69,6 @@ public class CircleIndicator extends View implements ViewPager.OnPageChangeListe
         getAttribute(context, attrs);
         init();
     }
-
     /**
      * 获取设置的自定义属性
      *
@@ -136,10 +135,8 @@ public class CircleIndicator extends View implements ViewPager.OnPageChangeListe
             mIndicators.add(indicator);
         }
     }
-
     /**
      * 绘制指示器
-     *
      * @param canvas
      */
     @SuppressLint("DrawAllocation")

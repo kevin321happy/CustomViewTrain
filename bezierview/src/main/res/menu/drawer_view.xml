@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_one"
+            android:icon="@drawable/ic_sun"
+            android:title="切换图层"/>
+        <item
+            android:id="@+id/nav_two"
+            android:icon="@drawable/ic_sun"
+            android:title="显示自定义mark和infoWindow"/>
+        <item
+            android:id="@+id/nav_three"
+            android:icon="@drawable/ic_sun"
+            android:title="发大级别"/>
+        <item
+            android:id="@+id/nav_four"
+            android:icon="@drawable/ic_sun"
+            android:title="允许所有的手势和UI控件"/>
+    </group>
+
+    <item android:title="其他">
+        <menu>
+            <item
+                android:id="@+id/nav_five"
+                android:icon="@drawable/ic_sun"
+                android:title="设置"/>
+            <item
+                android:id="@+id/nav_six"
+                android:icon="@drawable/ic_sun"
+                android:title="关于我们"/>
+            <item
+                android:id="@+id/nav_seven"
+                android:icon="@drawable/ic_sun"
+                android:title="去到首页"/>
+        </menu>
+    </item>
+</menu>

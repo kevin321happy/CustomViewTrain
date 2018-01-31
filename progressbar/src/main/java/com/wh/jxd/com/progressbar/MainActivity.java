@@ -52,8 +52,6 @@ public class MainActivity extends AppCompatActivity {
         progress2.setProgress(60);
         progress3.setProgress(40);
         progress4.setProgress(75);
-
-
         mProgress = mRing_progress.getProgress();
         Message message = new Message();
         message.what = 0;
