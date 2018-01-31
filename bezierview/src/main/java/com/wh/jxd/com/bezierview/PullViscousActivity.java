@@ -27,26 +27,20 @@ public class PullViscousActivity extends Activity implements View.OnTouchListene
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pull_viscous);
-        mLl_root = (LinearLayout) findViewById(R.id.ll_root);
-        mPull_viscous_view = (PullViscousView) findViewById(R.id.pull_viscousview);
+        mLl_root = (LinearLayout) findViewById(R.id.ll_pull_root);
+        mPull_viscous_view = (PullViscousView) findViewById(R.id.pull_viscous);
         mLl_root.setOnTouchListener(this);
     }
 
-    /**
-     * 根布局的触摸监听
-     *
-     * @param v
-     * @param event
-     * @return
-     */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mStartX = event.getX();
                 mStartY = event.getY();
-                return true;
+
             case MotionEvent.ACTION_MOVE:
+
                 float endY = event.getY();
                 float endX = event.getX();
                 //下拉的距离
@@ -58,11 +52,49 @@ public class PullViscousActivity extends Activity implements View.OnTouchListene
                     mPull_viscous_view.setProgress(progress);
                 }
                 return true;
+
+
             case MotionEvent.ACTION_UP:
-                //当Up的时候控件回弹回去
+               //当Up的时候控件回弹回去
                 mPull_viscous_view.pringbBack();
                 break;
+
+
         }
         return false;
     }
+
+//    /**
+//     * 根布局的触摸监听
+//     *
+//     * @param v
+//     * @param event
+//     * @return
+//     */
+//    @Override
+//    public boolean onTouch(View v, MotionEvent event) {
+//        switch (event.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                mStartX = event.getX();
+//                mStartY = event.getY();
+//
+//            case MotionEvent.ACTION_MOVE:
+//                float endY = event.getY();
+//                float endX = event.getX();
+//                //下拉的距离
+//                float distance = endY - mStartY;
+//                //下拉的高度除以定义的允许的最大高度可以得到一个进度值
+//                float progress = distance >= ALLOW_PULL_MAXHEIGHT ? 1 : distance / ALLOW_PULL_MAXHEIGHT;
+//
+//                if (mPull_viscous_view != null) {
+//                    mPull_viscous_view.setProgress(progress);
+//                }
+//                return true;
+//            case MotionEvent.ACTION_UP:
+//                //当Up的时候控件回弹回去
+//                mPull_viscous_view.pringbBack();
+//                break;
+//        }
+//        return true;
+//    }
 }
