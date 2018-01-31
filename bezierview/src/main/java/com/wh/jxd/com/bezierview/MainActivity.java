@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                 break;
             case R.id.nav_three:
                 intent=new Intent(this,PullViscousActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nav_four:
                 break;
