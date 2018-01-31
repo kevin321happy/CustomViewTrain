@@ -6,11 +6,13 @@
     android:layout_width="match_parent"
     android:gravity="center"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.wh.jxd.com.bezierview.MainActivity">
 
     <com.wh.jxd.com.bezierview.widget.HeightOderBezierPath
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="visible"
          />
 
     <com.wh.jxd.com.bezierview.widget.PathDemo
@@ -25,7 +27,6 @@
 
     <com.wh.jxd.com.bezierview.widget.hc.ChongScalePlate
         android:layout_width="800px"
-        android:layout_height="800px" />
-
-
+        android:layout_height="800px"
+        android:visibility="gone"/>
 </LinearLayout>
