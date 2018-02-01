@@ -7,12 +7,16 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.SweepGradient;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kevin321vip on 2018/2/1.
@@ -56,12 +60,22 @@ public class CheckVirusView extends View {
      */
     private Paint mGradientPaint;
     private SweepGradient mShader;
-    private int mShaderColor=Color.BLUE;
+    private int mShaderColor = Color.BLUE;
     private ValueAnimator mAnimator;
     /**
      * 扫描画笔的透明度不断变化
      */
     private int mScanAlpha;
+    /**
+     * 存放斑点圆的圆心的集合
+     */
+    private List<Point> mPoints = new ArrayList<>();
+    /**
+     * 绘制斑点的画笔
+     */
+    private Paint mSpotPaint;
+    private int mAlpha;
+    private Thread mThread;
 
     public CheckVirusView(Context context) {
         super(context);
@@ -97,23 +111,26 @@ public class CheckVirusView extends View {
      * @param attrs
      */
     private void init(Context context, AttributeSet attrs) {
+        //绘制的画笔
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
         mPaint.setColor(mPaintColor);
         mPaint.setStyle(Paint.Style.STROKE);
+
+        mSpotPaint = new Paint();
+        mSpotPaint.setAntiAlias(true);
+        mSpotPaint.setDither(true);
+        mSpotPaint.setColor(Color.RED);
+        mSpotPaint.setStyle(Paint.Style.FILL);
         //十字路径
         mPath = new Path();
-
         //绘制扫描的画笔
         mGradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mGradientPaint.setAntiAlias(true);
         mGradientPaint.setDither(true);
         mGradientPaint.setStyle(Paint.Style.FILL);
-//        mGradientPaint.setStrokeWidth(mRadius);
         initAnimation();
-
-
     }
 
     /**
@@ -127,16 +144,37 @@ public class CheckVirusView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 mValue = (int) animation.getAnimatedValue();
-                Log.i("value","获取到了动画的值:"+mValue);
+                Log.i("value", "获取到了动画的值:" + mValue);
+                redraw();
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 postInvalidate();
             }
         });
-        mAnimator.setDuration(1500);
-//        mAnimator.setRepeatMode(ValueAnimator.RESTART);
+        mAnimator.setDuration(3000);
         mAnimator.setRepeatCount(100);
 
     }
 
+    private void redraw() {
+        if (mThread == null) {
+         mThread=  new Thread(new Runnable() {
+               @Override
+               public void run() {
+                   try {
+                       Thread.sleep(200);
+                       postInvalidate();
+                   } catch (InterruptedException e) {
+                       e.printStackTrace();
+                   }
+               }
+           });
+        }
+        mThread.start();
+    }
     /**
      * Path的轨迹
      */
@@ -162,6 +200,33 @@ public class CheckVirusView extends View {
         drawCircle(canvas);
         drawCrossPath(canvas);
         drawScan(canvas);
+        if (mValue % 30 == 0) {
+            drawSpot(canvas);
+        }
+    }
+
+    /**
+     * 绘制圆形的斑点
+     *
+     * @param canvas
+     */
+    private void drawSpot(Canvas canvas) {
+        canvas.save();
+        mAlpha -= 5;
+        if (mAlpha < 0) {
+            mAlpha = 30;
+        }
+        mSpotPaint.setAlpha(mAlpha);
+
+        int randowValuex = -50 + (int) (Math.random() * mRadius);      //返回大于等于m小于m+n（不包括m+n）之间的随机数
+        int randowValuey = -50 + (int) (Math.random() * mRadius);
+        int randowValuer = 5 + (int) (Math.random() * mRadius / 3);
+        //返回大于等于m小于m+n（不包括m+n）之间的随机数
+
+
+        canvas.drawCircle(mCPointx + randowValuex, mCPointy + randowValuey, randowValuer, mSpotPaint);
+
+        canvas.restore();
     }
 
     /**
@@ -174,9 +239,9 @@ public class CheckVirusView extends View {
 //        mGradientPaint.setAlpha(mScanAlpha);
         mScanAlpha -= 5;
         if (mScanAlpha < 0) {
-            mScanAlpha = 30;
+            mScanAlpha = 20;
         }
-        Log.i("value","旋转的rotate:"+mValue);
+        Log.i("value", "旋转的rotate:" + mValue);
         //绘制雷达扫描的效果
         //绘制雷达扫描的效果
         mMatrix.setRotate(mValue, mCPointx, mCPointy);
@@ -187,7 +252,7 @@ public class CheckVirusView extends View {
         mShader.setLocalMatrix(mMatrix);
         mGradientPaint.setShader(mShader);
         //绘制扫描效果
-        canvas.drawCircle(mCPointx, mCPointy, mRadius , mGradientPaint);
+        canvas.drawCircle(mCPointx, mCPointy, mRadius, mGradientPaint);
     }
 
     /**
@@ -196,6 +261,7 @@ public class CheckVirusView extends View {
      * @param canvas
      */
     private void drawCrossPath(Canvas canvas) {
+        mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(mStrokeWidth / 2);
         canvas.drawPath(mPath, mPaint);
     }
@@ -206,6 +272,7 @@ public class CheckVirusView extends View {
      * @param canvas
      */
     private void drawCircle(Canvas canvas) {
+        mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeWidth(mStrokeWidth);
         for (int i = 0; i < 3; i++) {
             canvas.drawCircle(mCPointx, mCPointy, mRadius - (mRadius * i / 4), mPaint);
