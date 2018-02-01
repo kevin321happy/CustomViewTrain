@@ -15,7 +15,8 @@
         android:layout_marginTop="30dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:visibility="gone"
+        android:visibility="visible"
+
         app:HorProgressReacherColor="@color/colorPrimaryDark"
         app:HorProgressTextColor="#fffb00"
         app:HorProgressUnReacherColor="#ffffff" />
@@ -27,7 +28,7 @@
         android:layout_marginTop="30dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:HorProgressReacherColor="#a709e6"
         app:HorProgressReacherHeight="25px"
         app:HorProgressTextColor="#11d6f4"
@@ -42,7 +43,7 @@
         android:layout_marginTop="30dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:HorProgressReacherColor="#ede610"
         app:HorProgressReacherHeight="25px"
         app:HorProgressTextColor="#312121"
@@ -72,6 +73,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="50px"
         android:progress="80"
+        android:visibility="gone"
         app:RingProgressRearchColor="@color/colorPrimary"
         app:RingProgressTextColor="@color/colorPrimary"
         app:RingProgressTextSize="40px"
@@ -79,6 +81,7 @@
         app:RingWidth="10px" />
 
     <com.wh.jxd.com.progressbar.widget.RingProgress
+        android:visibility="gone"
         android:id="@+id/ring_progress1"
         android:layout_width="450px"
         android:layout_height="450px"
@@ -93,6 +96,7 @@
 
 
     <com.wh.jxd.com.progressbar.widget.RingProgress
+        android:visibility="gone"
         android:id="@+id/ring_progress"
         android:layout_width="600px"
         android:layout_height="600px"

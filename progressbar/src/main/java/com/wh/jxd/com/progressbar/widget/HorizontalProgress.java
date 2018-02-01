@@ -78,6 +78,8 @@ public class HorizontalProgress extends ProgressBar {
      * 是否需要绘制mUnRearch部分,当文字绘制达到了终点就不需要
      */
     private boolean mShowDrawunRearchBar;
+    private int mPaddingLeft;
+    private int mProgress;
 
 
     public HorizontalProgress(Context context) {
@@ -124,6 +126,7 @@ public class HorizontalProgress extends ProgressBar {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int widthSize = MeasureSpec.getSize(widthMeasureSpec);
         //控件的实际的宽度为测量的宽度减去左右内边距
+        mPaddingLeft = getPaddingLeft();
         mActualWidth = widthSize - getPaddingLeft() - getPaddingRight();
 
         mMeasureHeight = getMeasureHeight(heightMeasureSpec);
@@ -156,6 +159,7 @@ public class HorizontalProgress extends ProgressBar {
             }
         }
     }
+
     /**
      * 绘制
      *
@@ -175,7 +179,7 @@ public class HorizontalProgress extends ProgressBar {
         int TextWidth = (int) mPaint.measureText(text);
         //进度到达部分的终点X位置=进度宽度-文字的左边距-文字宽度的一半(开始位置为左边距但是这里做了画布的平移,所以起点是0)
         int RearchEndX = progressWidth - mTextMargin - TextWidth / 2;
-         // Log.i("Tag","进度结束点:"+RearchEndX,"当前进度:"+getProgress()+"进度宽度")
+        // Log.i("Tag","进度结束点:"+RearchEndX,"当前进度:"+getProgress()+"进度宽度")
         //进度文字的开始位置
         int TextStartX = RearchEndX + mTextMargin;
         //未开始部分的进度的起始点
@@ -235,12 +239,31 @@ public class HorizontalProgress extends ProgressBar {
 
     /**
      * 控件的触摸事件
+     *
      * @param event
      * @return
      */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                //按下的点的X值
+                float downX = event.getX();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int moveX = (int) event.getX();
+                int moveDistance = moveX - mPaddingLeft;
+                mProgress = moveDistance*100 / mActualWidth;
+                setProgress(mProgress);
+                break;
+            case MotionEvent.ACTION_UP:
+                int upX = (int) event.getX();
+                int Distance = upX - mPaddingLeft;
+                mProgress = Distance*100 / mActualWidth;
+                setProgress(mProgress);
+                break;
+        }
+        return true;
     }
 
     @Override
