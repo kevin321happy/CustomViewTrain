@@ -55,7 +55,7 @@ public class HweatherWidget extends View {
     private List<Point> mIconPoints = new ArrayList<>();
     private int mSize;
     private Thread mThread;
-    private Path mSunPath;
+
     /**
      * 画圈的画笔
      */
@@ -81,7 +81,6 @@ public class HweatherWidget extends View {
      * 虚线
      */
     private PathEffect mEffects;
-
     /**
      * 文字的大小
      *
@@ -113,6 +112,15 @@ public class HweatherWidget extends View {
      * 测量文字边界的Rect
      */
     private Rect mRect = new Rect();
+
+    /**
+     * 太阳上竖线的Path的集合
+     *
+     * @param context
+     */
+    private List<Path> mSunPaths = new ArrayList<>();
+
+    private Path mSunPath = new Path();
 
     public HweatherWidget(Context context) {
         super(context);
@@ -160,7 +168,6 @@ public class HweatherWidget extends View {
         mTextPaint.setDither(true);
         mTextPaint.setColor(Color.WHITE);
         mTextPaint.setTextSize(mTextSize);
-
         initAnimation();
     }
 
@@ -224,6 +231,8 @@ public class HweatherWidget extends View {
             int x = (int) (mCPointX + Math.cos(radians) * len);
             int y = (int) (mCPointY + Math.sin(radians) * len);
             mPoints.add(new Point(x, y));
+
+
         }
         mSize = mPoints.size();
     }
@@ -298,6 +307,25 @@ public class HweatherWidget extends View {
             int x = point.x;
             int y = point.y;
             canvas.drawCircle(x, y, 40, mCirclePaint);
+
+            mSunPath.reset();
+            //绘制太阳上的Path
+            for (int i = 0; i <= 360; i = i + 30) {
+                //path在圆上每一个点的开始位置和结束位置
+                int startx, starty, endx, endy;
+                double radians = Math.toRadians(i);
+                //这里40是太阳那个圆的半径
+                startx = (int) (x + Math.cos(radians) * 40);
+                starty = (int) (y + Math.sin(radians) * 40);
+                endx = (int) (x + Math.cos(radians) * 60);
+                endy = (int) (y + Math.sin(radians) * 60);
+                mSunPath.moveTo(startx, starty);
+                mSunPath.lineTo(endx, endy);
+                if (i==360){
+                    canvas.drawPath(mSunPath, mCirclePaint);
+                }
+//                Log.d("path", "path的开始点:" + startx + "," + starty + "结束点:" + endx + "，" + endy);
+            }
             mCirclePaint.setStyle(Paint.Style.FILL);
             mCirclePaint.setColor(Color.WHITE);
             canvas.drawCircle(x, y, 35, mCirclePaint);
@@ -312,7 +340,7 @@ public class HweatherWidget extends View {
     public void setCurrentTime(int currentTime) {
         mCurrentTime = currentTime;
         mProgress = (float) mCurrentTime / 720;
-        Log.i("curr",mProgress+"");
+        Log.i("curr", mProgress + "");
         if (mAnimator != null) {
             mAnimator.start();
         }
