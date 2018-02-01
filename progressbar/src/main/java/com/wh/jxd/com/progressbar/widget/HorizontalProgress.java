@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ProgressBar;
 
@@ -155,7 +156,6 @@ public class HorizontalProgress extends ProgressBar {
             }
         }
     }
-
     /**
      * 绘制
      *
@@ -231,6 +231,16 @@ public class HorizontalProgress extends ProgressBar {
         mPaint.setColor(mReachColor);
         mPaint.setStrokeWidth(mRearchBarHeight);
         canvas.drawLine(0, 0, rearchEndX, 0, mPaint);
+    }
+
+    /**
+     * 控件的触摸事件
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return super.onTouchEvent(event);
     }
 
     @Override
