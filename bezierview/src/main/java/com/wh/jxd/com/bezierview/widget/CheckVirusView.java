@@ -60,7 +60,7 @@ public class CheckVirusView extends View {
      */
     private Paint mGradientPaint;
     private SweepGradient mShader;
-    private int mShaderColor = Color.BLUE;
+    private int mShaderColor = Color.parseColor("#FF556ADE");
     private ValueAnimator mAnimator;
     /**
      * 扫描画笔的透明度不断变化
@@ -76,6 +76,7 @@ public class CheckVirusView extends View {
     private Paint mSpotPaint;
     private int mAlpha;
     private Thread mThread;
+    private Paint mTextPaint;
 
     public CheckVirusView(Context context) {
         super(context);
@@ -115,14 +116,20 @@ public class CheckVirusView extends View {
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        mPaint.setColor(mPaintColor);
+        mPaint.setColor(Color.WHITE);
         mPaint.setStyle(Paint.Style.STROKE);
-
+        //绘制斑点的画笔
         mSpotPaint = new Paint();
         mSpotPaint.setAntiAlias(true);
         mSpotPaint.setDither(true);
-        mSpotPaint.setColor(Color.RED);
+        mSpotPaint.setColor(Color.BLUE);
         mSpotPaint.setStyle(Paint.Style.FILL);
+        //绘制文字的画笔
+        mTextPaint = new Paint();
+        mTextPaint.setAntiAlias(true);
+        mTextPaint.setDither(true);
+        mTextPaint.setColor(Color.WHITE);
+        mTextPaint.setTextSize(60);
         //十字路径
         mPath = new Path();
         //绘制扫描的画笔
@@ -161,20 +168,21 @@ public class CheckVirusView extends View {
 
     private void redraw() {
         if (mThread == null) {
-         mThread=  new Thread(new Runnable() {
-               @Override
-               public void run() {
-                   try {
-                       Thread.sleep(200);
-                       postInvalidate();
-                   } catch (InterruptedException e) {
-                       e.printStackTrace();
-                   }
-               }
-           });
+            mThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(200);
+                        postInvalidate();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
         mThread.start();
     }
+
     /**
      * Path的轨迹
      */
@@ -199,10 +207,25 @@ public class CheckVirusView extends View {
         super.onDraw(canvas);
         drawCircle(canvas);
         drawCrossPath(canvas);
+        drawCenterText(canvas);
         drawScan(canvas);
         if (mValue % 30 == 0) {
             drawSpot(canvas);
         }
+    }
+
+    /**
+     * 绘制中心的文字
+     *
+     * @param canvas
+     */
+    private void drawCenterText(Canvas canvas) {
+        String text = mValue * 100 / 360 + "%";
+        int textWidth = (int) mTextPaint.measureText(text);
+
+        canvas.drawText(text, mCPointx - textWidth / 2, mCPointy + 20, mTextPaint);
+
+
     }
 
     /**
@@ -213,8 +236,8 @@ public class CheckVirusView extends View {
     private void drawSpot(Canvas canvas) {
         canvas.save();
         mAlpha -= 5;
-        if (mAlpha < 0) {
-            mAlpha = 30;
+        if (mAlpha < 30) {
+            mAlpha = 60;
         }
         mSpotPaint.setAlpha(mAlpha);
 
@@ -237,10 +260,10 @@ public class CheckVirusView extends View {
     private void drawScan(Canvas canvas) {
         //设置透明度
 //        mGradientPaint.setAlpha(mScanAlpha);
-        mScanAlpha -= 5;
-        if (mScanAlpha < 0) {
-            mScanAlpha = 20;
-        }
+//        mScanAlpha -= 5;
+//        if (mScanAlpha < 0) {
+//            mScanAlpha = 20;
+//        }
         Log.i("value", "旋转的rotate:" + mValue);
         //绘制雷达扫描的效果
         //绘制雷达扫描的效果
