@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements  NavigationView.O
                 startActivity(intent);
                 break;
             case R.id.nav_four:
+                intent=new Intent(this,CheckVirusActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nav_five:
                 break;

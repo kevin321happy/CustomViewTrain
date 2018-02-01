@@ -16,7 +16,7 @@
         <item
             android:id="@+id/nav_four"
             android:icon="@drawable/ic_sun"
-            android:title="" />
+            android:title="仿华为扫描病毒控件" />
     </group>
 
     <item android:title="其他">

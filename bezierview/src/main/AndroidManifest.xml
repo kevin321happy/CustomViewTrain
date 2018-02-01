@@ -16,14 +16,12 @@
             </intent-filter>
         </activity>
         <!--高阶贝塞尔的界面-->
-        <activity android:name=".BezierViewActivity">
-        </activity>
-
+        <activity android:name=".BezierViewActivity"></activity>
         <!--进度表盘界面-->
-        <activity android:name=".ProgressPlateActivtiy">
-        </activity>
+        <activity android:name=".ProgressPlateActivtiy"></activity>
         <!--粘性下拉控件-->
-        <activity android:name=".PullViscousActivity"/>
+        <activity android:name=".PullViscousActivity" />
+        <!--仿华为检查病毒控件-->
+        <activity android:name=".CheckVirusActivity" />
     </application>
-
 </manifest>
