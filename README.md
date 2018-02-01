@@ -1,5 +1,7 @@
 # CustomViewTrain
-## 记录自定义View的学习的项目
+## 记录自定义View的学习的项目,欢迎大家和我交流学习,喜欢麻烦给个Star鼓励一下,谢谢!
+
+[![CDNJS](https://img.shields.io/badge/Gradle-3.0.1-blue.svg)]()   [![Coveralls github branch](https://img.shields.io/badge/genre-widget-yellow.svg)]()   [![Travis branch](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 
 ## [viewdraghelper(辅助类)](https://github.com/kevin321happy/CustomViewTrain/tree/master/viewdraghelper/src/main/java/com/wh/jxd/com/viewdraghelper)
 

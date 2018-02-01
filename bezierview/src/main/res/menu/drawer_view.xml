@@ -16,7 +16,7 @@
         <item
             android:id="@+id/nav_four"
             android:icon="@drawable/ic_sun"
-            android:title="允许所有的手势和UI控件" />
+            android:title="" />
     </group>
 
     <item android:title="其他">
