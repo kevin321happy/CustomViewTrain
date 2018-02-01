@@ -57,7 +57,7 @@
         android:layout_marginTop="30dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:HorProgressReacherColor="#000000"
         app:HorProgressReacherHeight="15px"
         app:HorProgressTextColor="#ffffff"
