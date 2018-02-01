@@ -8,8 +8,14 @@
 
 
     <com.wh.jxd.com.bezierview.widget.CheckVirusView
+        android:id="@+id/CheckVirusView"
         android:layout_width="500px"
         android:layout_height="500px" />
+
+    <Button
+        android:onClick="stop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

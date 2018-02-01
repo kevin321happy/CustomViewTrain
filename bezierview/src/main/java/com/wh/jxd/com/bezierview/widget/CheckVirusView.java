@@ -162,8 +162,8 @@ public class CheckVirusView extends View {
             }
         });
         mAnimator.setDuration(3000);
-        mAnimator.setRepeatCount(100);
-
+        //无限循环
+        mAnimator.setRepeatCount(1000);
     }
 
     private void redraw() {
@@ -222,10 +222,7 @@ public class CheckVirusView extends View {
     private void drawCenterText(Canvas canvas) {
         String text = mValue * 100 / 360 + "%";
         int textWidth = (int) mTextPaint.measureText(text);
-
         canvas.drawText(text, mCPointx - textWidth / 2, mCPointy + 20, mTextPaint);
-
-
     }
 
     /**
@@ -300,5 +297,13 @@ public class CheckVirusView extends View {
         for (int i = 0; i < 3; i++) {
             canvas.drawCircle(mCPointx, mCPointy, mRadius - (mRadius * i / 4), mPaint);
         }
+    }
+
+    /**
+     * 取消动画
+     */
+    public void stopScan() {
+        mAnimator.cancel();
+
     }
 }
