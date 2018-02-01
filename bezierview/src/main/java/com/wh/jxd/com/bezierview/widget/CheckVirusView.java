@@ -20,7 +20,7 @@ public class CheckVirusView extends View {
     /**
      * 画笔的宽度
      */
-    private int mStrokeWidth = 15;
+    private int mStrokeWidth = 3;
     /**
      * 圆心的X,Y
      */
@@ -32,7 +32,7 @@ public class CheckVirusView extends View {
     /**
      * 画笔的颜色
      */
-    private int mPaintColor = Color.BLUE;
+    private int mPaintColor = Color.BLACK;
     private Path mPath;
 
     public CheckVirusView(Context context) {
@@ -58,12 +58,10 @@ public class CheckVirusView extends View {
         mCPointx = widthSize / 2;
         mCPointy = heightSize / 2;
         mRadius = widthSize / 2 - mStrokeWidth;
+        initPathTrack();
     }
-
-
     /**
      * 初始化
-     *
      * @param context
      * @param attrs
      */
@@ -73,10 +71,24 @@ public class CheckVirusView extends View {
         mPaint.setDither(true);
         mPaint.setColor(mPaintColor);
         mPaint.setStyle(Paint.Style.STROKE);
-
         mPath = new Path();
 
 
+
+    }
+
+    /**
+     * Path的轨迹
+     */
+    private void initPathTrack() {
+        mPath.moveTo(mCPointx, mCPointy);
+        mPath.lineTo(mCPointx + mRadius, mCPointy);
+        mPath.moveTo(mCPointx, mCPointy);
+        mPath.lineTo(mCPointx, mCPointy + mRadius);
+        mPath.moveTo(mCPointx, mCPointy);
+        mPath.lineTo(mCPointx - mRadius, mCPointy);
+        mPath.moveTo(mCPointx, mCPointy);
+        mPath.lineTo(mCPointx, mCPointy - mRadius);
     }
 
     /**
@@ -88,8 +100,19 @@ public class CheckVirusView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         drawCircle(canvas);
+        drawCrossPath(canvas);
 //        canvas.drawCircle();
 
+    }
+
+    /**
+     * 绘制十字的路径
+     *
+     * @param canvas
+     */
+    private void drawCrossPath(Canvas canvas) {
+        mPaint.setStrokeWidth(mStrokeWidth/2);
+        canvas.drawPath(mPath, mPaint);
     }
 
     /**
@@ -98,6 +121,7 @@ public class CheckVirusView extends View {
      * @param canvas
      */
     private void drawCircle(Canvas canvas) {
+        mPaint.setStrokeWidth(mStrokeWidth);
         for (int i = 0; i < 3; i++) {
             canvas.drawCircle(mCPointx, mCPointy, mRadius - (mRadius * i / 4), mPaint);
         }
