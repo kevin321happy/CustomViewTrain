@@ -81,7 +81,8 @@ private void initAnimation() {
 ```
 ------------
 
-## - [仿华为管家病毒检查控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CheckVirusView.java),一个雷达扫描的效果,还有是在扫描过程中随机生成圆形斑点
+## - [仿华为管家病毒检查控件](https://github.com/kevin321happy/CustomViewTrain/blob/master/bezierview/src/main/java/com/wh/jxd/com/bezierview/widget/CheckVirusView.java),
+#### - 一个雷达扫描的效果,还有是在扫描过程中随机生成圆形斑点
 #### - 随机斑点的显示是通过在子线程延迟绘制,这种实现效果可能不是很好,如果大家有更好的思路也欢迎大家给我提Issues
 
 <a href="gif/checkvirusView.gif"><img src="gif/checkvirusView.gif" width="45%"/>
