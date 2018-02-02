@@ -60,7 +60,7 @@ public class CheckVirusView extends View {
      */
     private Paint mGradientPaint;
     private SweepGradient mShader;
-    private int mShaderColor = Color.parseColor("#FF556ADE");
+    private int mShaderColor = Color.parseColor("#FF94A2F1");
     private ValueAnimator mAnimator;
     /**
      * 扫描画笔的透明度不断变化
@@ -128,8 +128,8 @@ public class CheckVirusView extends View {
         mTextPaint = new Paint();
         mTextPaint.setAntiAlias(true);
         mTextPaint.setDither(true);
-        mTextPaint.setColor(Color.WHITE);
-        mTextPaint.setTextSize(60);
+        mTextPaint.setColor(Color.BLACK);
+        mTextPaint.setTextSize(80);
         //十字路径
         mPath = new Path();
         //绘制扫描的画笔
@@ -139,7 +139,6 @@ public class CheckVirusView extends View {
         mGradientPaint.setStyle(Paint.Style.FILL);
         initAnimation();
     }
-
     /**
      * 初始化动画
      */
