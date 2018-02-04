@@ -150,7 +150,7 @@ public class CheckVirusView extends View {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 mValue = (int) animation.getAnimatedValue();
-                Log.i("value", "获取到了动画的值:" + mValue);
+//                Log.i("value", "获取到了动画的值:" + mValue);
                 redraw();
                 try {
                     Thread.sleep(100);
@@ -241,8 +241,6 @@ public class CheckVirusView extends View {
         int randowValuey = -50 + (int) (Math.random() * mRadius);
         int randowValuer = 5 + (int) (Math.random() * mRadius / 3);
         //返回大于等于m小于m+n（不包括m+n）之间的随机数
-
-
         canvas.drawCircle(mCPointx + randowValuex, mCPointy + randowValuey, randowValuer, mSpotPaint);
 
         canvas.restore();
@@ -255,13 +253,6 @@ public class CheckVirusView extends View {
      */
     private void drawScan(Canvas canvas) {
         //设置透明度
-//        mGradientPaint.setAlpha(mScanAlpha);
-//        mScanAlpha -= 5;
-//        if (mScanAlpha < 0) {
-//            mScanAlpha = 20;
-//        }
-        Log.i("value", "旋转的rotate:" + mValue);
-        //绘制雷达扫描的效果
         //绘制雷达扫描的效果
         mMatrix.setRotate(mValue, mCPointx, mCPointy);
         if (mShader == null) {
@@ -297,12 +288,10 @@ public class CheckVirusView extends View {
             canvas.drawCircle(mCPointx, mCPointy, mRadius - (mRadius * i / 4), mPaint);
         }
     }
-
     /**
      * 取消动画
      */
     public void stopScan() {
         mAnimator.cancel();
-
     }
 }

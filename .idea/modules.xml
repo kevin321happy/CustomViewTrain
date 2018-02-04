@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/circleindicator/circleindicator.iml" filepath="$PROJECT_DIR$/circleindicator/circleindicator.iml" />
       <module fileurl="file://$PROJECT_DIR$/collapseviewsample/collapseviewsample.iml" filepath="$PROJECT_DIR$/collapseviewsample/collapseviewsample.iml" />
       <module fileurl="file://$PROJECT_DIR$/drawsample/drawsample.iml" filepath="$PROJECT_DIR$/drawsample/drawsample.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dropdownmenu/dropdownmenu.iml" filepath="$PROJECT_DIR$/dropdownmenu/dropdownmenu.iml" />
       <module fileurl="file://$PROJECT_DIR$/flowviewsample/flowviewsample.iml" filepath="$PROJECT_DIR$/flowviewsample/flowviewsample.iml" />
       <module fileurl="file://$PROJECT_DIR$/layoutsample/layoutsample.iml" filepath="$PROJECT_DIR$/layoutsample/layoutsample.iml" />
       <module fileurl="file://$PROJECT_DIR$/progressbar/progressbar.iml" filepath="$PROJECT_DIR$/progressbar/progressbar.iml" />
