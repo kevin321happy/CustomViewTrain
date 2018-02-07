@@ -75,10 +75,9 @@ public class DropDownMenu extends LinearLayout {
         addView(mDivisionView, 1);
         //添加内容视图
         mContentView = new FrameLayout(context);
-        mContentView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT));
-//        mContentView
-
-
+        mContentView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        addView(mContentView, 2);
+        //        mContentView
     }
 
     /**

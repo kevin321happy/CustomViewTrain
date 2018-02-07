@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DropDownMenu">
+        <!--分割线的颜色-->
+        <attr name="DivisionLineColor" format="color" />
+        <!--选中的字体的颜色-->
+        <attr name="TextChooseColor" format="color" />
+        <!--正常时字体的颜色-->
+        <attr name="TextNormalColor" format="color" />
+        <!--字体的大小-->
+        <attr name="TextSize" format="dimension" />
+        <!--菜单的背景颜色-->
+        <attr name="MenuBackGround" format="color" />
+        <!--蒙板的背景颜色-->
+        <attr name="MaskColoe" format="color" />
+    </declare-styleable>
+
+</resources>

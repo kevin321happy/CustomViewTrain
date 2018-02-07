@@ -1,11 +1,12 @@
 # CustomViewTrain
-## 记录自定义View的学习的项目,欢迎大家和我交流学习,喜欢麻烦给个Star鼓励一下,谢谢!
 
+
+## 自定义View的学习的项目,欢迎大家和我交流学习,喜欢麻烦给个star鼓励,谢谢!
 [![CDNJS](https://img.shields.io/badge/Gradle-3.0.1-blue.svg)]()   [![Coveralls github branch](https://img.shields.io/badge/genre-widget-yellow.svg)]()   [![Travis branch](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 
 ## [viewdraghelper(辅助类)](https://github.com/kevin321happy/CustomViewTrain/tree/master/viewdraghelper/src/main/java/com/wh/jxd/com/viewdraghelper)
 
-#### -  自定义View中常用的五个辅助类,包括手势识别,速度追综，拖拽，滑动,设备信息等
+####   自定义View中常用的五个辅助类,包括手势识别,速度追综，拖拽，滑动,设备信息等
 
 ## [自定义ProgressBar](https://github.com/kevin321happy/CustomViewTrain/blob/master/progressbar/src/main/java/com/wh/jxd/com/progressbar/widget)
 <a href="gif/hprogress.gif"><img src="gif/hprogress.gif" width="40%"/><a href="gif/ringprogress.gif"><img src="gif/ringprogress.gif" width="40%"/>
@@ -14,6 +15,8 @@
 #### [圆环进度条](https://github.com/kevin321happy/CustomViewTrain/blob/master/progressbar/src/main/java/com/wh/jxd/com/progressbar/widget/RingProgress.java)圆环的宽度,颜色,环背景,以及中间文字的相关属性设置
 ```xml
     <!--水平进度条的自定义属性-->
+>
+>
        <declare-styleable name="HorizontalProgress">
            <!--已到达的进度的颜色-->
            <attr name="HorProgressReacherColor" format="color" />
